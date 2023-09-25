@@ -1,7 +1,7 @@
 <template>
-	<div class="sign-in">
+	<div class="sign-in" style="padding: 0; height: 70vh; display: flex; width: 100vw; overflow: hidden;">
 		
-		<a-row type="flex" :gutter="[24,24]" justify="space-around" align="middle">
+		<a-row type="flex" :gutter="[24,24]" justify="space-around" align="middle" style="width: 100%;">
 
 			<!-- Sign In Form Column -->
 			<a-col :span="24" :md="12" :lg="{span: 12, offset: 0}" :xl="{span: 6, offset: 2}" class="col-form">
@@ -44,13 +44,6 @@
 				</div>
 			</a-col>
 			<!-- / Sign In Form Column -->
-
-			<!-- Sign In Image Column -->
-			<a-col :span="24" :md="12" :lg="12" :xl="12" class="col-img">
-				<img src="images/img-signin.jpg" alt="">
-			</a-col>
-			<!-- Sign In Image Column -->
-
 		</a-row>
 		
 	</div>
@@ -109,9 +102,3 @@
 	})
 
 </script>
-
-<style lang="scss">
-	body {
-		background-color: #ffffff;
-	}
-</style>

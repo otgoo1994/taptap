@@ -1,27 +1,23 @@
-const mysql = require("mysql");
-
-const db = mysql.createConnection({
-  host: 'localhost',
-  database: 'taptap',
-  user: 'root',
-  password: ''
-});
-
-// const db = mysql.createConnection({
-//     host: 'localhost:3306',
-//     database: 'fasttype',
-//     user: 'otgoo1994',
-//     password: 'Password1994@'
-//   });
+const db = require("../config/db")
 
   
 const sha256 = require("js-sha256");
 const jwt = require('jwt-then');
 
-exports.getBeginText = async (req, res) => {
-    const { lang } = req.body;
+const getBeginText = async (req, res) => {
+    const { config } = req.body;
+    const { lang, symbol, number } = config;
+    let lvl = 1;
+    
+    if (symbol && number) {
+      lvl = 4;
+    } else if (symbol) {
+      lvl = 2;
+    } else if (number) {
+      lvl = 3;
+    }
 
-    let sql = `SELECT text from practice WHERE lan = '${lang}' ORDER BY RAND() LIMIT 1`;
+    let sql = `SELECT text from practice WHERE lan = '${lang}' AND rank = ${lvl} ORDER BY RAND() LIMIT 1`;
 
     db.query(sql, async (err, result) => {
         if(err) {
@@ -35,7 +31,7 @@ exports.getBeginText = async (req, res) => {
     
 };
 
-exports.getRankText = async (req, res) => {
+const getRankText = async (req, res) => {
     const { raceId } = req.body;
     let rows = `SELECT text, raceId, start_at, end_at from main_race WHERE active = 1 AND raceId = '${raceId}'`;
     db.query(rows, async (err, result) => {
@@ -55,7 +51,7 @@ exports.getRankText = async (req, res) => {
     });
 }
 
-exports.getAllRankText = async (req, res) => {
+const getAllRankText = async (req, res) => {
     let date = new Date();
     // date = date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate(); 
     date = date.toISOString().replace('T', ' ').replace(/T/, ' ').replace(/\..+/, '');
@@ -78,7 +74,7 @@ exports.getAllRankText = async (req, res) => {
     });
 }
 
-exports.upgradeWpm = async (req, res) => {
+const upgradeWpm = async (req, res) => {
     const { point, wpm, percent} = req.body;
     const token = req.headers.authorization.split(" ")[1];
     const payload = await jwt.verify(token, 'HS256');
@@ -142,7 +138,7 @@ exports.upgradeWpm = async (req, res) => {
 
 }
 
-exports.getSelectecText = async (req, res) => {
+const getSelectecText = async (req, res) => {
     const { roomId } = req.body;
     let sql = `SELECT race_text.text from race_text inner join room on race_text.id = room.textId WHERE room.roomId = '${roomId}'`;
     db.query(sql, (err, result) => {
@@ -155,3 +151,11 @@ exports.getSelectecText = async (req, res) => {
     });
 
 }
+
+module.exports = {
+  getSelectecText,
+  upgradeWpm,
+  getAllRankText,
+  getRankText,
+  getBeginText
+};

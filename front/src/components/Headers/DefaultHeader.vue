@@ -1,13 +1,12 @@
 <template>
 
 	<!-- Layout Header ( Navbar ) -->
-	<a-layout-header>
+	<a-layout-header style="background-color: #323437;">
 		<div class="header-col header-brand">
-			<h6>Muse Dashboard</h6>
+			<h6 style="color: #fff;">Typing.mn</h6>
 		</div>
 	</a-layout-header>
 	<!-- / Layout Header ( Navbar ) -->
-
 </template>
 
 <script>

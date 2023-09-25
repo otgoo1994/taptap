@@ -1,25 +1,10 @@
-const mysql = require('mysql');
 let timer = null;
 let time_left = 0;
 let time_passed = 0;
 let start = false;
 let end = false;
 let currentRoomId;
-
-const db = mysql.createConnection({
-  host: 'localhost',
-  database: 'taptap',
-  user: 'root',
-  password: ''
-});
-
-// const db = mysql.createConnection({
-//   host: 'localhost:3306',
-//   database: 'fasttype',
-//   user: 'otgoo1994',
-//   password: 'Password1994@'
-// });
-
+const db = require("./config/db");
 
 db.connect(err => {
   if(err) {

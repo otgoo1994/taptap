@@ -19,7 +19,7 @@ let routes = [
 		name: 'Нүүр хуудас',
 		layout: "dashboard",
 		meta: {
-			title: 'TapTap - Арван хуруугаар шивэх дасгал',
+			title: 'typing.mn',
 			auth: false
 		},
 		component: () => import('../views/Dashboard.vue'),
@@ -35,7 +35,7 @@ let routes = [
 		name: 'Хичээл',
 		layout: "dashboard",
 		meta: {
-			title: 'TapTap - Арван хуруугаар шивэх дасгал',
+			title: 'typing.mn',
 			auth: true
 		},
 		component: () => import('../views/Tables.vue'),
@@ -68,7 +68,7 @@ let routes = [
 		path: '/sign-in',
 		name: 'Sign-In',
 		meta: {
-			title: 'TapTap - Нэвтрэх',
+			title: 'Typing - Нэвтрэх',
 			auth: false
 		},
 		component: () => import('../views/Sign-In.vue'),
@@ -78,7 +78,7 @@ let routes = [
 		name: 'Sign-Up',
 		meta: {
 			layoutClass: 'layout-sign-up',
-			title: 'TapTap - Бүртгүүлэх',
+			title: 'Typing - Бүртгүүлэх',
 			auth: false
 		},
 		component: () => import('../views/Sign-Up.vue'),
@@ -88,8 +88,8 @@ let routes = [
 		name: 'intro',
 		layout: "dashboard",
 		meta: {
-			title: 'TapTap - Шинэ үсэг',
-			auth: false
+			title: 'Typing - Шинэ үсэг',
+			auth: true
 		},
 		component: () => import('../views/intro.vue'),
 	},
@@ -98,8 +98,8 @@ let routes = [
 		name: 'boxed',
 		layout: "dashboard",
 		meta: {
-			title: 'TapTap - Шинэ үсэг дадлага',
-			auth: false
+			title: 'Typing - Шинэ үсэг дадлага',
+			auth: true
 		},
 		component: () => import('../views/boxed.vue'),
 	},
@@ -108,8 +108,8 @@ let routes = [
 		name: 'review',
 		layout: "dashboard",
 		meta: {
-			title: 'TapTap - Давтлага',
-			auth: false
+			title: 'Typing - Давтлага',
+			auth: true
 		},
 		component: () => import('../views/review.vue'),
 	},
@@ -118,10 +118,20 @@ let routes = [
 		name: 'hold',
 		layout: "dashboard",
 		meta: {
-			title: 'TapTap - Нэг гарын дадлагжуулалт',
-			auth: false
+			title: 'Typing - Нэг гарын дадлагжуулалт',
+			auth: true
 		},
 		component: () => import('../views/hold.vue'),
+	},
+	{
+		path: '/price',
+		name: 'price',
+		layout: "dashboard",
+		meta: {
+			title: 'Typing - Нэг гарын дадлагжуулалт',
+			auth: false
+		},
+		component: () => import('../views/Price.vue'),
 	},
 ]
 
@@ -155,7 +165,7 @@ const auth = {
 }
 
 const router = new VueRouter({
-	mode: 'hash',
+	mode: 'history',
 	base: process.env.BASE_URL,
 	routes,
 	scrollBehavior (to, from, savedPosition) {

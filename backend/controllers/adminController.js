@@ -1,20 +1,5 @@
-const mysql = require("mysql");
+const db = require("../config/db");
 const fs = require('fs');
-
-const db = mysql.createConnection({
-    host: 'localhost',
-    database: 'taptap',
-    user: 'root',
-    password: ''
-});
-
-// const db = mysql.createConnection({
-//   host: 'localhost:3306',
-//   database: 'fasttype',
-//   user: 'otgoo1994',
-//   password: 'Password1994@'
-// });
-
 
 
 const sha256 = require("js-sha256");
@@ -416,7 +401,7 @@ exports.LoggedUserInfo = async (req, res) => {
   
 }
 
-exports.register = async (req, res) => {
+const register = async (req, res) => {
     const {email, name, phone, permission, address} = req.body;
     let qry = `SELECT id FROM admin WHERE email = '${email}'`;
     db.query(qry, async (err, result) => {
@@ -444,9 +429,8 @@ exports.register = async (req, res) => {
 }
 
 
-exports.login = async (req, res) => {
+const login = async (req, res) => {
     const {email, password} = req.body;
-    
     // const user = await User.findOne({email, password: sha256(password + process.env.SALT)});
     let qry = `SELECT id, email, name, phone, image  from admin WHERE email = '${email}' AND password = '${sha256(password + process.env.SALT)}'`;
 
@@ -470,7 +454,7 @@ exports.login = async (req, res) => {
             'HS256');
           
           return res.status(200).json({
-              result: 'success',
+              result: 200,
               user: result[0],
               token,
               status: 200
@@ -478,3 +462,66 @@ exports.login = async (req, res) => {
       }
     });
 }
+
+const addLesson = async (req, res) => {
+  const { info } = req.body;
+
+
+  const check = `SELECT id from lesson WHERE lvl = ${info.lvl}`;
+  db.query(check, async (err, chk) => {
+    if (err) {
+      throw err;
+    }
+
+    if (chk.length > 0) {
+      res.status(200).json({
+        result: 'duplicated level',
+        status: 409
+      });
+
+      return;
+    }
+
+    info.image = info.type === 'boxed' ? 'practice.png' : (info.type === 'review' ? 'review.png': ( info.type === 'intro' ? 'newword.png' : 
+      info.holdword === 'ө' ? 'righthand.png' : 'lefthand.png'
+    ))
+
+    if (info.holdword) {
+      info.url = info.holdword === 'ө' ? 'lefthand.png' : 'righthand.png';
+    }
+
+    const add = 'INSERT INTO lesson SET ?';
+    db.query(add, info, err => {
+      if(err) {
+        throw err;
+      }
+
+      res.status(200).json({
+        result: 'success',
+        status: 200
+      });
+    });
+
+  });
+}
+
+const getMaxLvl = async (req, res) => {
+  const qr = 'SELECT MAX(lvl) as lvl from lesson';
+  db.query(qr, async (err, result) => {
+    if (err) {
+      throw err;
+    }
+
+    return res.status(200).json({
+      result: result,
+      status: 200
+    })
+  });
+}
+
+module.exports = {
+  addLesson,
+  login,
+  register,
+  getMaxLvl
+};

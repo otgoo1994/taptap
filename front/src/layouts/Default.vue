@@ -20,7 +20,7 @@
 			<!-- / Page Content -->
 
 			<!-- Layout Footer -->
-			<DefaultFooter></DefaultFooter>
+			<!-- <DefaultFooter></DefaultFooter> -->
 			<!-- / Layout Footer -->
 
 		</a-layout>

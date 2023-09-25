@@ -1,7 +1,7 @@
 <template>
     <div>
         <div class="intro-x">
-            <div :style="{'padding-top': '50px'}" align="center" @click="setFocus">
+            <div :style="{'padding-top': '50px', 'position': 'relative'}" align="center" @click="setFocus">
                 <div class="intro-title flex items-center" align="left">ШИНЭ ҮСЭГНИЙ БАЙРЛАЛ</div>
                 <div align="left" class="intro-text mt-5" style="display: flex;">
                     <div :style="{'margin-top': '5px', 'padding-right': '20px'}">{{fingerText}}</div>
@@ -24,9 +24,6 @@
                     <div :style="{'margin-top': '5px', 'padding-left': '20px'}">үсгэн дээр дарна уу.</div>
                 </div>
                 <div class="mt-5" align="left" style="display: flex; justify-content: center; padding-left: 14%;">
-                    <!-- <div class="progress" style="width: 40%;" align="left">
-                        <el-progress :percentage="progress" :show-text="false" :color="'#5787E4'" :stroke-width="3"></el-progress>
-                    </div> -->
                     <div style="width: 100%; padding-top: 60px;" align="center">
                         <svg class="standard-kb theme-bone" viewBox="0 0 683.3 254" xmlns="http://www.w3.org/2000/svg" style="width: 45%;">
                             <g id="keys">
@@ -52,8 +49,8 @@
                                 <path ref="Р" class="st0" d="M407.4,141.5c0,1.6-1.4,3-3,3h-36.5c-1.6,0-3-1.4-3-3v-35.4c0-1.7,1.4-3,3-3h36.5c1.6,0,3,1.3,3,3V141.5z"></path>
                                 <path ref="О" class="st0" d="M452.4,141.5c0,1.6-1.4,3-3,3h-36.5c-1.6,0-3-1.4-3-3v-35.4c0-1.7,1.4-3,3-3h36.5c1.6,0,3,1.3,3,3V141.5z"></path>
                                 <path ref="Л" class="st0" d="M497.4,141.5c0,1.6-1.4,3-3,3h-36.5c-1.6,0-3-1.4-3-3v-35.4c0-1.7,1.4-3,3-3h36.5c1.6,0,3,1.3,3,3V141.5z"></path>
-                                <path ref="semicolon" class="st0" d="M542.4,141.5c0,1.6-1.4,3-3,3h-36.5c-1.6,0-3-1.4-3-3v-35.4c0-1.7,1.4-3,3-3h36.5c1.6,0,3,1.3,3,3V141.5z"></path>
-                                <path ref="quote" class="st0" d="M587.4,141.5c0,1.6-1.4,3-3,3h-36.5c-1.7,0-3-1.4-3-3v-35.4c0-1.7,1.3-3,3-3h36.5c1.6,0,3,1.3,3,3V141.5z"></path>
+                                <path ref="Д" class="st0" d="M542.4,141.5c0,1.6-1.4,3-3,3h-36.5c-1.6,0-3-1.4-3-3v-35.4c0-1.7,1.4-3,3-3h36.5c1.6,0,3,1.3,3,3V141.5z"></path>
+                                <path ref="П" class="st0" d="M587.4,141.5c0,1.6-1.4,3-3,3h-36.5c-1.7,0-3-1.4-3-3v-35.4c0-1.7,1.3-3,3-3h36.5c1.6,0,3,1.3,3,3V141.5z"></path>
                                 <path ref="Ц" class="st0" d="M171.7,97.6c0,1.6-1.3,3-3,3h-36.5c-1.6,0-3-1.4-3-3V62.3c0-1.6,1.4-3,3-3h36.5c1.7,0,3,1.4,3,3V97.6z"></path>
                                 <path ref="У" class="st0" d="M216.7,97.6c0,1.6-1.3,3-3,3h-36.5c-1.6,0-3-1.4-3-3V62.3c0-1.7,1.4-3,3-3h36.5c1.7,0,3,1.3,3,3V97.6z"></path>
                                 <path ref="Ж" class="st0" d="M261.7,97.6c0,1.6-1.4,3-3,3h-36.5c-1.6,0-3-1.4-3-3V62.3c0-1.6,1.4-3,3-3h36.5c1.6,0,3,1.4,3,3V97.6z"></path>
@@ -193,26 +190,50 @@
                         <img :src="keyboardImage" :style="{'width': '70%', 'height': 'auto', 'max-width': '100%', 'margin-left': '-54%', 'margin-top': '-10%'}">
                     </div>
                 </div>
+                <div class="progress" style="margin-top: 20px; width: 30%;" align="left">
+                    <el-progress :percentage="progress" :show-text="false" :color="'#5787E4'" :stroke-width="7"></el-progress>
+                </div>
             </div>
         </div>
-        <!-- <div class="bottom-box z-50">
-            <div class="col-span-12 xxl:col-span-12 grid grid-cols-12 gap-6">
-                <div class="col-span-4 sm:col-span-4 xxl:col-span-4" align="center"></div>
-                <div class="col-span-4 sm:col-span-4 xxl:col-span-4" align="center">
-                    <el-progress :text-inside="false" :color="'#91C715'" :stroke-width="10" :show-text="false" :percentage="progress" :style="{'width': '100%', 'margin-top': '22px'}" status="success"></el-progress>
+        <div class="result-dialog" :hidden="!resultDialog">
+            <div class="chart-container">
+                <div class="status">
+                    <div class="text"><span class="title">ОНОО </span><br><span class="number">200</span></div>
+                    <div class="text"><span class="title">WPM </span><br><span class="number">{{Math.round((this.counter.characters / 4) / (this.counter.time_passed / 60))}}</span></div>
+                    <div class="text"><span class="title">HIGH WPM </span><br><span class="number">{{getHighWpm}}</span></div>
+                    <div class="actions-info">
+                        <el-tooltip class="item" effect="dark" content="Дахин оролдох" placement="top-end">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+                            <path d="M105.1 202.6c7.7-21.8 20.2-42.3 37.8-59.8c62.5-62.5 163.8-62.5 226.3 0L386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H463.5c0 0 0 0 0 0h.4c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0C73.2 122 55.6 150.7 44.8 181.4c-5.9 16.7 2.9 34.9 19.5 40.8s34.9-2.9 40.8-19.5zM39 289.3c-5 1.5-9.8 4.2-13.7 8.2c-4 4-6.7 8.8-8.1 14c-.3 1.2-.6 2.5-.8 3.8c-.3 1.7-.4 3.4-.4 5.1V448c0 17.7 14.3 32 32 32s32-14.3 32-32V396.9l17.6 17.5 0 0c87.5 87.4 229.3 87.4 316.7 0c24.4-24.4 42.1-53.1 52.9-83.7c5.9-16.7-2.9-34.9-19.5-40.8s-34.9 2.9-40.8 19.5c-7.7 21.8-20.2 42.3-37.8 59.8c-62.5 62.5-163.8 62.5-226.3 0l-.1-.1L125.6 352H176c17.7 0 32-14.3 32-32s-14.3-32-32-32H48.4c-1.6 0-3.2 .1-4.8 .3s-3.1 .5-4.6 1z"/></svg>
+                        </el-tooltip>
+                    </div>
+
+                    <div class="actions-info">
+                        <el-tooltip class="item" effect="dark" content="Дараагийн хичээл" placement="top-end">
+                            <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>
+                        </el-tooltip>
+                        
+                    </div>
                 </div>
-                <div class="col-span-4 sm:col-span-4 xxl:col-span-4" align="center"></div>
+                <canvas ref="resultChart"></canvas>
             </div>
-        </div> -->
+        </div>
     </div>
 </template>
 <script>
+import Chart from 'chart.js/auto';
 let timer = null;
 let correctSound;
 let errorSound;
 export default {
     data() {
         return {
+            resultDialog: false,
+            chart: {
+                data: null,
+                keyword: null,
+                wpm: []
+            },
             lesson : {
                 id: '',
                 lvl: ''
@@ -251,9 +272,88 @@ export default {
         this.gettext();
         this.setFocus();
     },
+    computed: {
+        getHighWpm() {
+            let max = 0;
+            this.chart.wpm.forEach(element => {
+                max < element ? max = element : null;
+            });
+
+            const wpm = Math.round((this.counter.characters / 4) / (this.counter.time_passed / 60));
+            return max > wpm ? max : wpm;
+        }
+    },
     methods: {
+        showResultDialog() {
+            this.updateChart();
+            this.resultDialog = true;
+            clearInterval(timer);
+        },
+        destroyChart() {
+            if (this.chart.keyword) {
+                this.chart.keyword.destroy();
+            }
+        },
+        updateChart() {
+            if (this.chart.keyword) {
+                this.chart.keyword.destroy();
+            }
+
+            this.createChart();					
+        },
+        createChart() {
+            const labels = [];
+            for (let i = 0; i < this.counter.time_passed; i++) {
+                labels.push(i + 1);
+            }
+
+            this.chart.data = {
+                labels: labels,
+                datasets: [
+                    {
+                        label: '',
+                        data: this.chart.wpm,
+                        borderColor: '#805500',
+                        backgroundColor: '#805500',
+                    }
+                ]
+            };
+            const config = {
+                type: 'line',
+                data: this.chart.data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false,
+                            position: 'top',
+                            font: {
+                                size: 18
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: ''
+                        }
+                    },
+                    animations: {
+                        tension: {
+                            duration: 3000,
+                            easing: 'linear',
+                            from: 0.5,
+                            to: 0,
+                            loop: true
+                        }
+                    }
+                },
+            };
+
+            Chart.defaults.font.size = 20;
+            this.chart.keyword = new Chart(this.$refs.resultChart, config);
+        },
         gettext() {
             var rts = this;
+            this.chart.wpm = [];
             this.$axios({
                 method: 'post',
                 url: rts.$appUrl +'/lesson/get-lesson',
@@ -294,6 +394,8 @@ export default {
         },
         updateTimer() {
             this.counter.time_passed++;
+            const wpm = Math.round((this.counter.characters / 4) / (this.counter.time_passed / 60));
+            this.chart.wpm.push(wpm);
         },
         type() {
             correctSound.pause();
@@ -359,7 +461,6 @@ export default {
             var typed = this.counter.characters + this.counter.errors;
             accuracy = parseInt(typed / ( typed + this.counter.errors )  * 100 );
             wpm = parseInt((this.counter.characters / 5) / (this.counter.time_passed / 60));
-            console.log(wpm);
             var diff_acc;
             if(accuracy > 80) {
                 var diff = accuracy - 80;
@@ -371,7 +472,7 @@ export default {
             
 
             var wpmPoint = 100;
-            
+            var rts = this;
             score = wpmPoint + diff_acc;
             this.$axios({
                 method: 'post',
@@ -388,18 +489,19 @@ export default {
                 if(data.data.point > 0) {
                     Event.$emit('set-user-point', data.data.point);
                 }
+
+                console.log('====', score);
+                rts.showResultDialog();
                 // rts.$router.push({name: 'top-menu-success-lesson', params: {prev: rts.lesson.lvl}});
             });
         },
         mon_finger() {
             var current = this.text.splitted[this.text.count][this.counter.current]
             var elems = document.querySelectorAll(".selected-key");
-
             [].forEach.call(elems, function(el) {
                 el.classList.remove("selected-key");
             });
             
-            // console.log(this.text.count, this.counter.current);
                 
             if( current == ' ' ) {
                 this.keyboardImage = require(`@/assets/images/lesson/space.svg`);
@@ -486,7 +588,9 @@ export default {
                         break;
                 }
             } else {
-                this.$refs[current.toUpperCase()].classList.add('selected-key');
+                if (this.$refs[current.toUpperCase()]) {
+                    this.$refs[current.toUpperCase()].classList.add('selected-key');
+                }
                 // console.log(this.$refs[current.toUpperCase()]);
                 var left_4 = ['ф','й','я'];
                 var left_shift_4 = ['1','Ф','Й','Я'];
@@ -505,6 +609,7 @@ export default {
                 var right_4 = ['е','щ','з','к','ъ','д','п','ю','\''];
                 var right_shift_4 = ['0','Е','Щ','З','К','Ъ','Д','П','Ю','|'];
                 
+
                 for (let i = 0; i < left_shift_4.length; i++) {
                     if (left_shift_4[i] == current) {
                         this.$refs['shift-right'].classList.add('selected-key');

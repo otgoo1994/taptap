@@ -1,20 +1,37 @@
+<style lang="scss">
+.info-bar-container {
+	position: relative;
+	height: 70px;
+
+	.info-bar {
+		&:nth-child(1) {
+			// background: #f5f5f5;
+			padding: 5px 10px;
+			border-radius: 10px;
+			position: absolute;
+		}
+	}
+}
+</style>
 <template>
 	<div>
 		<div class="grid grid-cols-12 gap-6">
-        <div class="col-span-12 xxl:col-span-12 grid grid-cols-12 gap-6 pt-10">
-            <div class="col-span-12 grid grid-cols-12 gap-6 progress-title" :style="{'padding-left': '15%', 'padding-right': '15%'}">
-                <div class="col-span-12 sm:col-span-12 xxl:col-span-12 intro-y">
-                    <span class="progress-title">Гүйцэтгэл <span :style="{'color': 'black', 'font-weight': '700'}">{{this.userProcess}}%</span></span><span :style="{'border-left': '1px solid grey', 'padding-left': '10px', 'padding-right': '10px'}"><span :style="{'color': 'black', 'font-weight': '700'}">{{this.userStar}}</span> од</span><span :style="{'border-left': '1px solid grey', 'padding-left': '10px'}"><span :style="{'color': 'black', 'font-weight': '700'}">{{Number(userPoint).toLocaleString()}}</span> оноо</span>
-                </div>
-            </div>
+			<div class="col-span-12 xxl:col-span-12 grid grid-cols-12 gap-6 pt-10">
+				<div class="col-span-12 grid grid-cols-12 gap-6 progress-title" :style="{'padding-left': '15%', 'padding-right': '15%'}">
+						<div class="col-span-12 sm:col-span-12 xxl:col-span-12 intro-y info-bar-container">
+							<div class="info-bar">
+								<span class="progress-title">Гүйцэтгэсэн <span :style="{'color': '#e2b714', 'font-weight': '700'}">{{this.userProcess}}%</span></span><span :style="{'border-left': '1px solid grey', 'padding-left': '10px', 'padding-right': '10px'}"><span :style="{'color': '#e2b714', 'font-weight': '700'}">{{this.userStar}}</span> од</span><span :style="{'border-left': '1px solid grey', 'padding-left': '10px'}"><span :style="{'color': '#e2b714', 'font-weight': '700'}">{{Number(userPoint).toLocaleString()}}</span> оноо</span>
+							</div>
+						</div>
+				</div>
 			<a-row :gutter="20">
 				<div class="col-span-12 grid grid-cols-12 gap-6 listScroll">
 					<div v-for="(title, titleIndex) in lessonGroup" :key="titleIndex" class="col-span-12 grid grid-cols-12 gap-6" :style="{'padding-left': '15%', 'padding-right': '15%'}">
 						<a-col :span="24" :lg="24" :xl="24" class="mb-10">
 							<span class="lesson-title">{{title.groupName}}</span>
 						</a-col>
-						<a-col v-for="(less, lessIndex) in selectGroup(title.id)" :key="lessIndex" :span="24" :xl="6" :lg="8" :xxl="4" class="mb-24" style="cursor: pointer;">
-							<a-card :bordered="false" class="widget-1">
+						<a-col v-for="(less, lessIndex) in selectGroup(title.id)" :key="lessIndex" :span="24" :xl="6" :lg="8" :xxl="4" class="mb-24 less-card" style="cursor: pointer;">
+							<a-card :bordered="false" class="widget-1" style="background-color: #202224">
 								<div class="box zoom-in" :style="{'position': 'relative'}" @click="startLess(less.id)">
 									<div class="lesson-index">{{less.lvl}}</div>
 									<div class="lesson-lock" v-if="less.lvl > (currentUserLesson + 1)"><a-icon type="lock" /></div>
@@ -58,6 +75,7 @@
 		},
 		mounted() {
 			this.getList();
+			Event.$emit('navbarname', '');
 		},
 		methods: {
 			startLess(id) {
@@ -70,7 +88,7 @@
 				if(selected.lvl > this.currentUserLesson + 1) {
 					this.$notification['error']({
 						message: 'Амжилтгүй',
-						description: 'Өмнөх хичээлээ үзэх шаардлагатай'
+						description: 'Өмнөх хичээлээ дуусгана уу'
 					});
 				} else {
 					if(selected.type == 'boxed') {
@@ -224,6 +242,7 @@
     padding-left: 8px;
     padding-right: 8px;
     font-family: 'Exo 2', sans-serif;
+		color: #fff;
 }
 .lesson-box {
     padding-top: 20px;

@@ -1,20 +1,5 @@
-const mysql = require("mysql");
+const db = require("../config/db");
 const fs = require('fs');
-
-const db = mysql.createConnection({
-    host: 'localhost',
-    database: 'taptap',
-    user: 'root',
-    password: ''
-});
-
-// const db = mysql.createConnection({
-//   host: 'localhost',
-//   database: 'admin_fasttype',
-//   user: 'otgoo1994',
-//   port: 3306,
-//   password: 'Password1994@'
-// });
 
 
 
@@ -67,19 +52,39 @@ exports.getAll = async (req, res) => {
     });
 }
 
+exports.nextLesson = async (req, res) => {
+    const { level } = req.body;
+
+    const next_lesson = `SELECT id, type from lesson WHERE lvl = ${level}`;
+    db.query(next_lesson, async (err, result) => {
+        if(err) {
+            throw err;
+        }
+
+        if (result.length > 0) {
+            res.json({
+                result: 200,
+                data: result[0]
+            });
+        } else {
+            res.json({
+                result: 'fail'
+            });
+        }
+    });
+}
+
 exports.selectedLesson = async (req, res) => {
     const token = req.headers.authorization.split(" ")[1];
     const payload = await jwt.verify(token, 'HS256');
 
     const { id } = req.body;
-
     
     let lesson = `SELECT text, lvl, type, groupId, holdword, url, lessonname from lesson WHERE id = ${id}`;
     db.query(lesson, async (err, result) => {
         if(err) {
             throw err;
         }
-        console.log(result);
         
         if(result.length > 0) {
             let user = `SELECT lesson from users WHERE id = ${payload.id}`;

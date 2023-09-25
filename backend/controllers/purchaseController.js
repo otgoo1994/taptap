@@ -1,23 +1,9 @@
-const mysql = require("mysql");
+const db = require("../config/db");
 const nodemailer = require("nodemailer");
 const sha256 = require("js-sha256");
 const jwt = require('jwt-then');
 const axios = require('axios');
 const { readSync } = require("fs");
-
-const db = mysql.createConnection({
-    host: 'localhost',
-    database: 'taptap',
-    user: 'root',
-    password: ''
-  });
-
-// const db = mysql.createConnection({
-//     host: 'localhost:3306',
-//     database: 'fasttype',
-//     user: 'otgoo1994',
-//     password: 'Password1994@'
-//   });
   
 
   const transporter = nodemailer.createTransport({

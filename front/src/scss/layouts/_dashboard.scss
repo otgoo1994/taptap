@@ -154,13 +154,13 @@
 			}
 			&.ant-menu-item-selected .router-link-active,
 			.router-link-active {
-				background-color: $color-gray-1;
-				box-shadow: $shadow-1;
+				background-color: #202224;
+				box-shadow: #202224;
 				.icon {
-					background-color: $color-primary;
+					background-color: #202224;
 				}
 				svg path {
-					fill: $color-gray-1;
+					fill: #202224;
 				}
 				.label {
 					font-weight: $fw-semibold;
@@ -192,10 +192,10 @@
 					background-color: transparent;
 					box-shadow: none;
 					.icon {
-						background-color: $color-primary;
+						background-color:#202224;
 					}
 					svg path {
-						fill: $color-gray-1;
+						fill: #202224;
 					}
 				}
 			}

@@ -155,28 +155,23 @@
 					}
 				}
 			},
-			getList() {
-				var dep = this;
-				this.$axios({
-					method: 'post',
-					url: this.$appUrl +'/lesson/get-lesson-list',
-				})
-				.then(function(data){
-					console.log(data);
-					dep.lessons = data.data.lesson;
-					dep.lessonGroup = data.data.lessonGroup;
-					dep.userLesson = data.data.userlesson;
-					dep.currentUserLesson = data.data.user.lesson;
-					dep.userProcess = parseInt((data.data.userlesson.length * 100) / data.data.lesson.length);						
-					data.data.star.forEach(element => {
-						var star = parseInt(element.score / 40);
-						var sc = element.score % 40;
-						if(sc > 0) {
-							star = star + 1;
-						}
-						dep.userStar = dep.userStar + star;
-						dep.userPoint = dep.userPoint + element.score;
-					});						
+			async getList() {
+				const data = await this.$_request('POST', this.$appUrl +'/lesson/get-lesson-list');
+				if (!data) { return; }
+
+				this.lessons = data.lesson;
+				this.lessonGroup = data.lessonGroup;
+				this.userLesson = data.userlesson;
+				this.currentUserLesson = data.user.lesson;
+				this.userProcess = parseInt((data.userlesson.length * 100) / data.lesson.length);						
+				data.star.forEach(element => {
+					var star = parseInt(element.score / 40);
+					var sc = element.score % 40;
+					if(sc > 0) {
+						star = star + 1;
+					}
+					this.userStar = this.userStar + star;
+					this.userPoint = this.userPoint + element.score;
 				});
 			},
 		}

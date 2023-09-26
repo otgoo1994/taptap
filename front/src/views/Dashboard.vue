@@ -152,9 +152,6 @@
 <template>
 	<div style="padding-top: 5%;">
 		<a-row :gutter="24">
-			<!-- <div align="center" class="mb-0">
-				<span style="font-size: 15px; color: black;">Шивэх чадвараа шалгаарай</span>
-			</div> -->
 			<div align="center" class="mb-30">
 				<a-row :gutter="24" style="display: flex; align-items: center; justify-content: center;">
 				<a-col :span="24" :lg="18" class="mb-24">
@@ -392,7 +389,7 @@ import Chart from 'chart.js/auto';
 				this.setConfig();
 				this.getText();
 			},
-			getText() {
+			async getText() {
 				clearInterval(timer);
 				this.counter.typed = 0;
 				this.counter.space = 0;
@@ -409,31 +406,22 @@ import Chart from 'chart.js/auto';
 				this.resultmodal = false,
 				this.chart.wpm = [];
 				this.destroyChart();
-				var dep = this;
-				this.$axios({
-					method: 'post',
-					url: this.$appUrl +`/text/get-practice`,
-					data: {
-						config: this.status
-					}
-				}).then(data => {
-					if(data.data.result == 200) {
-						let word = data.data.data;
-						if (this.status.testtype === 'word') {
-							word = this.getWordStr(word)
-						}
+				const data = await this.$_request('POST', this.$appUrl +`/text/get-practice`, {config: this.status});
+				
+				if (!data) { return; }
 
-						if (this.status.uppercase) {
-							dep.texts.original = word;
-						} else {
-							dep.texts.original = word.toLowerCase()
-						}
+				let word = data.data;
+				if (this.status.testtype === 'word') {
+					word = this.getWordStr(word)
+				}
 
-						dep.makeSpanText();
-					} else {
-						console.log(data);
-					}
-				});
+				if (this.status.uppercase) {
+					this.texts.original = word;
+				} else {
+					this.texts.original = word.toLowerCase()
+				}
+
+				this.makeSpanText();
 			},
 			makeSpanText() {
 				this.texts.splitted = this.texts.original.split(' ');
@@ -443,21 +431,9 @@ import Chart from 'chart.js/auto';
 				return str.split(/\s+/).slice(0, this.status.length).join(" ");
 			},
 			giveSpanText(){
-				this.spans.span1 = '';
-				this.spans.span2 = '';
-				this.spans.span3 = '';
-				this.spans.span4 = '';
-				this.spans.span5 = '';
-				this.spans.span6 = '';
-				this.spans.span7 = '';
-				this.spans.span8 = '';
-				this.spans.span9 = '';
-				this.spans.span10 = '';
-				this.spans.span11 = '';
-				this.spans.span12 = '';
-				this.spans.span13 = '';
-				this.spans.span14 = '';
-				this.spans.span15 = '';
+				for (let index = 1; index < 16; index++) {
+					this.spans['span'+index] = '';
+				}
 				
 
 				if(this.counter.space < this.texts.splitted.length) {
@@ -667,7 +643,6 @@ import Chart from 'chart.js/auto';
 				},
 				setConfig() {
 					localStorage.setItem('test-config', JSON.stringify(this.status));
-					console.log(this.status);
 				}
 		},
 		mounted() {

@@ -5,10 +5,9 @@
 
 			<!-- Sign In Form Column -->
 			<a-col :span="24" :md="12" :lg="{span: 12, offset: 0}" :xl="{span: 6, offset: 2}" class="col-form">
-				<h3 class="mb-15">Нэвтрэх</h3>
+				<!-- <h3 class="mb-15">Нэвтрэх</h3>
 				<h6 class="font-regular text-muted">Бүртгэлтэй имэйл болон нууц үгээ оруулна уу</h6>
 
-				<!-- Sign In Form -->
 				<a-form
 					id="components-form-demo-normal-login"
 					:form="form"
@@ -36,7 +35,7 @@
 						</a-button>
 					</a-form-item>
 				</a-form>
-				<p class="font-semibold text-muted">Бүртгэл байхгүй юу? <router-link to="/sign-up" class="font-bold text-dark">Бүртгүүлэх</router-link></p>
+				<p class="font-semibold text-muted">Бүртгэл байхгүй юу? <router-link to="/sign-up" class="font-bold text-dark">Бүртгүүлэх</router-link></p> -->
 				<div class="sign-up-gateways">
 					<a-button type="primary" block class="login-form-button" style="background: #212121; border: #212121;">
 						<a-icon type="facebook" theme="filled" /> Facebook-ээр нэвтрэх

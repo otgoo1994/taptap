@@ -5,7 +5,6 @@ Vue.use(VueRouter)
 
 let routes = [
 	{
-		// will match everything
 		path: '*',
 		component: () => import('../views/404.vue'),
 	},

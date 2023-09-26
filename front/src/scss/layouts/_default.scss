@@ -426,3 +426,20 @@ body {
 		}
 	}
 }
+
+
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+::-webkit-scrollbar-track {
+  background: #646669; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e2b714; 
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e2b714;
+}

@@ -12,14 +12,17 @@ import DashboardLayout from './layouts/Dashboard.vue'
 import DashboardRTLLayout from './layouts/DashboardRTL.vue'
 import VueSocketio from 'vue-socket.io';
 import router from './router'
+import { detectRequest, keyboards } from './common.js';
 // import './plugins/click-away'
 
 import './scss/app.scss';
 const appUrl = 'http://localhost:8001';	
 const token = localStorage.getItem('token');
+
 Vue.prototype.$newSocket = VueSocketio;
 Vue.prototype.$appUrl = appUrl;
-Vue.prototype.$axios = axios;
+Vue.prototype.$_request = detectRequest;
+Vue.prototype.$_keyboards = keyboards;
 Vue.use(ElementUI);
 Vue.use(Antd);
 

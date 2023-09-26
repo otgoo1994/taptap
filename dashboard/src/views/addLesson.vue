@@ -236,63 +236,48 @@
 				}
 		},
 		methods: {
-			getMaxLvl() {
-				const dep = this;
-				this.$axios({
-					method: 'get',
-					url: this.$appUrl +'/admin/get-max-lvl',
-				})
-				.then(function(data){
-					if (data.data.status !== 200) {
-						return;
-					}
+			async getMaxLvl() {
+				const data = await this.$_request('GET', this.$appUrl + '/admin/get-max-lvl');
 
-					if (data.data.result.length === 0) {
-						return;
-					}
+				if (!data) { return; }
 
-					dep.currentLesson.lvl = data.data.result[0].lvl+=1;
-				});
+				if (data.status !== 200) { return; }
+
+				if (data.result.length === 0) {
+					return;
+				}
+				console.log(data, '====mxLvl');
+				this.currentLesson.lvl = data.result[0].lvl+=1;
 			},
-			getList() {
-				const dep = this;
-				this.$axios({
-					method: 'post',
-					url: this.$appUrl +'/lesson/get-lesson-list',
-				})
-				.then(function(data){
-					dep.lessons = data.data.lesson;
-					dep.lessonGroup = data.data.lessonGroup;
-				});
+			async getList() {
+				const data = await this.$_request('POST', this.$appUrl + '/lesson/get-lesson-list');
+				if (!data) { return; }
+
+				this.lessons = data.lesson;
+				this.lessonGroup = data.lessonGroup;
 			},
 			saveLesson() {
-				this.$refs.lessonForm.validate((valid) => {
+				this.$refs.lessonForm.validate( async (valid) => {
 					if (!valid) {
 						return;
 					}
 
-					const dep = this;
-					this.$axios({
-						method: 'post',
-						url: this.$appUrl +'/admin/add-lesson',
-						data: {
-							info: this.currentLesson
-						}
-					})
-					.then(function(data){
-						if (data.data.status !== 200) {
-							dep.$notification['error']({
-								message: 'Амжилтгүй',
-								description: 'Хичээлийн түвшин аль хэдийн бүртгэгдсэн'
-							});
-							return;
-						}
+					const data = await this.$_request('POST', this.$appUrl + '/admin/add-lesson', {info: this.currentLesson});
 
-						dep.currentLesson = { lessonname: '', type: '', groupId: '', lang: 'mon', holdword: null, lvl: dep.currentLesson.lvl+=1, text: '' };
-						dep.$notification['success']({
-							message: 'Амжилттай',
-							description: 'Бүртгэгдлээ'
+					if (!data) { return; }
+
+					if (data.status !== 200) {
+						this.$notification['error']({
+							message: 'Амжилтгүй',
+							description: 'Хичээлийн түвшин аль хэдийн бүртгэгдсэн'
 						});
+						return;
+					}
+
+					this.currentLesson = { lessonname: '', type: '', groupId: '', lang: 'mon', holdword: null, lvl: this.currentLesson.lvl+=1, text: '' };
+					this.$notification['success']({
+						message: 'Амжилттай',
+						description: 'Бүртгэгдлээ'
 					});
 				});
 			}

@@ -211,16 +211,13 @@
 			handleEdit(idx, row) {
 				console.log(idx, row);
 			},
-			getList() {
-				const dep = this;
-				this.$axios({
-					method: 'post',
-					url: this.$appUrl +'/lesson/get-lesson-list',
-				})
-				.then(function(data){
-					dep.lessons = data.data.lesson;
-					dep.lessonGroup = data.data.lessonGroup;
-				});
+			async getList() {
+				const data = await this.$_request('POST', this.$appUrl + '/lesson/get-lesson-list');
+
+				if (!data) { return; }
+
+				this.lessons = data.lesson;
+				this.lessonGroup = data.lessonGroup;
 			}
 		},
 		mounted() {

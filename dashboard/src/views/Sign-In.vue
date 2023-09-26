@@ -67,35 +67,32 @@
 			// Handles input validation after submission.
 			handleSubmit(e) {
 				e.preventDefault();
-				this.form.validateFields((err, values) => {
+				this.form.validateFields(async (err, values) => {
 					if ( !err ) {
 						var dep = this;
-						this.$axios({
-							method: 'post',
-							url: this.$appUrl + `/admin/login`,
-							data: {
-								email: values.email,
-								password: values.password
-							}
-						}).then(data => {
-							console.log('Received values of form: ', data.data.result) ;
-							if(data.data.result == 200) {
+
+						const data = await this.$_request('POST', this.$appUrl + `/admin/login`, { email: values.email, password: values.password });
+						
+						if (!data) {
+							 return;
+						}
+
+						if(data.result == 200)  {
 								this.$notification['success']({
 									message: 'Амжилттай',
 									description: 'Системд амжилттай нэвтэрлээ'
 								});
-								localStorage.token = data.data.token;
-              	localStorage.user = JSON.stringify(data.data.user);
-								Event.$emit('logged-new-user');
-								dep.$router.push('/lessons');
 
-							} else {
+								localStorage.token = data.token;
+              	localStorage.user = JSON.stringify(data.user);
+								Event.$emit('logged-new-user');
+								this.$router.push('/lessons');
+						} else {
 								this.$notification['error']({
 									message: 'Амжилтгүй',
-									description: data.data.data
+									description: data.data
 								});
-							}
-						});
+						}
 					}
 				});
 			},

@@ -70,7 +70,15 @@
 						<span>Sign In</span>
 					</router-link>
 					<a class="btn-sign-in" href="javascript:;" v-else>
-						<span>Сайн уу? {{this.user.name}}</span>
+						<el-dropdown @command="signout">
+							<span class="el-dropdown-link">
+								<span>Сайн уу? {{this.user.name}}</span> <i class="el-icon-arrow-down el-icon--right"></i>
+							</span>
+							<el-dropdown-menu slot="dropdown">
+								<el-dropdown-item>Хувийн мэдээлэл</el-dropdown-item>
+								<el-dropdown-item command divided>Гарах</el-dropdown-item>
+							</el-dropdown-menu>
+						</el-dropdown>
 					</a>
 					<!-- / Header Control Buttons -->
 
@@ -167,6 +175,11 @@
 				}
 
 				this.user = user;
+			},
+			signout() {
+				localStorage.removeItem('user');
+				localStorage.removeItem('token');
+				this.$router.push('/');
 			}
 		},
 		mounted: function(){

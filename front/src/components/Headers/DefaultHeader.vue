@@ -3,7 +3,8 @@
 	<!-- Layout Header ( Navbar ) -->
 	<a-layout-header style="background-color: #323437;">
 		<div class="header-col header-brand">
-			<h6 style="color: #fff;">Typing.mn</h6>
+			<!-- <router-link to="/"><h6 style="color: #fff;">Typing.mn</h6></router-link> -->
+			<div style="margin-top: 20px;"><router-link to="/test-speed"><img style="width: 40%; height: auto;" src="@/assets/logo.svg" alt=""></router-link></div>
 		</div>
 	</a-layout-header>
 	<!-- / Layout Header ( Navbar ) -->

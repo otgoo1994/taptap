@@ -443,3 +443,31 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #e2b714;
 }
+
+.sign-in-container {
+	width: 50%;
+	display: flex;
+	flex-direction: column;
+	// align-items: center;
+	justify-content: center;
+
+	.sign-up-gateways {
+		width: 40%;
+
+		.ant-btn {
+			height: 50px;
+			font-size: 14px;
+		}
+	}
+
+	.description {
+		width: 100%;
+		color: #fff;
+		margin: 20px 0px;
+
+		.alert {
+			color: #e2b714;
+			font-weight: 700;
+		}
+	}
+}

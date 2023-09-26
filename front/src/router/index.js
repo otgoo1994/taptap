@@ -24,6 +24,15 @@ let routes = [
 		component: () => import('../views/Dashboard.vue'),
 	},
 	{
+		path: '/terms',
+		name: 'Үйлчилгээний нөхцөл',
+		meta: {
+			title: 'typing.mn',
+			auth: false
+		},
+		component: () => import('../views/terms.vue'),
+	},
+	{
 		path: '/layout',
 		name: 'Layout',
 		layout: "dashboard",

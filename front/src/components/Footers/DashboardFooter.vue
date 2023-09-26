@@ -14,7 +14,7 @@
 				<!-- / Footer Copyright Notice -->
 
 			</a-col>
-			<a-col :span="24" :md="12" class="footer-control pr-20" align="right">
+			<a-col :span="24" :md="12" class="footer-control pr-20" align="right" style="color: #fff;">
 				Typing.mn
 			</a-col>
 		</a-row>

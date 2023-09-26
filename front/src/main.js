@@ -21,6 +21,7 @@ const token = localStorage.getItem('token');
 
 Vue.prototype.$newSocket = VueSocketio;
 Vue.prototype.$appUrl = appUrl;
+Vue.prototype.$axios = axios;
 Vue.prototype.$_request = detectRequest;
 Vue.prototype.$_keyboards = keyboards;
 Vue.use(ElementUI);

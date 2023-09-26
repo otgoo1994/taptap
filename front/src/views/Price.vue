@@ -105,7 +105,7 @@ li {
   <div class='wrapper'>
   <div class='package'>
     <div class='name'>Limited</div>
-    <div class='price'>₮5,900</div>
+    <div class='price'>₮2,900</div>
     <div class='trial'>1 сарын эрх</div>
     <hr>
     <ul>
@@ -122,7 +122,7 @@ li {
   </div>
   <div class='package brilliant'>
     <div class='name'>Brilliant</div>
-    <div class='price'>₮12,900</div>
+    <div class='price'>₮8,900</div>
     <div class='trial'>3 сарын эрх</div>
     <hr>
     <ul>

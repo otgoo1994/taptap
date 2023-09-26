@@ -17,7 +17,7 @@ import { detectRequest, keyboards } from './common.js';
 
 import './scss/app.scss';
 // const appUrl = 'http://localhost:8001';	
-const appUrl = 'http://api.typing.mn';	
+const appUrl = 'https://api.typing.mn';	
 const token = localStorage.getItem('token');
 
 Vue.prototype.$newSocket = VueSocketio;

@@ -19,7 +19,7 @@ let routes = [
 		layout: "dashboard",
 		meta: {
 			title: 'typing.mn',
-			auth: false
+			auth: true
 		},
 		component: () => import('../views/Profile.vue'),
 	},

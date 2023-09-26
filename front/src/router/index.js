@@ -14,6 +14,16 @@ let routes = [
 		redirect: '/test-speed',
 	},
 	{
+		path: '/profile',
+		name: 'Хувийн мэдээлэл',
+		layout: "dashboard",
+		meta: {
+			title: 'typing.mn',
+			auth: false
+		},
+		component: () => import('../views/Profile.vue'),
+	},
+	{
 		path: '/test-speed',
 		name: 'Нүүр хуудас',
 		layout: "dashboard",

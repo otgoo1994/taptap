@@ -124,7 +124,7 @@
 				></CardProjectTable2> -->
 
 				<el-table
-					:data="lessons"
+					:data="currentLesson"
 					style="width: 100%">
 					<el-table-column
 						label="Дадлагын түвшин"
@@ -154,13 +154,32 @@
 							<el-button
 								size="mini"
 								@click="handleEdit(scope.$index, scope.row)">Засварлах</el-button>
-							<el-button
-								size="mini"
-								type="danger"
-								@click="handleDelete(scope.$index, scope.row)">Устгах</el-button>
+							
+								<el-popconfirm
+									title="Устгахдаа итгэлтэй байна уу?"
+									style="margin-left: 10px;"
+									confirm-button-text='Тийм'
+  								cancel-button-text='Үгүй'
+									@confirm="handleDelete(scope.$index, scope.row)"
+								>
+									<el-button
+									size="mini"
+									slot="reference"
+									type="danger"
+									>Устгах</el-button>
+								</el-popconfirm>
 						</template>
 					</el-table-column>
 				</el-table>
+				<div style="margin: 10px 0px;">
+					<el-pagination
+						background
+						@current-change="pageChanged"
+						layout="prev, pager, next"
+						:total="lessons.length"
+						:page-size="size">
+					</el-pagination>
+				</div>
 				<div class="table-upload-btn">
 					<router-link to="/add-lesson">
 						<a-button type="dashed" block>
@@ -182,9 +201,17 @@
 		components: {
 			CardProjectTable2,
 		},
+		computed: {
+			currentLesson() {
+				const less = this.lessons;
+				return less.slice((this.page - 1) * this.size, (this.page - 1) * this.size + this.size)
+			}
+		},
 		data() {
 			return {
 				lessons: [],
+				size: 20, 
+				page: 1,
 				lessonGroup: [],
 				table1Data: [],
 				table1Columns: [
@@ -208,11 +235,18 @@
 			}
 		},
 		methods: {
+			pageChanged(page) {
+				this.page = page;
+			},
+			async handleDelete(idx, row) {
+				await this.$_request('POST', this.$appUrl + '/admin/delete-lesson', { id: row.id });
+				this.getList();
+			},
 			handleEdit(idx, row) {
 				console.log(idx, row);
 			},
 			async getList() {
-				const data = await this.$_request('POST', this.$appUrl + '/lesson/get-lesson-list');
+				const data = await this.$_request('POST', this.$appUrl + '/admin/get-lesson-list');
 
 				if (!data) { return; }
 

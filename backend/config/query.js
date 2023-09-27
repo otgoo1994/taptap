@@ -33,6 +33,18 @@ const query = {
   },
   checkUserEmail: function(email) {
     return `SELECT id, name, phone, image, active, end_at, point, avg_wpm, record_wpm  from users WHERE email = '${email}'`;
+  },
+  delete: function(table, id) {
+    return `DELETE from ${table} WHERE id = ${id}`;
+  },
+  getMaxLvl: function() {
+    return 'SELECT MAX(lvl) as lvl from lesson';
+  },
+  getCurrentLvl: function(lvl) {
+    return `SELECT id from lesson WHERE lvl = ${lvl}`;
+  },
+  adminLogin: function(email, password) {
+    return `SELECT id, email, name, phone, image  from admin WHERE email = '${email}' AND password = '${sha256(password + process.env.SALT)}'`;
   }
 };
 

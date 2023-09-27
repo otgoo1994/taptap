@@ -4,6 +4,7 @@ import Antd from 'ant-design-vue';
 import 'ant-design-vue/dist/antd.css';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import locale from 'element-ui/lib/locale/lang/en';
 import axios from 'axios';
 import App from './App.vue'
 import DefaultLayout from './layouts/Default.vue'
@@ -22,7 +23,7 @@ Vue.prototype.$newSocket = VueSocketio;
 Vue.prototype.$appUrl = appUrl;
 Vue.prototype.$_request = detectRequest;
 Vue.prototype.$axios = axios;
-Vue.use(ElementUI);
+Vue.use(ElementUI, { locale })
 Vue.use(Antd);
 
 Vue.config.productionTip = false

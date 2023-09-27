@@ -2,12 +2,11 @@ const db = require("../config/db");
 const fs = require('fs');
 
 
-
 const sha256 = require("js-sha256");
 const jwt = require('jwt-then');
 const { checkRoom } = require("./roomController");
 
-exports.getAll = async (req, res) => {
+const getAll = async (req, res) => {
     const token = req.headers.authorization.split(" ")[1];
     const payload = await jwt.verify(token, 'HS256');
     let lessons = `SELECT * from lesson ORDER BY lvl ASC`;
@@ -52,7 +51,7 @@ exports.getAll = async (req, res) => {
     });
 }
 
-exports.nextLesson = async (req, res) => {
+const nextLesson = async (req, res) => {
     const { level } = req.body;
 
     const next_lesson = `SELECT id, type from lesson WHERE lvl = ${level}`;
@@ -74,7 +73,7 @@ exports.nextLesson = async (req, res) => {
     });
 }
 
-exports.selectedLesson = async (req, res) => {
+const selectedLesson = async (req, res) => {
     const token = req.headers.authorization.split(" ")[1];
     const payload = await jwt.verify(token, 'HS256');
 
@@ -142,7 +141,7 @@ exports.selectedLesson = async (req, res) => {
     });
 }
 
-exports.updateUserLesson = async (req, res) => {
+const updateUserLesson = async (req, res) => {
     const { wpm, accuracy, score, lessonId, level } = req.body;
     console.log(wpm);
     const token = req.headers.authorization.split(" ")[1];
@@ -347,40 +346,10 @@ exports.updateUserLesson = async (req, res) => {
 
 }
 
-exports.PrevWithNext = async (req, res) => {
-    const { prev, next } = req.body;
-    const token = req.headers.authorization.split(" ")[1];
-    const payload = await jwt.verify(token, 'HS256');
 
-    let prevLesson = `SELECT id, lvl, type from lesson WHERE lvl = ${prev}`;
-    let nextLesson = `SELECT id, lvl, type from lesson WHERE lvl = ${next}`;
-    
-    db.query(prevLesson, async (err, p) => {
-        if(err) {
-            throw err;
-        }
-        db.query(nextLesson, async (err, n) => {
-            if (err) {
-                throw err;
-            }
-            let score = `SELECT score, accuracy, wpm from user_lesson WHERE lessonId = ${p[0].id} AND userId = ${payload.id}`;
-            db.query(score, async (err, s) => {
-                if (err) {
-                    throw err;
-                }
-                let rowLesson = `SELECT COUNT(*) as count from lesson`;
-                db.query(rowLesson, async (err, c) => {
-                    if (err) {
-                        throw err;
-                    }
-                    res.json({
-                        prev: p[0],
-                        next: n[0],
-                        score: s[0],
-                        count: c[0]
-                    });
-                });
-            })
-        });
-    });
+module.exports = {
+    updateUserLesson,
+    selectedLesson,
+    nextLesson, 
+    getAll,
 }

@@ -250,7 +250,7 @@
 				this.currentLesson.lvl = data.result[0].lvl+=1;
 			},
 			async getList() {
-				const data = await this.$_request('POST', this.$appUrl + '/lesson/get-lesson-list');
+				const data = await this.$_request('POST', this.$appUrl + '/admin/get-lesson-list');
 				if (!data) { return; }
 
 				this.lessons = data.lesson;

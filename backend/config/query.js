@@ -45,6 +45,13 @@ const query = {
   },
   adminLogin: function(email, password) {
     return `SELECT id, email, name, phone, image  from admin WHERE email = '${email}' AND password = '${sha256(password + process.env.SALT)}'`;
+  },
+  getCoupon: function(coupon) {
+    if (coupon) {
+      return `SELECT * FROM coupons WHERE coupon = '${coupon}'`;
+    }
+
+    return 'SELECT * FROM coupons';
   }
 };
 

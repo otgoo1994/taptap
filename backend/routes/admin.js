@@ -11,7 +11,9 @@ router.post("/add-lesson", auth, catchErrors(adminController.addLesson));
 router.get('/get-max-lvl', auth, catchErrors(adminController.getMaxLvl));
 router.post("/add-admin", auth, catchErrors(adminController.register));
 router.post("/get-lesson-list", auth, catchErrors(lessonController.getAll));
-
+router.post("/get-coupons", auth, catchErrors(adminController.coupons));
+router.post("/create-coupons", auth, catchErrors(adminController.createCoupon));
+router.post("/delete-coupon", auth, catchErrors(adminController.deleteCoupon));
 
 // router.post("/get-admins", auth, catchErrors(adminController.getAdmins));
 // router.post("/add-admin", auth, catchErrors(adminController.register));

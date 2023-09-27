@@ -29,6 +29,16 @@ let routes = [
 		component: () => import('../views/Dashboard.vue'),
 	},
 	{
+		path: '/coupons',
+		name: 'Нүүр хуудас',
+		layout: "dashboard",
+		meta: {
+			title: 'typing.mn',
+			auth: true
+		},
+		component: () => import('../views/Coupons.vue'),
+	},
+	{
 		path: '/add-lesson',
 		name: 'Хичээл бүртгэх',
 		layout: "dashboard",

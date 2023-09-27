@@ -6,6 +6,78 @@ const exec = require("../config/promise");
 const sha256 = require("js-sha256");
 const jwt = require('jwt-then');
 
+const createCoupon = async (req, res) => {
+  const { count, type } = req.body;
+
+  let index = 0, insert = '';
+  const coupons = await exec.execute('SELECT coupon from coupons');
+  const arr = [];
+
+  coupons.forEach(element => {
+    arr.push(element.coupon);
+  });
+
+  while (index < count) {
+    let coupon = Math.random().toString(36).slice(-6).toUpperCase() + Math.random().toString(36).slice(-6).toUpperCase();
+    let ch = arr.includes(coupon);
+    if(!ch) {
+      if(insert == '') {
+        insert += `('','${coupon}',1,0,${type})`;
+      } else {
+        insert += `, ('','${coupon}',1,0,${type})`;
+      }
+      index++;
+    }
+  }
+
+  const add = await exec.execute(`INSERT INTO coupons VALUES ` + insert);
+
+  if (!add) { 
+    res.status(200).json({
+      result: 'something went wrong',
+      status: 403
+    });
+    return; 
+  }
+
+  res.json({
+    result: 'success'
+  });
+
+}
+
+const deleteCoupon = async (req, res) => {
+  const { id } = req.body;
+  let string;
+  string = query.delete('coupons', id);
+
+  const coupon = await exec.execute(string);
+
+  if (!coupon) {
+    res.status(403).json({
+      result: 'something went wrong',
+      status: 403
+    });
+    return; 
+  }
+
+  res.status(200).json({
+    status: 200
+  });
+}
+
+const coupons = async (req, res) => {
+  let string;
+  string = query.getCoupon();
+  const coupon = await exec.execute(string);
+  
+  return res.status(200).json({
+    result: 200,
+    coupon,
+    status: 200
+})
+}
+
 const register = async (req, res) => {
     // const {email, name, phone, permission, address} = req.body;
     // let qry = `SELECT id FROM admin WHERE email = '${email}'`;
@@ -141,5 +213,8 @@ module.exports = {
   login,
   register,
   getMaxLvl,
-  deleteLesson
+  deleteLesson,
+  coupons,
+  createCoupon,
+  deleteCoupon
 };

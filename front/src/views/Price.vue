@@ -1,30 +1,39 @@
 ﻿<style lang="scss" scoped>
+@import "../scss/utils" ;
 $accent-color: #33c4b6;
 
 .wrapper {
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -190px 0 0 -468px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 400;
-    color: #9f9f9f;
+    @include vw-convert-desktop('font-size', 15px);
     font-size: 15px;
+    transform: translate(-50%, -50%);
 }
 .package {
   cursor: pointer;
   box-sizing: border-box;
-  width: 301px;
-  height: 380px;
-  border: 3px solid #e8e8e8;
-  border-radius: 7px;
+  @include vw-convert-desktop('width', 250px);
+  @include vw-convert-desktop('height', 380px);
+  
+  border: 3px solid #FFFFFF;
+  @include vw-convert-desktop('border-radius', 7px);
   display: inline-block;
-  padding: 24px;
+  @include vw-convert-desktop('padding', 24px);
   text-align: center;
   float: left;
   transition: margin-top .5s linear;
   position: relative;
-  margin-right: 11px;
+  @include vw-convert-desktop('margin-right', 11px);
+  background-color: #FFFFFF;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+
+  @include mobile {
+    @include vw-convert-mobile('width', 250px);
+    @include vw-convert-mobile('height', 380px);
+  }
   
   &:hover {
     margin-top: -30px;
@@ -35,42 +44,44 @@ $accent-color: #33c4b6;
     color: #565656;
     font-weight: 700;
     font-size: 1.5rem;
+    @include vw-convert-desktop('margin-top', -5px);
     margin-top: -5px;
 }
 .price {
-    margin-top: 7px;
+  @include vw-convert-desktop('margin-top', 7px);
     font-weight: bold;
 }
 hr {
     background-color: #dedede;
     border: none;
-    height: 1px;
+    @include vw-convert-desktop('height', 1px);
 }
 .trial {
     font-size: .9rem;
     font-weight: 600;
-    padding: 2px 21px 2px 21px;
+    @include vw-convert-desktop('padding', 2px 21px 2px 21px);
     color: $accent-color;
     border: 1px solid #e4e4e4;
     display: inline-block;
-    border-radius: 15px;
+    @include vw-convert-desktop('border-radius', 15px);
     background-color: white;
     position: relative;
-    bottom: -20px;
+    @include vw-convert-desktop('bottom', -20px);
 }
+
 ul {
     list-style: none;
     padding: 0;
     text-align: left;
-    margin-top: 29px;
+    @include vw-convert-desktop('margin-top', 29px);
 }
 li {
-    margin-bottom: 15px;
+  @include vw-convert-desktop('margin-bottom', 15px);
+  @include vw-convert-desktop('font-size', 13px);
     &:before {
       // @extend .checkIcon;
-      font-size: 1.3rem;
       color: $accent-color;
-      margin-right: 3px;
+      @include vw-convert-desktop('margin-right', 3px);
   }
 }
 .checkIcon {
@@ -83,7 +94,7 @@ li {
     width: 0;
     height: 0;
     border-style: solid;
-    border-width: 64px 64px 0 0;
+    @include vw-convert-desktop('border-width', 64px 64px 0 0);
     border-color: #3bc6b8 transparent transparent transparent;
     position: absolute;
     left: 0;
@@ -94,67 +105,86 @@ li {
     // @extend .checkIcon;
     color: white;
     position: absolute;
-    left: 9px;
-    top: 6px;
+    @include vw-convert-desktop('left', 9px);
+    @include vw-convert-desktop('left', 6px);
     text-shadow: 0 0 2px #37c5b6;
-    font-size: 1.4rem;
+    @include vw-convert-desktop('font-size', 22px);
 }
+}
+
+.coupon {
+  margin-top: 52%;
+  @include vw-convert-desktop('font-size', 18px);
+  font-family: 'Montserrat', sans-serif;
+  font-family: 500;
+
+  a {
+    font-weight: 700;
+    color: #e2b714;
+  }
 }
 </style>
 <template>
   <div class='wrapper'>
-  <div class='package'>
-    <div class='name'>Limited</div>
-    <div class='price'>₮2,900</div>
-    <div class='trial'>1 сарын эрх</div>
-    <hr>
-    <ul>
-      <li>
-        <strong>Бүх</strong> хичээл
-      </li>
-      <li>
-        <strong>Сертификат</strong> 
-      </li>
-      <li>
-        <strong>Урамшуулалд хамрагдах</strong> 
-      </li>
-    </ul>
+    <div>
+      <div class='package'>
+        <div class='name'>Limited</div>
+        <div class='price'>₮3,900</div>
+        <div class='trial'>1 сарын эрх</div>
+        <hr>
+        <ul>
+          <li>
+            <strong>Бүх</strong> хичээл
+          </li>
+          <li>
+            <strong>Онлайн батламж</strong> 
+          </li>
+          <li>
+            <strong>Бүх тоглоомууд</strong> 
+          </li>
+          <li>
+            <strong>Урамшуулалд хамрагдах</strong> 
+          </li>
+        </ul>
+      </div>
+      <div class='package brilliant'>
+        <div class='name'>Brilliant</div>
+        <div class='price'>₮9,900</div>
+        <div class='trial'>3 сарын эрх</div>
+        <hr>
+        <ul>
+          <li>
+            <strong>Бүх</strong> хичээл
+          </li>
+          <li>
+            <strong>Онлайн батламж</strong> 
+          </li>
+          <li>
+            <strong>Бүх тоглоомууд</strong> 
+          </li>
+          <li>
+            <strong>Урамшуулалд хамрагдах</strong> 
+          </li>
+        </ul>
+      </div>
+      <div class='package'>
+        <div class='name'>Basic</div>
+        <div class='price'>₮0</div>
+        <div class='trial'>Эхний 60 хичээл</div>
+        <hr>
+        <ul>
+          <li>
+            <strong>60</strong> хичээл
+          </li>
+          <li><strong>Сонгогдсон тоглоомууд</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="coupon">Танд хөнгөлтийн карт code байгаа бол <router-link to="/use-coupon">энд</router-link> дарна уу.</div>
   </div>
-  <div class='package brilliant'>
-    <div class='name'>Brilliant</div>
-    <div class='price'>₮8,900</div>
-    <div class='trial'>3 сарын эрх</div>
-    <hr>
-    <ul>
-      <li>
-        <strong>Бүх</strong> хичээл
-      </li>
-      <li>
-        <strong>Сертификат</strong> 
-      </li>
-      <li>
-        <strong>Урамшуулалд хамрагдах</strong> 
-      </li>
-    </ul>
-  </div>
-  <div class='package'>
-    <div class='name'>Basic</div>
-    <div class='price'>₮0</div>
-    <div class='trial'>Эхний 40 хичээл</div>
-    <hr>
-    <ul>
-      <li>
-        <strong>40</strong> хичээл
-      </li>
-      <!-- <li>
-        <strong>3</strong> 
-      </li> -->
-    </ul>
-  </div>
-</div>
 </template>
 <script>
 export default {
-  
+  // F7F7F7
 }
 </script>

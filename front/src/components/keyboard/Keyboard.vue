@@ -232,7 +232,7 @@ export default {
 }
 .current-span {
     height: 3px;
-    width: 50px;
+    width: 100%;
     background: #0383f2;
     margin-top: 15px;
     transition: 1s;

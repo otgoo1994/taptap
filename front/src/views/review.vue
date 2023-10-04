@@ -1,10 +1,17 @@
 <template>
     <div>
         <div class="intro-x">
-            <div :style="{'padding-top': '50px'}" align="center" @click="setFocus">
-                <div align="center" class="intro-text mt-5">
+            <div :style="{'padding-top': '50px', position: 'relative'}" align="center" @click="setFocus">
+                <div class="close-btn">
+                    <router-link to="/subjects">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                            <path fill="#394554" d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z"></path>
+                        </svg>
+                    </router-link>
+                </div>
+                <div align="center" class="intro-text mt-5 no-text">
                     <input @input="this.type" :style="{'position': 'absolute', 'opacity': '0'}" ref="inputDiv" id="inputDiv" autocomplete="off"/>
-                    <div class="parent-box" align="left" style="width: 60%;">
+                    <div class="parent-box" align="left">
                         <span v-for="(item, index) in text.splitted" :key="index" class="parent-span" :ref="'parent-span-' + index" v-bind:class="{'active-span': counter.count == index}">
                             <span v-for="(word, i) in item" :key="i" class="child-span" :ref="'child-span-' + index + i" v-bind:class="{'active-child-span': text.current == i && counter.count == index, 'error-span': errorSpans.includes(index + '-' + i), 'correct-span': correctSpans.includes(index + '-' + i), 'warning-span': warningSpans.includes(index + '-' + i) && correctSpans.includes(index + '-' + i)}">{{word}}</span>
                         </span>
@@ -356,10 +363,10 @@ export default {
             clearInterval(timer);
         
             var wpm = parseInt((this.correctSpans.length / 5) / (this.counter.time_passed / 60));
-            var accuracy = parseInt((this.counter.characters - (this.errorSpans.length + this.warningSpans.length)) * 100 / this.counter.characters);
+            var accuracy = parseInt((this.counter.characters - this.errorSpans.length) * 100 / this.counter.characters);
             var diff_acc;
-            if(accuracy > 60) {
-                var diff = accuracy - 60;
+            if(accuracy > 80) {
+                var diff = accuracy - 80;
                 diff_acc = parseInt((diff * 100) / 20);
                 
             } else {
@@ -479,10 +486,8 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Exo+2&display=swap');
 .parent-box {
-    width: 80%;
+    width: 45%;
     position: relative;
-    padding-left: 20px;
-    padding-right: 20px; 
 }
 
 .st0 {
@@ -491,17 +496,6 @@ export default {
 .selected-key {
     fill: #0383F2;
     color: #fff;
-}
-.parent-span {
-    font-size: 35px;
-    color: #515457;
-    font-family: 'JetBrains Mono', monospace;
-}
-
-.active-span {
-    border-top: 2px solid #c7c9c8;
-    border-radius: 5px;
-
 }
 
 .active-child-span {
@@ -512,9 +506,6 @@ export default {
     white-space: pre-wrap;
 }
 
-.progress {
-    margin-top: 20px;
-}
 
 .correct-span {
     background: #E7FBD3;
@@ -529,35 +520,5 @@ export default {
 .warning-span {
     background: #FFE9B2;
     color: #0E634D;
-}
-.wpm-number {
-    margin-top: -25px;
-    font-family: 'Exo 2', sans-serif;
-    font-size: 30px;
-    color: grey;
-    position: relative;
-    padding-right: 28px;
-    display: inline-block;
-}
-
-.accuracy-number {
-    margin-top: -25px;
-    font-size: 30px;
-    font-family: 'Exo 2', sans-serif;
-    color: grey;
-}
-
-.wpm-title {
-    font-family: 'Exo 2', sans-serif;
-    font-size: 12px;
-    vertical-align: top;
-    color: grey;
-    position: absolute;
-    top: 3px;
-    right: 0px;
-}
-
-.all-title {
-    color: grey;
 }
 </style>

@@ -13,7 +13,7 @@
 		:class="['ant-layout-sider-' + sidebarColor, 'ant-layout-sider-' + sidebarTheme]"
 		theme="light"
 		:style="{ backgroundColor: 'transparent',}">
-			<div class=""><router-link to="/test-speed"><img style="width: 60%; height: auto;" src="@/assets/logo.svg" alt=""></router-link></div>
+			<div class=""><router-link to="/test-speed"><img style="width: 50%; height: auto;" src="@/assets/logo.png" alt=""></router-link></div>
 			<hr>
 
 			<!-- Sidebar Navigation Menu -->
@@ -53,10 +53,10 @@
 			<!-- / Sidebar Navigation Menu -->
 
 			<div class="aside-footer">
-				<div class="footer-box" style="background-color: #202224;">
-					<p style="font-size: 12px;">Тусламж хэрэгтэй байна уу?</p>
-					<a-button type="primary"  block target="_blank">
-						<router-link to="/price">Эрх худалдаж авах</router-link>
+				<div class="footer-box" style="background-color: #F7F7F7;">
+					<p style="font-size: 12px; color: #394554;">Тусламж хэрэгтэй байна уу?</p>
+					<a-button type="primary"  block target="_blank" style="color: #fff; background-color: #394554; border-color: #394554;">
+						<router-link to="/price" style="color: #fff; background: transparent;">Эрх худалдаж авах</router-link>
 					</a-button>
 				</div>
 			</div>
@@ -66,21 +66,31 @@
 
 </template>
 <style lang="scss">
+
+.ant-menu-item a.router-link-exact-active.router-link-active {
+	background-color: #394554 !important;
+	color: #fff !important;
+
 	.label {
 		color: #fff !important;
 	}
+}
+	.label {
+		color: #000 !important;
+	}
 
 	.icon {
-		background-color: #202224 !important;
+		background-color: #FFFFFF !important;
 	}
 	.router-link-exact-active.router-link-active {
 		.icon {
-			background-color: #e2b714 !important;
+			// background-color: #e2b714 !important;
+			background-color: #394554 !important;
 		}
 	}
 
 	hr {
-		background-color: #202224 !important;
+		background-color: #394554 !important;
 	}
 </style>
 

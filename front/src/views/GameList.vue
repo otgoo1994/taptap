@@ -1,4 +1,4 @@
-<style lang="scss">
+﻿<style lang="scss">
 .info-bar-container {
 	position: relative;
 	height: 70px;
@@ -31,7 +31,7 @@
 							<span class="lesson-title">{{title.groupName}}</span>
 						</a-col>
 						<a-col v-for="(less, lessIndex) in selectGroup(title.id)" :key="lessIndex" :span="24" :xl="6" :lg="8" :xxl="4" class="mb-24 less-card" style="cursor: pointer;">
-							<a-card :bordered="false" class="widget-1" style="">
+							<a-card :bordered="false" class="widget-1" style="background-color: #FFFFFF">
 								<div class="box zoom-in" :style="{'position': 'relative'}" @click="startLess(less.id)">
 									<div class="lesson-index">{{less.lvl}}</div>
 									<div class="lesson-lock" v-if="less.lvl > (currentUserLesson + 1)"><a-icon type="lock" /></div>

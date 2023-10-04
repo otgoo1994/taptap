@@ -1,7 +1,16 @@
 <template>
     <div>
+
         <div class="intro-x">
             <div :style="{'padding-top': '50px', 'position': 'relative'}" align="center" @click="setFocus">
+                <div class="close-btn">
+                    <router-link to="/subjects">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                            <path fill="#394554" d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z"></path>
+                        </svg>
+                    </router-link>
+                </div>
+
                 <div class="intro-title flex items-center" align="left" :style="{'color': '#646669'}">ШИНЭ ҮСЭГНИЙ БАЙРЛАЛ</div>
                 <div align="left" class="intro-text mt-5" style="display: flex;">
                     <div :style="{'margin-top': '5px', 'padding-right': '20px', color: '#646669'}" >{{fingerText}}</div>
@@ -390,105 +399,3 @@ export default {
     }
 }
 </script>
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Exo+2&display=swap');
-/* @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap'); */
-
-.bottom-box {
-    width: 100%;
-    bottom: 0;
-    background: #fff;
-    position: fixed;
-    height: 50px;
-    left: 0;
-}
-.text-span {
-    font-size: 30px;
-    font-weight: 500;
-    height: 50px;
-    width: 50px;
-    display: inline-block;
-    border-radius: 8px;
-    position: relative;
-    font-family: 'Roboto Mono', monospace;
-}
-.shake-span {
-    animation: shake 0.5s;
-    animation-iteration-count: infinite;
-}
-.span-normal {
-    border: 1px solid #dadada;
-    color: #fff;
-    background: #0383F2;
-}
-.span-correct {
-    border: 1px solid #10c373;
-    color: #10c373;
-    background: #e2f7e2;
-} 
-.st0 {
-    fill: #c9c9c9;
-}
-.span-error {
-    border: 1px solid #ff8097;
-    background: #ff8097;
-}
-.span-error-text {
-    position: absolute;
-    top : 5%; 
-    left : 30%;
-    color: #fff;
-}
-.current-span {
-    height: 3px;
-    width: 50px;
-    background: #0383f2;
-    margin-top: 15px;
-    transition: 1s;
-}
-.correct-span {
-    background: green;
-}
-.span-opacity-0 {
-    opacity: 0.2;
-}
-
-.all-title {
-    color: grey;
-}
-
-.selected-key {
-    fill: #0383F2;
-    color: #fff;
-}
-
-@keyframes shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  10% { transform: translate(-1px, -2px) rotate(-1deg); }
-  20% { transform: translate(-3px, 0px) rotate(1deg); }
-  30% { transform: translate(3px, 2px) rotate(0deg); }
-  40% { transform: translate(1px, -1px) rotate(1deg); }
-  50% { transform: translate(-1px, 2px) rotate(-1deg); }
-  60% { transform: translate(-3px, 1px) rotate(0deg); }
-  70% { transform: translate(3px, 1px) rotate(-1deg); }
-  80% { transform: translate(-1px, -1px) rotate(1deg); }
-  90% { transform: translate(1px, 2px) rotate(0deg); }
-  100% { transform: translate(1px, -2px) rotate(-1deg); }
-}
-.intro-title {
-    font-family: 'Exo 2', sans-serif;
-    font-size: 20px;
-    padding-left: 10%;
-}
-
-.intro-text {
-    font-family: 'Exo 2', sans-serif;
-    font-size: 25px;
-    padding-left: 10%;
-}
-.word-box {
-    position: absolute;
-    padding-left: 20%;
-}
-
-</style>

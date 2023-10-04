@@ -13,18 +13,18 @@
 	}
 
 	.el-radio-button__orig-radio:checked+.el-radio-button__inner {
-		background-color: #202224; 
+		background-color: #394554; 
 		color: #e2b714;
-		border-color: #202224;
-		box-shadow: -1px 0 0 0 #323437;
+		border-color: #394554;
+		box-shadow: -1px 0 0 0 #394554;
 	}
 	
 	.el-radio-button:first-child .el-radio-button__inner {
-		border-left: 1px solid #323437;
+		border-left: 1px solid #fff;
 	}
 	.el-radio-button__orig-radio+.el-radio-button__inner {
-		background-color: #323437;
-		border-color: #323437;
+		background-color: #F7F7F7;
+		border-color: #fff;
 
 		&:hover {
 			color: #e2b714;
@@ -73,7 +73,7 @@
 }
 
 .result-modal {
-    background-color: #323437;
+    background-color: #F7F7F7;
     position: fixed;
     width: 100%;
     height: 100%;
@@ -155,9 +155,6 @@
 			<div align="center" class="mb-30">
 				<a-row :gutter="24" style="display: flex; align-items: center; justify-content: center;">
 				<a-col :span="24" :lg="18" class="mb-24">
-					<!-- <a-card :bordered="false" class="widget-1" style="display: flex; align-items: center; justify-content: center;">
-						
-					</a-card> -->
 					<tr class="config-bar">
 							<td class="group-end">
 								<span @click="changeTestConfig" vonfig="symbol" v-bind:class="{'selected': status.symbol}">ТЭМДЭГТ</span>
@@ -190,14 +187,14 @@
 		<a-row :gutter="24" style="display: flex; align-items: center; justify-content: center;">
 			<a-col :span="24" :lg="18" :xl="18" class="mb-24" style="display: flex; justify-content: flex-start;">
 				<div v-if="status.testtype === 'time'" style="width: 120px; height: 60px;" align="center">
-					<a-card :bordered="false" class="widget-1" style="display: flex; align-items: center; justify-content: center; background: #202224; color: #646669;">
+					<a-card :bordered="false" class="widget-1" style="display: flex; align-items: center; justify-content: center; background: #FFFFFF; color: #646669;">
 						<span style="font-size: 20px;"><strong>{{time.time_left}}</strong></span>
 					</a-card>
 					<!-- <span style="font-size: 12px;">секунд</span> -->
 				</div>
 
 				<div v-else style="width: 120px; height: 60px;" align="center">
-					<a-card :bordered="false" class="widget-1" style="display: flex; align-items: center; justify-content: center; background: #202224;  color: #646669;">
+					<a-card :bordered="false" class="widget-1" style="display: flex; align-items: center; justify-content: center; background: #FFFFFF;  color: #646669;">
 						<span style="font-size: 20px;"><strong>{{counter.typed}} / {{status.length}}</strong></span>
 					</a-card>
 				</div>
@@ -206,7 +203,7 @@
 		<!-- Charts -->
 		<a-row :gutter="24" style="display: flex; align-items: center; justify-content: center;">
 			<a-col :span="24" :lg="18" class="mb-24">
-				<a-card :bordered="false" class="widget-1" style="padding-right: 30px; background: #202224;">
+				<a-card :bordered="false" class="widget-1" style="padding-right: 30px; background: #FFFFFF;">
 					<div @click="$refs.testInputDiv.focus()" :style="{'width': '100%', 'height': '50px'}" ref="fingerBack">
 						<div style="width:100%; height: 100px; margin: auto; display: flex; flex-wrap: nowrap; position: absolute; bottom: 15px;">
 							<div style="width: 30%; text-align: right; line-height: 140px; font-weight: 600; font-size: 30px; text-align: right; white-space: nowrap; overflow: hidden;">
@@ -240,7 +237,9 @@
 					</div>
 				</a-card>
 				<div style="width: 120px; height: 120px; margin-left: 50%; transform: translateX(-50%);" align="left">
-					<a-button type="primary" @click="getText" icon="undo" size="large" style="position: absolute; bottom: 15px; background: #202224; border-color:#202224"/>
+					<a-button type="primary" @click="getText" size="large" style="position: absolute; bottom: 15px; background: #FFFFFF; border-color:#FFFFFF; width: 50%;">
+						<img src="@/assets/images/undo.png" alt="" style="width: 100%; height: auto;">
+					</a-button>
 				</div>
 			</a-col>
 		</a-row>
@@ -259,7 +258,7 @@
 					<div class="number">accuracy<br><span>{{counter.accuracy}}%</span></div>
 				</div>
 				<div style="width: 50%;">
-					<div style="background: #202224; border-radius: 20px; padding: 20px;">
+					<div style="background: #FFFFFF; border-radius: 20px; padding: 20px;">
 						<canvas ref="resultChart"></canvas>
 					</div>
 
@@ -481,7 +480,7 @@ import Chart from 'chart.js/auto';
 					this.texts.typed = this.texts.typed +  '<span style="text-decoration: line-through; margin-right: 15px; color: #ca4754;">'+ input.replace('&nbsp;','') + '</span>';
 					this.counter.errors++;
 				} else {
-					this.texts.typed = this.texts.typed +  '<span style="margin-right: 15px; color: #fff;">'+ input.replace('&nbsp;','') + '</span>';
+					this.texts.typed = this.texts.typed +  '<span style="margin-right: 15px; color: #000;">'+ input.replace('&nbsp;','') + '</span>';
 					this.counter.typed++;
 				}
 

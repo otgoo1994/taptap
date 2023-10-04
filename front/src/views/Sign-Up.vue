@@ -28,7 +28,7 @@
 					<img src="images/logos/logo-apple.svg" alt="">
 				</a-button>
     			<a-button>
-					<img src="images/logos/Google__G__Logo.svg.png" alt="">
+					<img src="images/logos/Google__G__logo.png.png" alt="">
 				</a-button>
 			</div>
 			<p class="text-center my-25 font-semibold text-muted">Or</p>

@@ -59,6 +59,16 @@ let routes = [
 		component: () => import('../views/Tables.vue'),
 	},
 	{
+		path: '/games',
+		name: 'Зугаа',
+		layout: "dashboard",
+		meta: {
+			title: 'typing.mn',
+			auth: true
+		},
+		component: () => import('../views/GameList.vue'),
+	},
+	{
 		path: '/billing',
 		name: 'Billing',
 		layout: "dashboard",
@@ -104,7 +114,7 @@ let routes = [
 	{
 		path: '/program-1/:id',
 		name: 'intro',
-		layout: "dashboard",
+		// layout: "dashboard",
 		meta: {
 			title: 'Typing - Шинэ үсэг',
 			auth: true
@@ -114,7 +124,7 @@ let routes = [
 	{
 		path: '/program-2/:id',
 		name: 'boxed',
-		layout: "dashboard",
+		// layout: "dashboard",
 		meta: {
 			title: 'Typing - Шинэ үсэг дадлага',
 			auth: true
@@ -124,7 +134,7 @@ let routes = [
 	{
 		path: '/program-3/:id',
 		name: 'review',
-		layout: "dashboard",
+		// layout: "dashboard",
 		meta: {
 			title: 'Typing - Давтлага',
 			auth: true
@@ -134,7 +144,7 @@ let routes = [
 	{
 		path: '/program-4/:id',
 		name: 'hold',
-		layout: "dashboard",
+		// layout: "dashboard",
 		meta: {
 			title: 'Typing - Нэг гарын дадлагжуулалт',
 			auth: true
@@ -151,6 +161,16 @@ let routes = [
 		},
 		component: () => import('../views/Price.vue'),
 	},
+	{
+		path: '/use-coupon',
+		name: 'usecoupon',
+		layout: "dashboard",
+		meta: {
+			title: 'Typing - Нэг гарын дадлагжуулалт',
+			auth: false
+		},
+		component: () => import('../views/Coupon.vue'),
+	}
 ]
 
 function addLayoutToRoute( route, parentLayout = "default" )

@@ -2,16 +2,22 @@
 	<div class="sign-in" style="padding: 0; height: 70vh; display: flex; width: 100vw; overflow: hidden; justify-content: center; align-items: center; flex-direction: column;">
 		<div class="sign-in-container">
 			<div class="description">
-				<div>Доорх товч дээр дарж <b>ФЭЙСБҮҮК</b> хаягаараа нэвтэрнэ үү.</div>
-				<div><span class="alert">АНХААР </span>: та ЯГ ӨӨРИЙН ХУВИЙН ФЭЙСБҮҮКЭЭР нэвтрэх шаардлагатайг анхаарна уу.</div>
+				<div>Доорх товч дээр дарж <b>ФЭЙСБҮҮК</b>, <b>ГҮҮГЛЭ</b> хаягаараа нэвтэрнэ үү.</div>
+				<div><span class="alert">АНХААР </span>: та ЯГ <b>ХУВИЙН</b> АККАУНТААР нэвтрэх шаардлагатайг анхаарна уу.</div>
 			</div>
 			<div class="sign-up-gateways">
 				<a-button @click="logInWithFacebook" type="primary" block class="login-form-button" style="background: #212121; border: #212121;">
 					<a-icon type="facebook" theme="filled" /> Facebook-ээр нэвтрэх
 				</a-button>
+
+				<a-button type="primary" block class="login-form-button" style="background: #D0463B; border: #D0463B;">
+					<a-icon type="google-square" class="google" theme="filled"/> Google-ээр нэвтрэх
+				</a-button>
+
+				<div class="g-signin2" data-onsuccess="onSignIn"></div>
 			</div>
 			<div class="description">
-				<div><span class="alert">САНАМЖ </span>: Фэйсбүүкээр нэвтрэх үед манай сайтын зүгээс таны фэйсбүүкийн <span class="alert">нэвтрэх нэр, нууц үг</span> зэрэг мэдээлэлд хандах боломжгүй. Учир нь нэвтрэх үйлдэл нь манай сайтаас гарч <span class="alert">Facebook.com</span> сайт дээр хийгддэг.</div>
+				<div><span class="alert">САНАМЖ </span>: Фэйсбүүк, Гүүглээр нэвтрэх үед манай сайтын зүгээс таны хувийн аккаунтын <span class="alert">нэвтрэх нэр, нууц үг</span> зэрэг мэдээлэлд хандах боломжгүй. Учир нь нэвтрэх үйлдэл нь манай сайтаас гарч <span class="alert">Facebook, Google</span> сайт дээр хийгддэг.</div>
 			</div>
 			<div class="description">
 				<div>
@@ -42,6 +48,9 @@
 		</div>
 	</div>
 </template>
+<style lang="scss">
+	// .ant-btn-primary.google svg path { fill: #000000; }
+</style>
 
 <script>
 const year = new Date().getFullYear();

@@ -1,6 +1,6 @@
 <style lang="scss">
 .result-modal {
-    background-color: #ffffff;
+    background-color: #F7F7F7;
     position: fixed;
     width: 100%;
     height: 100%;
@@ -12,8 +12,16 @@
 <template>
     <div>
         <div class="intro-x">
-            <div :style="{'padding-top': '50px'}" align="center" @click="setFocus">
-                <div align="left" class="intro-text mt-5">
+            <div :style="{'padding-top': '50px', position: 'relative'}" align="center" @click="setFocus">
+                <div class="close-btn">
+                    <router-link to="/subjects">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                            <path fill="#394554" d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z"></path>
+                        </svg>
+                    </router-link>
+                </div>
+
+                <div align="left" class="intro-text mt-5 no-text">
                     <div :contenteditable="this.status.contentEdit" @input="type" :style="{'opacity': '0'}" ref="inputDiv" id="inputDiv"></div>
                     <div v-for="(main, cc) in text.splitted.length" :key="cc" :ref="'parent-div-' + cc">
                         <div v-if="text.count == cc" :style="{'position': 'relative'}" align="center">
@@ -407,124 +415,3 @@ export default {
     }
 }
 </script>
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
-.text-span {
-    font-size: 30px;
-    font-weight: 500;
-    height: 80px;
-    width: 80px;
-    display: inline-block;
-    border-radius: 8px;
-    position: relative;
-    font-family: 'Roboto Mono', monospace;
-}
-.shake-span {
-    animation: shake 0.5s;
-    animation-iteration-count: infinite;
-}
-.selected-key {
-    fill: #0383F2;
-    color: #fff;
-}
-.span-normal {
-    /* border: 1px solid #dadada; */
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
-    color: #6f6f74;
-    background: #fff;
-}
-.span-correct {
-    border: 1px solid #10c373;
-    color: #10c373;
-    background: #e2f7e2;
-} 
-.span-error {
-    border: 1px solid #ff8097;
-    background: #ff8097;
-}
-.text-span-second {
-    /* position: absolute;
-    top: 20%; */
-    margin-top: 20%;
-}
-.span-error-text {
-    position: absolute;
-    top : 18%; 
-    left : 38%;
-    color: #fff;
-}
-.current-span {
-    height: 3px;
-    width: 70px;
-    position: absolute;
-    background: #e2b714;
-    bottom: -10px;
-    transition: all 1s ease-in;
-}
-.st0 {
-    fill: #c9c9c9;
-}
-.correct-span {
-    background: green;
-}
-.span-opacity-0 {
-    opacity: 0.2;
-}
-
-@keyframes shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  10% { transform: translate(-1px, -2px) rotate(-1deg); }
-  20% { transform: translate(-3px, 0px) rotate(1deg); }
-  30% { transform: translate(3px, 2px) rotate(0deg); }
-  40% { transform: translate(1px, -1px) rotate(1deg); }
-  50% { transform: translate(-1px, 2px) rotate(-1deg); }
-  60% { transform: translate(-3px, 1px) rotate(0deg); }
-  70% { transform: translate(3px, 1px) rotate(-1deg); }
-  80% { transform: translate(-1px, -1px) rotate(1deg); }
-  90% { transform: translate(1px, 2px) rotate(0deg); }
-  100% { transform: translate(1px, -2px) rotate(-1deg); }
-}
-.bottom-box {
-    width: 100%;
-    bottom: 0;
-    background: #fff;
-    position: fixed;
-    height: 50px;
-    left: 0;
-}
-.all-title {
-    color: grey;
-}
-
-.wpm-number {
-    margin-top: -25px;
-    font-family: 'Exo 2', sans-serif;
-    font-size: 30px;
-    color: grey;
-    position: relative;
-    padding-right: 28px;
-    display: inline-block;
-}
-
-.accuracy-number {
-    margin-top: -25px;
-    font-size: 30px;
-    font-family: 'Exo 2', sans-serif;
-    color: grey;
-}
-
-.wpm-title {
-    font-family: 'Exo 2', sans-serif;
-    font-size: 12px;
-    vertical-align: top;
-    color: grey;
-    position: absolute;
-    top: 3px;
-    right: 0px;
-}
-
-.lessonname {
-    width: 20%;
-}
-
-</style>

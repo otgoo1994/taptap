@@ -154,7 +154,7 @@
 			}
 			&.ant-menu-item-selected .router-link-active,
 			.router-link-active {
-				// background-color: #323437;
+				// background-color: #F7F7F7;
 				box-shadow: $shadow-1;
 				.icon {
 					background-color: $color-primary;
@@ -189,7 +189,7 @@
 				}
 				&.ant-menu-item-selected .router-link-active,
 				.router-link-active {
-					background-color: #323437;
+					background-color: #F7F7F7;
 					box-shadow: none;
 					.icon {
 						background-color: $color-primary;
@@ -226,7 +226,7 @@
 				}
 				&.ant-menu-item-selected .router-link-active,
 				.router-link-active {
-					background-color: #323437;
+					background-color: #F7F7F7;
 					box-shadow: none;
 					.icon {
 						background-color: transparent;

@@ -2,9 +2,9 @@
     <div>
         <div class="intro-x">
             <div :style="{'padding-top': '50px'}" align="center" @click="setFocus">
-                <div align="center" class="intro-text mt-5">
+                <div align="center" class="intro-text mt-5 no-text">
                     <input @input="this.type" :disabled="inputDisabled" :style="{'position': 'absolute', 'opacity': '0'}" ref="inputDiv" id="inputDiv" autocomplete="off"/>
-                    <div class="parent-box" align="left" style="width: 60%;">
+                    <div class="parent-box" align="left">
                         <span v-for="(item, index) in text.splitted" :key="index" class="parent-span" :ref="'parent-span-' + index" v-bind:class="{'active-span': counter.count == index}">
                             <span v-for="(word, i) in item" :key="i" class="child-span" :ref="'child-span-' + index + i" v-bind:class="{'active-child-span': text.current == i && counter.count == index, 'error-span': errorSpans.includes(index + '-' + i), 'correct-span': correctSpans.includes(index + '-' + i), 'warning-span': warningSpans.includes(index + '-' + i) && correctSpans.includes(index + '-' + i)}">{{word}}</span>
                         </span>
@@ -414,10 +414,10 @@ export default {
             clearInterval(timer);
         
             var wpm = parseInt((this.correctSpans.length / 5) / (this.counter.time_passed / 60));
-            var accuracy = parseInt((this.counter.characters - (this.errorSpans.length + this.warningSpans.length)) * 100 / this.counter.characters);
+            var accuracy = parseInt((this.counter.characters - this.errorSpans.length) * 100 / this.counter.characters);
             var diff_acc;
-            if(accuracy > 60) {
-                var diff = accuracy - 60;
+            if(accuracy > 80) {
+                var diff = accuracy - 80;
                 diff_acc = parseInt((diff * 100) / 20);
                 
             } else {
@@ -545,22 +545,8 @@ export default {
 }
 
 .parent-box {
-    width: 80%;
-    position: relative;
-    padding-left: 20px;
-    padding-right: 20px; 
-}
-
-.parent-span {
-    font-size: 35px;
-    color: #515457;
-    font-family: 'JetBrains Mono', monospace;
-}
-
-.active-span {
-    border-top: 2px solid #c7c9c8;
-    border-radius: 5px;
-
+    width: 45%;
+    position: relative; 
 }
 
 .active-child-span {
@@ -569,10 +555,6 @@ export default {
 
 .child-span {
     white-space: pre-wrap;
-}
-
-.progress {
-    margin-top: 20px;
 }
 
 .correct-span {
@@ -588,80 +570,5 @@ export default {
 .warning-span {
     background: #FFE9B2;
     color: #0E634D;
-}
-.wpm-number {
-    margin-top: -25px;
-    font-family: 'Exo 2', sans-serif;
-    font-size: 30px;
-    color: grey;
-    position: relative;
-    padding-right: 28px;
-    display: inline-block;
-}
-
-.accuracy-number {
-    margin-top: -25px;
-    font-size: 30px;
-    font-family: 'Exo 2', sans-serif;
-    color: grey;
-}
-
-.wpm-title {
-    font-family: 'Exo 2', sans-serif;
-    font-size: 12px;
-    vertical-align: top;
-    color: grey;
-    position: absolute;
-    top: 3px;
-    right: 0px;
-}
-
-.all-title {
-    color: grey;
-}
-
-.hold-background {
-    width: 100%;
-    background: black;
-    height: 100%; 
-    opacity: 0.8;
-}
-
-.hold-background-img {
-    margin: auto;
-}
-
-.hold-background-text {
-    margin-top: 5%;
-    font-size: 40px;
-    color:  #fff;
-    font-family: 'Exo 2', sans-serif;
-}
-
-.hold-word-box {
-    width: 60px;
-    height: 60px;
-    color: black;
-    margin-right: 10px;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-    font-size: 30px;
-    margin-left: 25%;
-    background: #fff;
-    padding-top: 8px;
-    border-radius: 5px;
-}
-
-
-.hold-modal {
-  position: fixed; /* Stay in place */
-  padding-top: 100px; /* Location of the box */
-  left: 0;
-  top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  background: black;
-  opacity: 0.9;
-  z-index: 500;
 }
 </style>

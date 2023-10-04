@@ -1,3 +1,5 @@
+@import './utils.scss';
+
 // Base
 @import "./base/_variables" ;
 @import "./base/_utilities" ;
@@ -41,5 +43,5 @@
 
 
 body {
-  background-color: #323437;
+  background-color: #F7F7F7;
 }

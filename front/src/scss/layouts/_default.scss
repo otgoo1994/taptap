@@ -72,13 +72,13 @@ body {
 		}
 
 		.header-brand {
-			margin-right: auto;
-			margin-left: auto;
-			display: flex;
-			justify-content: space-between;
-			width: 100%;
-			align-items: center;
-			margin-bottom: 20px;
+			// margin-right: auto;
+			// margin-left: auto;
+			// display: flex;
+			// justify-content: space-between;
+			// width: 100%;
+			// align-items: center;
+			// margin-bottom: 20px;
 				
 			@media( min-width: $lg ){
 				margin-right: auto;
@@ -355,7 +355,7 @@ body {
 	position: fixed;
 	width: 100%;
 	height: 100%;
-	background-color: #323437;
+	background-color: #F7F7F7;
 	top: 0;
 	left: 0;
 	z-index: 1000;
@@ -383,7 +383,7 @@ body {
 
 		.number {
 			font-size: 25px;
-			color: #fff;
+			color: #394554;
 		}
 
 		&.right {
@@ -453,16 +453,24 @@ body {
 
 	.sign-up-gateways {
 		width: 40%;
+		display: flex;
 
 		.ant-btn {
 			height: 50px;
+			margin-right: 2%;
 			font-size: 14px;
+		}
+
+		.login-form-button.google {
+			// background-color: yellow;	
+			background: #FFFFFF; border: #FFFFFF;
+			color: #000000;
 		}
 	}
 
 	.description {
 		width: 100%;
-		color: #fff;
+		color: #000;
 		margin: 20px 0px;
 
 		.alert {
@@ -470,4 +478,245 @@ body {
 			font-weight: 700;
 		}
 	}
+}
+
+.close-btn {
+	width: 3%;
+	position: absolute;
+	top: 0;
+	right: 4%;
+	z-index: 2;
+
+	svg {
+		width: 100%;
+		fill: #fff;
+		cursor: pointer;
+	}
+}
+
+
+
+
+// more css properties
+
+@import url('https://fonts.googleapis.com/css2?family=Exo+2&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap'); */
+
+.bottom-box {
+    width: 100%;
+    bottom: 0;
+    background: #fff;
+    position: fixed;
+		@include vw-convert-desktop('height', 50px);
+    left: 0;
+}
+.text-span {
+	@include vw-convert-desktop('font-size', 30px);
+    font-weight: 500;
+		@include vw-convert-desktop('height', 60px);
+		@include vw-convert-desktop('width', 60px);
+    display: inline-block;
+		@include vw-convert-desktop('border-radius', 8px);
+    position: relative;
+    font-family: 'Roboto Mono', monospace;
+}
+.shake-span {
+    animation: shake 0.5s;
+    animation-iteration-count: infinite;
+}
+.span-normal {
+    border: 1px solid #dadada;
+    color: #fff;
+    background: #0383F2;
+}
+.span-correct {
+    border: 1px solid #10c373;
+    color: #10c373;
+    background: #e2f7e2;
+} 
+.st0 {
+    fill: #c9c9c9;
+}
+.span-error {
+    border: 1px solid #ff8097;
+    background: #ff8097;
+}
+.span-error-text {
+    position: absolute;
+    top : 5%; 
+    left : 30%;
+    color: #fff;
+}
+.current-span {
+	@include vw-convert-desktop('height', 3px);
+	width: 100%;
+	background: #0383f2;
+	@include vw-convert-desktop('margin-top', 15px);
+	transition: 1s;
+}
+.correct-span {
+    background: green;
+}
+.span-opacity-0 {
+    opacity: 0.2;
+}
+
+.all-title {
+    color: grey;
+}
+
+.selected-key {
+    fill: #0383F2;
+    color: #fff;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+.intro-title {
+    font-family: 'Exo 2', sans-serif;
+    @include vw-convert-desktop('font-size', 20px);
+    padding-left: 20%;
+}
+
+.intro-text {
+    font-family: 'Exo 2', sans-serif;
+		@include vw-convert-desktop('font-size', 25px);
+    padding-left: 20%;
+
+		&.no-text {
+			padding-left: 0;
+		}
+
+		.text-span {
+			@include vw-convert-desktop('font-size', 30px);
+			font-weight: 500;
+			@include vw-convert-desktop('height', 60px);
+			@include vw-convert-desktop('width', 60px);
+			display: inline-block;
+			@include vw-convert-desktop('border-radius', 8px);
+			position: relative;
+			font-family: 'Roboto Mono', monospace;
+		}
+
+		.selected-key {
+			fill: #0383F2;
+			color: #fff;
+		}
+		.span-normal {
+			/* border: 1px solid #dadada; */
+			box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+			color: #6f6f74;
+			background: #fff;
+		}
+		.span-correct {
+			border: 1px solid #10c373;
+			color: #10c373;
+			background: #e2f7e2;
+		} 
+		.span-error {
+			border: 1px solid #ff8097;
+			background: #ff8097;
+		}
+		.text-span-second {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-50%, -50%);
+		}
+		.span-error-text {
+			position: absolute;
+			top : 18%; 
+			left : 38%;
+			color: #fff;
+		}
+		.current-span {
+			@include vw-convert-desktop('height', 3px);
+			width: 100%;
+			position: absolute;
+			background: #e2b714;
+			@include vw-convert-desktop('bottom', -10px);
+			transition: all 1s ease-in;
+		}
+		.correct-span {
+			background: green;
+		}
+		.span-opacity-0 {
+			opacity: 0.2;
+		}
+
+		
+	.progress {
+		@include vw-convert-desktop('margin-top', 20px);
+	}
+	.parent-span {
+		@include vw-convert-desktop('font-size', 35px);
+    color: #515457;
+    font-family: 'JetBrains Mono', monospace;
+	}
+
+	.active-span {
+		border-top: 2px solid #c7c9c8;
+		@include vw-convert-desktop('border-radius', 5px);
+	}
+}
+.st0 {
+	fill: #c9c9c9;
+}
+
+.hold-background {
+	width: 100%;
+	background: black;
+	height: 100%; 
+	opacity: 0.8;
+}
+
+.hold-background-img {
+		margin: auto;
+		width: 25%;
+}
+
+.hold-background-text {
+		margin-top: 5%;
+		@include vw-convert-desktop('font-size', 40px);
+		color:  #fff;
+		font-family: 'Exo 2', sans-serif;
+}
+
+.hold-word-box {
+		@include vw-convert-desktop('width', 60px);
+		@include vw-convert-desktop('height', 60px);
+		color: black;
+		@include vw-convert-desktop('margin-right', 10px);
+		font-family: 'JetBrains Mono', monospace;
+		font-weight: 700;
+		@include vw-convert-desktop('font-size', 30px);
+		margin-left: 25%;
+		background: #fff;
+		@include vw-convert-desktop('padding-top', 8px);
+		@include vw-convert-desktop('border-radius', 5px);
+		border-radius: 5px;
+}
+
+
+.hold-modal {
+	position: fixed; /* Stay in place */
+	@include vw-convert-desktop('padding-top', 100px);
+	left: 0;
+	top: 0;
+	width: 100%; /* Full width */
+	height: 100%; /* Full height */
+	background: black;
+	opacity: 0.9;
+	z-index: 500;
 }

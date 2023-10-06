@@ -13,12 +13,22 @@ import DashboardRTLLayout from './layouts/DashboardRTL.vue'
 import VueSocketio from 'vue-socket.io';
 import router from './router'
 import { detectRequest, keyboards } from './common.js';
+import GAuth from 'vue-google-oauth2';
 // import './plugins/click-away'
 
 import './scss/app.scss';
 // const appUrl = 'http://localhost:8001';	
 const appUrl = 'https://api.typing.mn';	
 const token = localStorage.getItem('token');
+
+
+const gauthOption = {
+  clientId: '76197459130-fsnge4nig8e3qje6ughaene2hp3u0dgj.apps.googleusercontent.com',
+  scope: 'profile email',
+  prompt: 'select_account'
+}
+
+// Vue.use(GAuth, gauthOption);
 
 Vue.prototype.$newSocket = VueSocketio;
 Vue.prototype.$appUrl = appUrl;

@@ -10,11 +10,18 @@
 					<a-icon type="facebook" theme="filled" /> Facebook-ээр нэвтрэх
 				</a-button>
 
-				<a-button type="primary" block class="login-form-button" style="background: #D0463B; border: #D0463B;">
+				<a-button @click="loginWithGoogle" type="primary" block class="login-form-button" style="background: #D0463B; border: #D0463B;">
 					<a-icon type="google-square" class="google" theme="filled"/> Google-ээр нэвтрэх
 				</a-button>
 
-				<div class="g-signin2" data-onsuccess="onSignIn"></div>
+				<div id="signinDiv"></div>
+				<!-- <g-signin-button
+					:params="googleSignInParams"
+					@success="onSignInSuccess"
+					@error="onSignInError">
+					Sign in with Google
+				</g-signin-button> -->
+				<!-- <div class="g-signin2" data-width="300" data-height="200" data-longtitle="true"></div> -->
 			</div>
 			<div class="description">
 				<div><span class="alert">САНАМЖ </span>: Фэйсбүүк, Гүүглээр нэвтрэх үед манай сайтын зүгээс таны хувийн аккаунтын <span class="alert">нэвтрэх нэр, нууц үг</span> зэрэг мэдээлэлд хандах боломжгүй. Учир нь нэвтрэх үйлдэл нь манай сайтаас гарч <span class="alert">Facebook, Google</span> сайт дээр хийгддэг.</div>
@@ -60,14 +67,43 @@ const year = new Date().getFullYear();
 				// Binded model property for "Sign In Form" switch button for "Remember Me" .
 				rememberMe: true,
 				year,
-				checked: false
+				checked: false,
+				googleSignInParams: {
+					client_id: '61370778317-7d7bp5u4hja7gck3vi8gfn47608bupb6.apps.googleusercontent.com'
+				}
 			}
 		},
 		async mounted() {
 			await this.loadFacebookSDK(document, "script", "facebook-jssdk");
       await this.initFacebook();
+			await this.loadGoogleSDK(document, "script", "google-jssdk");
+			// await this.initGoogle();
 		},
 		methods: {
+			loginWithGoogle() {
+				const opt = {
+						prompt: 'select_account',
+						scope: 'profile email'
+				};
+
+				gapi.auth2.getAuthInstance().grantOfflineAccess(opt).then(async function(e) {
+					console.log(e);
+				});
+
+				// console.log(google.accounts.o, '===');
+			},
+			async initGoogle() {
+				window.gapi.load('auth2', function() {
+					window.gapi.auth2.init({
+						client_id: '61370778317-7d7bp5u4hja7gck3vi8gfn47608bupb6.apps.googleusercontent.com'
+					})
+				});
+
+				// google.accounts.id.initialize({
+				// 	client_id: '61370778317-7d7bp5u4hja7gck3vi8gfn47608bupb6.apps.googleusercontent.com'
+				// });
+				// google.accounts.id.prompt();
+			},
 			async loadFacebookSDK(d, s, id) {
 				var js,
 					fjs = d.getElementsByTagName(s)[0];
@@ -79,7 +115,29 @@ const year = new Date().getFullYear();
 				js.id = id;
 				js.src = "https://connect.facebook.net/en_US/sdk.js";
 				fjs.parentNode.insertBefore(js, fjs);
-				return true;
+				return true; 
+			},
+			async loadGoogleSDK(d, s, id) {
+				var js,
+					fjs = d.getElementsByTagName(s)[0];
+				if (d.getElementById(id)) {
+					return;
+				}
+				
+				js = d.createElement(s);
+				js.id = id;
+				js.defer = true;
+				js.async = true;
+				// js.src = "https://accounts.google.com/gsi/client";
+				js.src = "https://apis.google.com/js/platform.js";
+				fjs.parentNode.insertBefore(js, fjs);
+
+				let timer = setInterval(() => {
+					if (window.gapi) {
+						clearInterval(timer);
+						this.initGoogle();
+					}
+				}, 10);
 			},
 			async initFacebook() {
 				window.fbAsyncInit = function() {

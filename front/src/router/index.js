@@ -102,16 +102,6 @@ let routes = [
 		component: () => import('../views/Sign-In.vue'),
 	},
 	{
-		path: '/sign-up',
-		name: 'Sign-Up',
-		meta: {
-			layoutClass: 'layout-sign-up',
-			title: 'Typing - Бүртгүүлэх',
-			auth: false
-		},
-		component: () => import('../views/Sign-Up.vue'),
-	},
-	{
 		path: '/program-1/:id',
 		name: 'intro',
 		// layout: "dashboard",

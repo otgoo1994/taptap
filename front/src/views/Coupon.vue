@@ -74,8 +74,8 @@
       <div class="description">
         <span class="alert">Санамж</span>: Та купон кодоо зөвхөн <b>нэг удаа</b> ашиглах боломжтой. 
       </div>
-      <input type="text" class="promo-input" placeholder="Купон кодоо оруулна уу">
-      <div class="submit">
+      <input type="text" v-model="coupon" class="promo-input" placeholder="Купон кодоо оруулна уу">
+      <div @click="useCoupon" class="submit">
         АШИГЛАХ
       </div>
     </div>
@@ -87,6 +87,11 @@ export default {
     return {
       coupon: ''
     }
-  }
+  },
+  methods: {
+    async useCoupon() {
+      const data = await this.$_request('POST', this.$appUrl +`/purchase/use-coupon`, {coupon: this.coupon.toUppserCase()});
+    }
+  },
 }
 </script>

@@ -1,9 +1,7 @@
-const db = require("../config/db");
 const nodemailer = require("nodemailer");
-const sha256 = require("js-sha256");
-const jwt = require('jwt-then');
 const axios = require('axios');
-  
+const query = require("../config/query");
+const exec = require("../config/promise");
 
 const qpayTemplateId = "TEST_INVOICE";
 const qpayMerchantId = "TEST_MERCHANT";
@@ -90,29 +88,80 @@ async function getToken() {
     return await str;
 }
 
+const method = {    
+    updateUserExpireDate: async function(req, month) {
+        const user = await exec.getPayload(req);
+        let string = query.getUserInfo(user.id);
+        
+        const data = await exec.execute(string);
+
+        if (!data.length) {
+            return false;
+        }
+
+
+        
+
+        const dt = new Date(new Date(data[0].end_at).getTime() > Date.now() ? data[0].end_at : Date.now()); 
+
+        let date = new Date(
+            ( dt ).setDate( dt.getDate() + month )
+        ).toISOString().replace(/T/, ' ').replace(/\..+/, '');
+        
+
+        string = `UPDATE users SET end_at = '${date}', updated_at = NOW() WHERE id = ${user.id}`;
+        const upt = await exec.execute(string);
+
+        if (!upt) {
+            return false;
+        }
+
+        return data;
+    }
+}
 
 
 const useCoupon = async (req, res) => {
     const { coupon } = req.body;
 
-    console.log(coupon, '====');
-    // let check = `SELECT month from coupons WHERE enable = 1 AND used = 0 AND coupon = '${coupon}'`;
-    // db.query(check, async (err, result) => {
-    //     if(err) {
-    //         throw err;
-    //     }
+    let string = query.getCoupon(coupon);
+    const code = await exec.execute(string);
+    if (code.length > 0) {
 
-    //     if(result.length > 0) {
-    //         res.json({
-    //             result: 'success',
-    //             data: result[0]
-    //         });
-    //     } else {
-    //         res.json({
-    //             result: 'fail'
-    //         });
-    //     }
-    // });
+        const user = await method.updateUserExpireDate(req, code[0].month);
+        if (!user) {
+            res.status(200).json({
+                result: 'something went wrong',
+                status: 403
+            });
+            return;
+        }
+
+        
+
+
+        string = query.updateCoupon(coupon);
+        const upt = await exec.execute(string);
+        
+        if (!upt) {
+            res.status(200).json({
+                result: 'something went wrong',
+                status: 403
+            });
+            return;
+        }   
+
+        return res.json({
+            result: 'success',
+            data: code[0],
+            user: user[0]
+        });
+    }
+
+    res.json({
+        result: 'fail',
+        status: 404
+    });
 }
 
   //   exports.qpayCreateBill = async (req, res) => {

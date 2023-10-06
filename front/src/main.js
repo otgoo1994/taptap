@@ -12,7 +12,7 @@ import DashboardLayout from './layouts/Dashboard.vue'
 import DashboardRTLLayout from './layouts/DashboardRTL.vue'
 import VueSocketio from 'vue-socket.io';
 import router from './router'
-import { detectRequest, keyboards } from './common.js';
+import { detectRequest, keyboards, createEvent } from './common.js';
 import GAuth from 'vue-google-oauth2';
 // import './plugins/click-away'
 
@@ -35,6 +35,7 @@ Vue.prototype.$appUrl = appUrl;
 Vue.prototype.$axios = axios;
 Vue.prototype.$_request = detectRequest;
 Vue.prototype.$_keyboards = keyboards;
+Vue.prototype.$_event = createEvent;
 Vue.use(ElementUI);
 Vue.use(Antd);
 

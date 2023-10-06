@@ -23,7 +23,7 @@
 
 					<!-- Header Control Buttons -->
 					<a-dropdown :trigger="['click']" overlayClassName="header-notifications-dropdown" :getPopupContainer="() => wrapper">
-						<a-badge count="4">
+						<a-badge count="1">
 							<a class="ant-dropdown-link" @click="e => e.preventDefault()">
 								<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 									<path d="M10 2C6.68632 2 4.00003 4.68629 4.00003 8V11.5858L3.29292 12.2929C3.00692 12.5789 2.92137 13.009 3.07615 13.3827C3.23093 13.7564 3.59557 14 4.00003 14H16C16.4045 14 16.7691 13.7564 16.9239 13.3827C17.0787 13.009 16.9931 12.5789 16.7071 12.2929L16 11.5858V8C16 4.68629 13.3137 2 10 2Z" fill="#111827"/>
@@ -32,7 +32,7 @@
 							</a>
 						</a-badge>
 						
-						<a-list item-layout="horizontal" class="header-notifications-list" :data-source="notificationsData" slot="overlay">
+						<!-- <a-list item-layout="horizontal" class="header-notifications-list" :data-source="notificationsData" slot="overlay">
 							<a-list-item slot="renderItem" slot-scope="item">
 								<a-list-item-meta>
 									<template #description>
@@ -42,18 +42,10 @@
 										<span>{{ item.time }}</span>
 									</template>
 									<a slot="title" href="#">{{ item.title }}</a>
-									<a-avatar v-if="item.img"
-										slot="avatar"
-										shape="square"
-										:src="item.img"
-									/>
-									<a-avatar v-else
-										shape="square"
-										slot="avatar"  v-html="item.svg"/>
 									
 								</a-list-item-meta>
 							</a-list-item>
-						</a-list>
+						</a-list> -->
 					</a-dropdown>
 					<!-- <a-button type="link" ref="secondarySidebarTriggerBtn" @click="$emit('toggleSettingsDrawer', true)">
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -67,9 +59,14 @@
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path fill-rule="evenodd" clip-rule="evenodd" d="M18 10C18 14.4183 14.4183 18 10 18C5.58172 18 2 14.4183 2 10C2 5.58172 5.58172 2 10 2C14.4183 2 18 5.58172 18 10ZM12 7C12 8.10457 11.1046 9 10 9C8.89543 9 8 8.10457 8 7C8 5.89543 8.89543 5 10 5C11.1046 5 12 5.89543 12 7ZM9.99993 11C7.98239 11 6.24394 12.195 5.45374 13.9157C6.55403 15.192 8.18265 16 9.99998 16C11.8173 16 13.4459 15.1921 14.5462 13.9158C13.756 12.195 12.0175 11 9.99993 11Z" fill="#111827"/>
 						</svg>
-						<span>Sign In</span>
+						<span>Log in</span>
 					</router-link>
-					<a class="btn-sign-in" href="javascript:;" v-else>
+					<a class="btn-sign-in" href="javascript:;" v-else style="text-align: center; line-height: 100%;">
+						<span class="el-dropdown-link">
+							<b>{{expiredDate}}</b><br> хоног
+						</span>
+					</a>
+					<a class="btn-sign-in" href="javascript:;" v-if="user">
 						<el-dropdown @command="signout">
 							<span class="el-dropdown-link">
 								<span>Сайн уу? {{this.user.name}}</span> <i class="el-icon-arrow-down el-icon--right"></i>
@@ -159,6 +156,12 @@
 				user: null
 			}
 		},
+		computed: {
+			expiredDate() {
+				const day = new Date(this.user.end_at).getTime() - Date.now();
+				return Math.ceil(day / 1000 / 86400);
+			}
+		},
 		methods: {
 			resizeEventHandler(){
 				this.top = this.top ? 0 : -0.01 ;
@@ -170,6 +173,7 @@
 			},
 			checkUser() {
 				const user = JSON.parse(localStorage.getItem('user'));
+				console.log(user, '===');
 				if (!user) {
 					return;
 				}
@@ -180,14 +184,21 @@
 				localStorage.removeItem('user');
 				localStorage.removeItem('token');
 				this.$router.push('/');
+			},
+			changeUserProperty(user) {
+				localStorage.user = JSON.stringify(user);
+				this.user = user;
 			}
 		},
 		mounted: function(){
 			// Set the wrapper to the proper element, layout wrapper.
 			this.wrapper = document.getElementById('layout-dashboard') ;
-			Event.$on('navbarname', (name) => {
+
+			this.$_event('navbarname', (name) => {
 				this.bartitle = name
 			});
+
+			this.$_event('changeUserProperty', this.changeUserProperty);
 			this.checkUser();
 		},
 		created() {

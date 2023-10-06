@@ -88,9 +88,25 @@ export default {
       coupon: ''
     }
   },
+  mounted() {
+    Event.$emit('navbarname', 'Хөнгөлтийн карт');
+  },
   methods: {
     async useCoupon() {
-      const data = await this.$_request('POST', this.$appUrl +`/purchase/use-coupon`, {coupon: this.coupon.toUppserCase()});
+      const data = await this.$_request('POST', this.$appUrl +`/purchase/use-coupon`, {coupon: this.coupon.toUpperCase()});
+      if (data.result == 'success') {
+        Event.$emit('changeUserProperty', data.user);
+        this.$notification['success']({
+          message: 'Амжилттай',
+          description: 'Купон код ашиглагдлаа'
+        });
+        return;
+      }
+
+      this.$notification['error']({
+        message: 'Амжилтгүй',
+        description: 'Идэвхитэй купон код олдсонгүй'
+      });
     }
   },
 }

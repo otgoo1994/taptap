@@ -186,5 +186,8 @@ li {
 <script>
 export default {
   // F7F7F7
+  mounted() {
+    Event.$emit('navbarname', 'Үйлчилгээний эрх сунгах');
+  },
 }
 </script>

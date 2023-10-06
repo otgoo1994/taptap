@@ -23,6 +23,10 @@ const detectRequest = async (method, url, data) => {
   return response.data ? response.data : true;
 }
 
+const createEvent = async (name, method) => {
+    Event.$on( name, method );
+}
+
 const keyboards = {
   mon: async function(current) {
     let key = null, text = null, caps = null, image = null;
@@ -275,5 +279,6 @@ const keyboards = {
 
 export {
   detectRequest,
-  keyboards
+  keyboards,
+  createEvent
 };

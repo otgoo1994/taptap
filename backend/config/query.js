@@ -48,10 +48,16 @@ const query = {
   },
   getCoupon: function(coupon) {
     if (coupon) {
-      return `SELECT * FROM coupons WHERE coupon = '${coupon}'`;
+      return `SELECT * FROM coupons WHERE enable = 1 AND used = 0 AND coupon = '${coupon}'`;
     }
 
     return 'SELECT * FROM coupons';
+  },
+  updateCoupon: function(coupon) {
+    return `UPDATE coupons SET used = 1, enable = 0 WHERE coupon = '${coupon}'`
+  },
+  getUserInfo: function(id) {
+    return `SELECT id, name, phone, image, active, end_at, point, avg_wpm, record_wpm from users WHERE id = ${id}`
   }
 };
 

@@ -1,4 +1,5 @@
 ﻿const db = require("../config/db");
+const jwt = require('jwt-then');
 
 const method = {
   execute: async function(string, data) {
@@ -21,6 +22,11 @@ const method = {
         });
       });
     }
+  },
+  getPayload: async function(req) {
+    const token = req.headers.authorization.split(" ")[1];
+    const payload = await jwt.verify(token, 'HS256');
+    return payload;
   }
 };
 

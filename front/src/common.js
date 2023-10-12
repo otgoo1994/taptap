@@ -27,6 +27,20 @@ const createEvent = async (name, method) => {
     Event.$on( name, method );
 }
 
+const methods = {
+    dateDistance: function(end) {
+        const now = new Date().getTime();
+        const distance = new Date(end).getTime() - now;
+    
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    
+        return { days, hours, minutes }; 
+    }
+}
+
+
 const keyboards = {
   mon: async function(current) {
     let key = null, text = null, caps = null, image = null;
@@ -280,5 +294,6 @@ const keyboards = {
 export {
   detectRequest,
   keyboards,
-  createEvent
+  createEvent,
+  methods
 };

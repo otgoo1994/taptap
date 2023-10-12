@@ -8,7 +8,7 @@ Date.prototype.addHours = function(h){
 
 const query = {
   checkFbLogin: function(id) {
-    return `SELECT id, name, phone, image, active, end_at, point, avg_wpm, record_wpm  from users WHERE facebook = '${id}'`;
+    return `SELECT id, name, phone, email, image, active, end_at, point, avg_wpm, record_wpm, lesson, avg_percent, rank  from users WHERE facebook = '${id}'`;
   },
   checkBlackList: function(id) {
     return `SELECT id from blacklist WHERE userId = ${id}`;
@@ -57,7 +57,25 @@ const query = {
     return `UPDATE coupons SET used = 1, enable = 0 WHERE coupon = '${coupon}'`
   },
   getUserInfo: function(id) {
-    return `SELECT id, name, phone, image, active, end_at, point, avg_wpm, record_wpm from users WHERE id = ${id}`
+    return `SELECT id, name, phone, image, email, active, end_at, point, avg_wpm, record_wpm, lesson, avg_percent, rank from users WHERE id = ${id}`
+  },
+  isPaidQpay: function(invoiceId) {
+    return `SELECT orders.status, users.end_at, orders.updated_at from orders inner join users on orders.userId = users.id WHERE orders.invoice_id = '${invoiceId}' AND orders.status = 'PAID'`;
+  },
+  checkQpayRecord: function(status, type, id) {
+    return `SELECT payment_id, invoice_id, qpayqr FROM orders WHERE status = '${status}' AND type = ${type} AND userId = ${id}`;
+  },
+  selectOrder: function(ordernumber, id) {
+    return `SELECT qpayqr, payment_id, type, amount, status, created_at, end_at, updated_at FROM orders WHERE invoice_id = '${ordernumber}' AND userId = ${id}`
+  },
+  confirmVerifyCode: function(email, token) {
+    return `SELECT id from t_user_verify WHERE email = '${email}' AND verify_code = '${token}'`;
+  },
+  activeUserEmail: function(email) {
+    return `UPDATE users SET active = 1 WHERE email = '${email}'`;
+  },
+  userLogin: function(email, password) {
+    return `SELECT id, name, phone, email, image, active, end_at, point, avg_wpm, record_wpm, lesson, avg_percent, rank FROM users WHERE email = '${email}' AND password = '${sha256(password + process.env.SALT)}'`;
   }
 };
 

@@ -12,13 +12,14 @@ import DashboardLayout from './layouts/Dashboard.vue'
 import DashboardRTLLayout from './layouts/DashboardRTL.vue'
 import VueSocketio from 'vue-socket.io';
 import router from './router'
-import { detectRequest, keyboards, createEvent } from './common.js';
+import { detectRequest, keyboards, createEvent, methods } from './common.js';
 import GAuth from 'vue-google-oauth2';
 // import './plugins/click-away'
+import VueQRCodeComponent from 'vue-qrcode-component'
 
 import './scss/app.scss';
-// const appUrl = 'http://localhost:8001';	
-const appUrl = 'https://api.typing.mn';	
+const appUrl = 'http://localhost:8001';	
+// const appUrl = 'https://api.typing.mn';	
 const token = localStorage.getItem('token');
 
 
@@ -36,7 +37,9 @@ Vue.prototype.$axios = axios;
 Vue.prototype.$_request = detectRequest;
 Vue.prototype.$_keyboards = keyboards;
 Vue.prototype.$_event = createEvent;
+Vue.prototype.$_method = methods;
 Vue.use(ElementUI);
+Vue.component('qr-code', VueQRCodeComponent)
 Vue.use(Antd);
 
 Vue.config.productionTip = false

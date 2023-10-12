@@ -2,11 +2,12 @@
 // 
 // Template's default layout styles.
 // 
-
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@200;300;400;500;600;700&display=swap');
 
 body {
 	padding: 0 0 30px 0;
 	background-color: $color-gray-2;
+	font-family: 'Montserrat', sans-serif;
 }
 
 .config-bar {
@@ -445,11 +446,53 @@ body {
 }
 
 .sign-in-container {
-	width: 50%;
+	width: 25%;
 	display: flex;
 	flex-direction: column;
 	// align-items: center;
 	justify-content: center;
+
+	@include mobile {
+		width: 90%;
+	}
+
+	.login-form-button {
+		background: #D0463B; 
+		border: #D0463B; 
+		border-radius: 10px;
+		margin-top: 10px;
+		// @include vw-convert-desktop('margin-top', 5px);
+		// @include vw-convert-desktop('height', 50px);
+		height: 50px;
+
+		@include mobile {
+			// @include vw-convert-mobile('margin-top', 5px);
+			margin-top: 10px;
+			@include vw-convert-mobile('height', 80px);
+		}
+	}
+
+	.or-divider {
+		margin: 20px 0px 10px 0px;
+		text-align: center;
+		color: #bfbfbf;
+	}
+
+	.el-input input {
+		// @include vw-convert-desktop('height', 50px);
+		height: 50px;
+		border-radius: 10px;
+
+		@include mobile {
+			@include vw-convert-mobile('height', 80px);
+		}
+	}
+
+	.el-input.error {
+		input {
+			border-color: #D0463B;
+		}
+	}
 
 	.sign-up-gateways {
 		width: 40%;
@@ -459,12 +502,6 @@ body {
 			height: 50px;
 			margin-right: 2%;
 			font-size: 14px;
-		}
-
-		.login-form-button.google {
-			// background-color: yellow;	
-			background: #FFFFFF; border: #FFFFFF;
-			color: #000000;
 		}
 	}
 
@@ -719,4 +756,126 @@ body {
 	background: black;
 	opacity: 0.9;
 	z-index: 500;
+}
+
+.my-order {
+
+	// display: flex;
+	// align-items: center;
+	// justify-content: center;
+	// flex-direction: column;
+	width: 100%;
+	height: 100%;
+
+
+	.el-card {
+		width: 70%;
+		margin: auto;
+		@include vw-convert-desktop('border-radius', 10px);
+		@include vw-convert-desktop('margin-top', 20px);
+
+		@include mobile {
+			width: 100%;
+		}
+
+		.container {
+			display: flex;
+			flex-direction: row;
+
+			&.product {
+				border-top: 1px dashed #d4d4d4;
+				@include vw-convert-desktop('margin-top', 30px);
+				@include vw-convert-desktop('padding-top', 30px);
+			}
+	
+			.titles {
+				width: 50%;
+				font-weight: 600;
+
+				// &.product {
+				// 	@include vw-convert-desktop('margin-top', 50px);
+				// }
+
+				
+				@include mobile {
+					@include vw-convert-mobile('font-size', 22px);
+				}
+
+				.monitor {
+					color: grey;
+				}
+				
+	
+				&.countdown {
+					text-align: right;
+
+					.monitor {
+						font-weight: 500;
+						color: grey;
+					}
+
+					.timer {
+						color: #4f4f4f;
+						span {
+							color: black;
+						}
+
+						@include mobile {
+							@include vw-convert-mobile('font-size', 18px);
+						}
+					}
+				}
+			}
+
+			&.qrcode {
+				@include vw-convert-desktop('margin-top', 20px);
+
+				@include mobile {
+					@include vw-convert-mobile('margin-top', 20px);
+				}
+
+				.qr-cont {
+					width: 15%;
+					margin: auto;
+
+					@include mobile {
+						width: 50%;
+					}
+				}
+				img {
+					
+					width: 100%;
+				}
+			}
+
+			&.description {
+				flex-direction: column;
+				@include vw-convert-desktop('margin-top', 20px);
+				@include vw-convert-desktop('font-size', 15px);
+
+				@include mobile {
+					@include vw-convert-mobile('font-size', 20px);
+					@include vw-convert-mobile('margin-top', 20px);
+				}
+
+				span {
+					color: #e2b714;
+				}
+
+				&.success {
+					background-color: #fff5d6;
+					@include vw-convert-desktop('padding', 10px);
+					@include vw-convert-desktop('border-radius', 10px);
+					text-align: center;
+				}
+			}
+
+			&.footer {
+				@include vw-convert-desktop('margin-top', 50px);
+				@include mobile {
+					@include vw-convert-mobile('margin-top', 50px);
+				}
+			}
+		}
+	}
 }

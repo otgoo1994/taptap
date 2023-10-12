@@ -2,7 +2,6 @@ const router = require('express').Router();
 const { catchErrors } = require('../handlers/errorHandler');
 const textController  = require('../controllers/textController');
 const auth = require('../middlewares/auth');
-const onlyAuth = require('../middlewares/OnlyAuth');
 
 router.post('/get-practice', catchErrors(textController.getBeginText));
 router.post('/selected-text', auth, catchErrors(textController.getSelectecText));

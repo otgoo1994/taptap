@@ -102,6 +102,15 @@ let routes = [
 		component: () => import('../views/Sign-In.vue'),
 	},
 	{
+		path: '/verify',
+		name: 'Verify',
+		meta: {
+			title: 'Typing - Баталгаажуулалт',
+			auth: false
+		},
+		component: () => import('../views/ConfirmEmail.vue'),
+	},
+	{
 		path: '/program-1/:id',
 		name: 'intro',
 		// layout: "dashboard",
@@ -146,7 +155,7 @@ let routes = [
 		name: 'price',
 		layout: "dashboard",
 		meta: {
-			title: 'Typing - Нэг гарын дадлагжуулалт',
+			title: 'Typing - Эрх сунгах',
 			auth: false
 		},
 		component: () => import('../views/Price.vue'),
@@ -156,10 +165,20 @@ let routes = [
 		name: 'usecoupon',
 		layout: "dashboard",
 		meta: {
-			title: 'Typing - Нэг гарын дадлагжуулалт',
+			title: 'Typing - Хөнгөлөлтийн карт',
 			auth: false
 		},
 		component: () => import('../views/Coupon.vue'),
+	},
+	{
+		path: '/order/:invoiceId',
+		name: 'order',
+		layout: "dashboard",
+		meta: {
+			title: 'Typing - Гүйлгээний мэдээлэл',
+			auth: false
+		},
+		component: () => import('../views/Order.vue'),
 	}
 ]
 

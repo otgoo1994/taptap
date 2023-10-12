@@ -13,6 +13,7 @@ $accent-color: #33c4b6;
     transform: translate(-50%, -50%);
 }
 .package {
+  user-select: none;
   cursor: pointer;
   box-sizing: border-box;
   @include vw-convert-desktop('width', 250px);
@@ -127,7 +128,7 @@ li {
 <template>
   <div class='wrapper'>
     <div>
-      <div class='package'>
+      <div class='package' amount="3900" @click="purchase">
         <div class='name'>Limited</div>
         <div class='price'>₮3,900</div>
         <div class='trial'>1 сарын эрх</div>
@@ -147,7 +148,7 @@ li {
           </li>
         </ul>
       </div>
-      <div class='package brilliant'>
+      <div class='package brilliant' amount="9900" @click="purchase">
         <div class='name'>Brilliant</div>
         <div class='price'>₮9,900</div>
         <div class='trial'>3 сарын эрх</div>
@@ -188,6 +189,36 @@ export default {
   // F7F7F7
   mounted() {
     Event.$emit('navbarname', 'Үйлчилгээний эрх сунгах');
+  },
+  data() {
+    return { }
+  },
+  methods: {
+    async purchase(evt) {
+
+      var token = localStorage.getItem("token");
+      if (!token) { 
+        this.$router.push('/sign-in'); 
+        
+        this.$notification['error']({
+          message: 'Амжилтгүй',
+          description: 'Нэвтэрсэн байх шаардлагатай'
+        });
+
+        return;
+      }
+
+      const amount = parseInt(evt.currentTarget.getAttribute('amount'));
+      const data = await this.$_request('POST', this.$appUrl +`/purchase/qpay-create-bill`, {amount});
+      if (!data.status || data.status !== 200) {
+        this.$notification['error']({
+          message: 'Амжилтгүй'
+        });
+        return;
+      }
+
+      this.$router.push({ path: '/order/' + data.payment.invoice_id});
+    }
   },
 }
 </script>

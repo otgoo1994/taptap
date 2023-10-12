@@ -3,6 +3,13 @@ var cors = require('cors')
 const app = express();
 const fileupload = require('express-fileupload');
 
+Date.prototype.addDays = function(days) {
+  var date = new Date(this.valueOf());
+  date.setDate(date.getDate() + days);
+  return date;
+}
+
+
 app.use(express.json());
 app.use(fileupload());
 app.use(cors({

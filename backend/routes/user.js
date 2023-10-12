@@ -1,10 +1,8 @@
 const router = require('express').Router();
 const { catchErrors } = require('../handlers/errorHandler');
 const userController  = require('../controllers/user');
-const auth = require('../middlewares/OnlyAuth');
+const auth = require('../middlewares/auth');
 
-// route
-// router.post("/login",catchErrors(userController.login));
 // router.post("/register",catchErrors(userController.register));
 // router.get("/current", auth, catchErrors(userController.currentUser));
 // router.get("/top-all-time", catchErrors(userController.Tops));
@@ -12,7 +10,6 @@ const auth = require('../middlewares/OnlyAuth');
 // router.get("/verify-mail", catchErrors(userController.VerifyEmail));
 // router.post("/forgot-password", catchErrors(userController.forgotPassword));
 // router.post("/change-password", auth, catchErrors(userController.changePassword));
-// router.post("/get-user-info", auth, catchErrors(userController.LoggedUserInfo));
 // router.post("/update-profile", auth, catchErrors(userController.UpdateProfile));
 // router.post("/update-profile-info", auth, catchErrors(userController.UpdateInfo));
 // router.post("/get-friends", auth, catchErrors(userController.GetFriends));
@@ -23,5 +20,11 @@ const auth = require('../middlewares/OnlyAuth');
 
 
 router.post("/facebook-login", catchErrors(userController.facebookLogin));
+router.post("/get-user-info", auth, catchErrors(userController.LoggedUserInfo));
+router.post("/login",catchErrors(userController.login));
+router.post("/check-user-email",catchErrors(userController.checkUserEmail));
+router.post("/register",catchErrors(userController.register));
+router.post("/send-verify-code",catchErrors(userController.sendVerifyAgain));
+router.post("/confirm-verify-code", catchErrors(userController.confirmVerifyCode));
 
 module.exports = router;

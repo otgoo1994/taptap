@@ -93,8 +93,23 @@ export default {
   },
   methods: {
     async useCoupon() {
+      if (this.coupon == '') { return; }
+
+      var token = localStorage.getItem("token");
+      if (!token) { 
+        this.$router.push('/sign-in'); 
+        
+        this.$notification['error']({
+          message: 'Амжилтгүй',
+          description: 'Нэвтэрсэн байх шаардлагатай'
+        });
+
+        return;
+      }
+      
       const data = await this.$_request('POST', this.$appUrl +`/purchase/use-coupon`, {coupon: this.coupon.toUpperCase()});
-      if (data.result == 'success') {
+        if (data.result == 'success') {
+        
         Event.$emit('changeUserProperty', data.user);
         this.$notification['success']({
           message: 'Амжилттай',

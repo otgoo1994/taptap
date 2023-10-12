@@ -67,13 +67,13 @@
 						</span>
 					</a>
 					<a class="btn-sign-in" href="javascript:;" v-if="user">
-						<el-dropdown @command="signout">
+						<el-dropdown @command="handleCommand">
 							<span class="el-dropdown-link">
 								<span>Сайн уу? {{this.user.name}}</span> <i class="el-icon-arrow-down el-icon--right"></i>
 							</span>
 							<el-dropdown-menu slot="dropdown">
-								<el-dropdown-item>Хувийн мэдээлэл</el-dropdown-item>
-								<el-dropdown-item command divided>Гарах</el-dropdown-item>
+								<el-dropdown-item command="profile">Хувийн мэдээлэл</el-dropdown-item>
+								<el-dropdown-item command="signout" divided>Гарах</el-dropdown-item>
 							</el-dropdown-menu>
 						</el-dropdown>
 					</a>
@@ -163,6 +163,9 @@
 			}
 		},
 		methods: {
+			handleCommand(command) {
+				command == 'signout' ? this.signout() : this.profile();
+			},
 			resizeEventHandler(){
 				this.top = this.top ? 0 : -0.01 ;
 				// To refresh the header if the window size changes.
@@ -173,21 +176,35 @@
 			},
 			checkUser() {
 				const user = JSON.parse(localStorage.getItem('user'));
-				console.log(user, '===');
 				if (!user) {
 					return;
 				}
 
 				this.user = user;
 			},
+			profile() {
+				this.$router.push('/profile');
+			},
 			signout() {
 				localStorage.removeItem('user');
 				localStorage.removeItem('token');
+				this.user = null;
 				this.$router.push('/');
 			},
 			changeUserProperty(user) {
 				localStorage.user = JSON.stringify(user);
 				this.user = user;
+			},
+			async getUserInfo() {
+				const user = JSON.parse(localStorage.getItem('user'));
+				if (!user) {
+					return;
+				}
+
+				const data = await this.$_request('POST', this.$appUrl +`/user/get-user-info`);
+				if (!data) { return; }
+				this.user = data.user;
+				localStorage.user = JSON.stringify(data.user);
 			}
 		},
 		mounted: function(){
@@ -199,12 +216,13 @@
 			});
 
 			this.$_event('changeUserProperty', this.changeUserProperty);
-			this.checkUser();
+			// this.checkUser();
 		},
 		created() {
 			// Registering window resize event listener to fix affix elements size
 			// error while resizing.
 			window.addEventListener("resize", this.resizeEventHandler);
+			this.getUserInfo();
 		},
 		destroyed() {
 			// Removing window resize event listener.

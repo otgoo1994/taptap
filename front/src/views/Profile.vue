@@ -7,25 +7,24 @@
 	<div>
 
 		<!-- Header Background Image -->
-		<div class="profile-nav-bg" style="background-image: url('images/bg-profile.jpg')"></div>
+		<div class="profile-nav-bg" :style="{'background-image': 'url(\''+require('@/assets/images/keyboard_banner.png')+'\')', 'background-size': 'cover', 'margin-top': 0}"></div>
 		<!-- / Header Background Image -->
 
 		<!-- User Profile Card -->
-		<a-card :bordered="false" class="card-profile-head" :bodyStyle="{padding: 0,}">
+		<a-card :bordered="false" class="card-profile-head" :bodyStyle="{padding: 0,}" v-if="user">
 			<template #title>
 				<a-row type="flex" align="middle">
 					<a-col :span="24" :md="12" class="col-info">
-						<a-avatar :size="74" shape="square" src="images/face-1.jpg" />
+						<a-avatar :size="74" shape="square" :src="user.image" />
 						<div class="avatar-info">
-							<h4 class="font-semibold m-0">Sarah Jacob</h4>
-							<p>CEO / Co-Founder</p>
+							<h4 class="font-semibold m-0">{{user.name}}</h4>
+							<p>{{user.email}}</p>
 						</div>
 					</a-col>
 					<a-col :span="24" :md="12" style="display: flex; align-items: center; justify-content: flex-end">
 						<a-radio-group v-model="profileHeaderBtns" size="small">
-							<a-radio-button value="overview">OVERVIEW</a-radio-button>
-							<a-radio-button value="teams">TEAMS</a-radio-button>
-							<a-radio-button value="projects">PROJECTS</a-radio-button>
+							<a-radio-button value="overview">ХУВИЙН МЭДЭЭЛЭЛ</a-radio-button>
+							<a-radio-button value="teams">ЗАСВАРЛАХ</a-radio-button>
 						</a-radio-group>
 					</a-col>
 				</a-row>
@@ -34,6 +33,49 @@
 		<!-- User Profile Card -->
 
 		<a-row type="flex" :gutter="24">
+
+			<!-- Profile Information Column -->
+			<a-col :span="24" :md="8" class="mb-24">
+				<a-card :bordered="false" class="header-solid h-full card-profile-information" :bodyStyle="{paddingTop: 0, paddingBottom: '16px' }" :headStyle="{paddingRight: 0,}">
+					<template #title>
+						<h6 class="font-semibold m-0">Profile Information</h6>
+					</template>
+					<a-button type="link" slot="extra">
+						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+							<path class="fill-muted" d="M13.5858 3.58579C14.3668 2.80474 15.6332 2.80474 16.4142 3.58579C17.1953 4.36683 17.1953 5.63316 16.4142 6.41421L15.6213 7.20711L12.7929 4.37868L13.5858 3.58579Z" fill="#111827"/>
+							<path class="fill-muted" d="M11.3787 5.79289L3 14.1716V17H5.82842L14.2071 8.62132L11.3787 5.79289Z" fill="#111827"/>
+						</svg>
+					</a-button>
+					<hr class="mb-25">
+					<a-descriptions title="Oliver Liam" :column="1">
+						<a-descriptions-item label="Full Name">
+							Sarah Emily Jacob
+						</a-descriptions-item>
+						<a-descriptions-item label="Mobile">
+							(44) 123 1234 123
+						</a-descriptions-item>
+						<a-descriptions-item label="Email">
+							sarahjacob@mail.com
+						</a-descriptions-item>
+						<a-descriptions-item label="Location">
+							USA
+						</a-descriptions-item>
+						<a-descriptions-item label="Social">
+							<a href="#" class="mx-5 px-5">
+								<a-icon type="twitter" style="color: #3EA1EC;" />
+							</a>
+							<a href="#" class="mx-5 px-5">
+								<a-icon type="facebook" style="color: #344E86" />
+							</a>
+							<a href="#" class="mx-5 px-5">
+								<a-icon type="instagram" style="color: #E1306C" />
+							</a>
+						</a-descriptions-item>
+					</a-descriptions>
+				</a-card>
+
+			</a-col>
+			<!-- / Profile Information Column -->
 
 			<!-- Platform Settings Column -->
 			<a-col :span="24" :md="8" class="mb-24">
@@ -45,15 +87,7 @@
 			</a-col>
 			<!-- / Platform Settings Column -->
 
-			<!-- Profile Information Column -->
-			<a-col :span="24" :md="8" class="mb-24">
-
-				<!-- Profile Information Card -->
-				<CardProfileInformation></CardProfileInformation>
-				<!-- / Profile Information Card -->
-
-			</a-col>
-			<!-- / Profile Information Column -->
+			
 			
 			<!-- Conversations Column -->
 			<a-col :span="24" :md="8" class="mb-24">
@@ -214,15 +248,24 @@
 		},
 		data() {
 			return {
-				// Active button for the "User Profile" card's radio button group.
 				profileHeaderBtns: 'overview',
-
-				// Associating Conversation's list data with its corresponding property.
 				conversationsData,
-
-				// Project cards data
 				projects,
+				user: null
 			}
+		},
+		methods: {
+			getData() {
+				const user = JSON.parse(localStorage.getItem('user'));
+				if (!user) {
+					return;
+				}
+
+				this.user = user;
+			}
+		},
+		mounted() {
+			this.getData();
 		},
 	})
 

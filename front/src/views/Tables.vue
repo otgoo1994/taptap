@@ -237,7 +237,7 @@
     padding-left: 8px;
     padding-right: 8px;
     font-family: 'Exo 2', sans-serif;
-		color: #fff;
+		/* color: #fff; */
 }
 .lesson-box {
     padding-top: 20px;

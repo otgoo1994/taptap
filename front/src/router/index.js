@@ -179,6 +179,15 @@ let routes = [
 			auth: false
 		},
 		component: () => import('../views/Order.vue'),
+	},
+	{
+		path: '/reset-password',
+		name: 'reset-password',
+		meta: {
+			title: 'Typing - Нууц үг сэргээх',
+			auth: false
+		},
+		component: () => import('../views/resetPassword.vue'),
 	}
 ]
 

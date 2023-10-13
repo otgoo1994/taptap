@@ -76,6 +76,9 @@ const query = {
   },
   userLogin: function(email, password) {
     return `SELECT id, name, phone, email, image, active, end_at, point, avg_wpm, record_wpm, lesson, avg_percent, rank FROM users WHERE email = '${email}' AND password = '${sha256(password + process.env.SALT)}'`;
+  },
+  resetPassword: function(email, password) {
+    return `UPDATE users SET password ='${sha256(password + process.env.SALT)}' WHERE email = '${email}'`;
   }
 };
 

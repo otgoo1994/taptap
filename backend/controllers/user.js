@@ -276,6 +276,47 @@ const checkUserEmail = async (req, res) => {
   });
 }
 
+const resetPassword = async (req, res) => {
+  const { email } = req.body;
+
+  let string = query.checkUserEmail(email);
+  const user = await exec.execute(string);
+  if (!user.length) {
+    res.json({
+      result: 'failed',
+      status: 402
+    });
+    return;
+  }
+
+  var password = Math.random().toString(36).slice(-8);
+
+  string = query.resetPassword(email, password);
+  const update = await exec.execute(string);
+
+  if (!update) {
+    res.json({
+      result: 'failed',
+      status: 403
+    });
+    return;
+  }
+
+  const data = await exec.sendEmail(email, password, true);
+  if (!data) {
+    res.json({
+      result: 'failed',
+      status: 403
+    });
+    return;
+  }
+
+  res.json({
+    result: 'success',
+    status: 200
+  });
+}
+
 module.exports = {
   LoggedUserInfo,
   facebookLogin,
@@ -283,5 +324,6 @@ module.exports = {
   checkUserEmail,
   register,
   sendVerifyAgain,
-  confirmVerifyCode
+  confirmVerifyCode,
+  resetPassword
 }

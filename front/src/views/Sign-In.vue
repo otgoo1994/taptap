@@ -4,7 +4,7 @@
 			<div v-if="!register">
 				<el-input placeholder="Имэйл хаяг" @input="input" ref="email" clearable v-model="email" v-if="!confirmed"></el-input>
 				<el-input placeholder="Нууц үг" show-password v-model="password" v-else></el-input>
-				<div v-if="confirmed" style="text-align: right;">
+				<div style="text-align: right;">
 					<router-link style="color: #000; " to="reset-password">Нууц үгээ мартсан?</router-link>
 				</div>
 

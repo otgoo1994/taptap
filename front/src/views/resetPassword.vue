@@ -48,8 +48,25 @@ const year = new Date().getFullYear();
       
     },
     methods: {
+      async validateEmail(email) {
+				return String(email)
+					.toLowerCase()
+					.match(
+						/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+					);
+			},
+      input() {
+				this.$refs.email.$el.classList.remove('error');
+			},
       async reset() {
-        if (!this.email || this.email == '') {
+        const reg = await this.validateEmail(this.email);
+        if (!reg) {
+          this.$notification['error']({
+            message: 'Амжилтгүй',
+            description: 'Имэйлээ оруулна уу'
+          });
+
+          this.$refs.email.$el.classList.add('error');
           return;
         }
 

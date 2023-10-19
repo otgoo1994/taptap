@@ -49,6 +49,16 @@ let routes = [
 		component: () => import('../views/addLesson.vue'),
 	},
 	{
+		path: '/edit-lesson/:id',
+		name: 'Хичээл засварлах',
+		layout: "dashboard",
+		meta: {
+			title: 'typing.mn',
+			auth: true
+		},
+		component: () => import('../views/editLesson.vue'),
+	},
+	{
 		path: '/sign-in',
 		name: 'Sign-In',
 		meta: {

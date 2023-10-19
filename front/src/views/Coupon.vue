@@ -117,7 +117,7 @@ export default {
         });
         return;
       }
-
+  
       this.$notification['error']({
         message: 'Амжилтгүй',
         description: 'Идэвхитэй купон код олдсонгүй'

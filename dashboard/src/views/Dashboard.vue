@@ -244,6 +244,7 @@
 			},
 			handleEdit(idx, row) {
 				console.log(idx, row);
+				this.$router.push('edit-lesson/' + row.id);
 			},
 			async getList() {
 				const data = await this.$_request('POST', this.$appUrl + '/admin/get-lesson-list');

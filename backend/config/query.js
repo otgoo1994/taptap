@@ -31,6 +31,25 @@ const query = {
   insert: function(table) {
     return 'INSERT INTO ' + table + ' SET ? ';
   },
+  updateCurrentLesson: function(params, values) {
+    if (!values.id) {
+      return; 
+    }
+
+    let str = 'UPDATE lesson SET ';
+    params.forEach((element, index) => {
+      if (!values[element]) {
+        return;
+      }
+      
+      !index ? str += `${element} = '${values[element]}'` : 
+        str += `, ${element} = '${values[element]}'`;
+    });
+
+    str += ' WHERE id = ' + values.id;
+
+    return str;
+  },
   checkUserEmail: function(email) {
     return `SELECT id, name, phone, image, active, end_at, point, avg_wpm, record_wpm  from users WHERE email = '${email}'`;
   },
@@ -79,6 +98,9 @@ const query = {
   },
   resetPassword: function(email, password) {
     return `UPDATE users SET password ='${sha256(password + process.env.SALT)}' WHERE email = '${email}'`;
+  },
+  getCurrentLesson: function(id) {
+    return `SELECT * from lesson WHERE id = ${id}`;
   }
 };
 

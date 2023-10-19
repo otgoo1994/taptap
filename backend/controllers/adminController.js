@@ -135,6 +135,24 @@ const login = async (req, res) => {
     });
 }
 
+const updateLesson = async (req, res) => {
+  const { info, id } = req.body;
+  const string = query.updateCurrentLesson(['text', 'type', 'lang', 'lvl', 'holdword', 'url', 'groupId', 'lessonname', 'image'], info);
+
+  const update = await exec.execute(string);
+
+  if (!update) {
+    return res.status(200).json({
+      status: 403
+    })
+  }
+
+  return res.status(200).json({
+    status: 200
+  })
+
+}
+
 const addLesson = async (req, res) => {
   const { info } = req.body;
 
@@ -190,6 +208,22 @@ const getMaxLvl = async (req, res) => {
   })
 }
 
+const getCurrentLesson = async (req, res) => {
+  const { id } = req.body;
+  string = query.getCurrentLesson(id);
+  const curr = await exec.execute(string);
+  if(!curr.length) {
+    return res.status(200).json({
+      status: 403
+    })
+  }
+
+  return res.status(200).json({
+    status: 200,
+    lesson: curr[0]
+  })
+}
+
 const deleteLesson = async (req, res) => {
   const { id } = req.body;
 
@@ -216,5 +250,7 @@ module.exports = {
   deleteLesson,
   coupons,
   createCoupon,
-  deleteCoupon
+  deleteCoupon,
+  getCurrentLesson,
+  updateLesson
 };

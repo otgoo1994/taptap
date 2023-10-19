@@ -1,8 +1,9 @@
 <template>
 	<div id="app">
-		<component :is="layout">
+		<component v-if="layout" :is="layout">
 			<router-view />
 		</component>
+		<router-view  v-else/>
 
 		<div class="loader" :hidden="!loader">
 				<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; display: block;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
@@ -31,6 +32,10 @@
 		},
 		computed: {
 			layout() {
+				if (this.$route.meta.game) {
+					return false;
+				}
+				
 				return "layout-" + ( this.$route.meta.layout || "default" ).toLowerCase() ;
 			}
 		},

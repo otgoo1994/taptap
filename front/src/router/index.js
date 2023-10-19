@@ -151,6 +151,17 @@ let routes = [
 		component: () => import('../views/hold.vue'),
 	},
 	{
+		path: '/pool.game',
+		name: 'pool-game',
+		// layout: "dashboard",
+		meta: {
+			title: 'Typing - Pool',
+			auth: true,
+			game: true
+		},
+		component: () => import('../views/Pool.vue'),
+	},
+	{
 		path: '/price',
 		name: 'price',
 		layout: "dashboard",

@@ -16,8 +16,7 @@ import { detectRequest } from './common.js';
 // import './plugins/click-away'
 
 import './scss/app.scss';
-// const appUrl = 'http://localhost:8001';	
-const appUrl = 'https://api.typing.mn';	
+const appUrl = window.location.hostname == 'localhost' ? 'http://localhost:8001' : 'https://api.typing.mn';
 const token = localStorage.getItem('token');
 Vue.prototype.$newSocket = VueSocketio;
 Vue.prototype.$appUrl = appUrl;

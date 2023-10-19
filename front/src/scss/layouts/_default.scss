@@ -879,3 +879,35 @@ body {
 		}
 	}
 }
+
+.game {
+	overflow: hidden;
+	.ant-card-body {
+		padding: 0 !important;
+	}
+
+
+	.lesson-name {
+		@include vw-convert-desktop(padding, 14px 0px 5px 10px);
+		font-weight: 700;
+	}
+
+	.lesson-desc { 
+		@include vw-convert-desktop(padding, 0px 0px 10px 10px);
+	}
+
+
+	.lesson-box {
+		@include vw-convert-desktop(padding, 10px);
+
+		@include mobile {
+			@include vw-convert-mobile(padding, 10px);
+		}
+		// @include vw-convert-desktop(height, 200px);
+		// overflow: hidden;
+		// position: relative;
+		img {
+			@include vw-convert-desktop('border-radius', 10px);
+		}
+	}
+}

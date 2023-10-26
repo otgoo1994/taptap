@@ -24,7 +24,7 @@
 					<a-col :span="24" :md="12" style="display: flex; align-items: center; justify-content: flex-end">
 						<a-radio-group v-model="profileHeaderBtns" size="small">
 							<a-radio-button value="overview">ХУВИЙН МЭДЭЭЛЭЛ</a-radio-button>
-							<a-radio-button value="teams">ЗАСВАРЛАХ</a-radio-button>
+							<a-radio-button value="teams">Нууц үг солих</a-radio-button>
 						</a-radio-group>
 					</a-col>
 				</a-row>
@@ -35,10 +35,10 @@
 		<a-row type="flex" :gutter="24">
 
 			<!-- Profile Information Column -->
-			<a-col :span="24" :md="8" class="mb-24">
+			<a-col :span="24" :md="8" class="mb-24" v-if="user">
 				<a-card :bordered="false" class="header-solid h-full card-profile-information" :bodyStyle="{paddingTop: 0, paddingBottom: '16px' }" :headStyle="{paddingRight: 0,}">
 					<template #title>
-						<h6 class="font-semibold m-0">Profile Information</h6>
+						<h6 class="font-semibold m-0">Хувийн мэдээлэл</h6>
 					</template>
 					<a-button type="link" slot="extra">
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -47,20 +47,17 @@
 						</svg>
 					</a-button>
 					<hr class="mb-25">
-					<a-descriptions title="Oliver Liam" :column="1">
-						<a-descriptions-item label="Full Name">
-							Sarah Emily Jacob
+					<a-descriptions :title="user.name" :column="1">
+						<a-descriptions-item label="Нэр">
+							{{user.name}}
 						</a-descriptions-item>
-						<a-descriptions-item label="Mobile">
-							(44) 123 1234 123
+						<a-descriptions-item label="Утасны дугаар">
+							(976) {{user.phone}}
 						</a-descriptions-item>
-						<a-descriptions-item label="Email">
-							sarahjacob@mail.com
+						<a-descriptions-item label="Имэйл">
+							{{user.email}}
 						</a-descriptions-item>
-						<a-descriptions-item label="Location">
-							USA
-						</a-descriptions-item>
-						<a-descriptions-item label="Social">
+						<a-descriptions-item label="Сошиал">
 							<a href="#" class="mx-5 px-5">
 								<a-icon type="twitter" style="color: #3EA1EC;" />
 							</a>
@@ -78,12 +75,27 @@
 			<!-- / Profile Information Column -->
 
 			<!-- Platform Settings Column -->
-			<a-col :span="24" :md="8" class="mb-24">
-
-				<!-- Platform Settings Card -->
-				<CardPlatformSettings></CardPlatformSettings>
-				<!-- / Platform Settings Card -->
-
+			<a-col :span="24" :md="8" class="mb-24" v-if="user">
+				<a-card :bordered="false" class="header-solid h-full card-profile-information" :bodyStyle="{paddingTop: 0, paddingBottom: '16px' }" :headStyle="{paddingRight: 0,}">
+					<template #title>
+						<h6 class="font-semibold m-0">Бусад мэдээлэл</h6>
+					</template>
+					<hr class="mb-25">
+					<a-descriptions title="WPM" :column="1">
+						<a-descriptions-item label="Нийт оноо">
+							{{user.point}} оноо
+						</a-descriptions-item>
+						<a-descriptions-item label="Үзсэн хичээл">
+							{{user.lesson}} хичээл
+						</a-descriptions-item>
+						<a-descriptions-item label="Дундаж">
+							{{user.avg_wpm}} WPM
+						</a-descriptions-item>
+						<a-descriptions-item label="Дээд">
+							{{user.record_wpm}} WPM
+						</a-descriptions-item>
+					</a-descriptions>
+				</a-card>
 			</a-col>
 			<!-- / Platform Settings Column -->
 
@@ -103,8 +115,7 @@
 
 		</a-row>
 		
-		<!-- Projects Card -->
-		<a-card :bordered="false" class="header-solid h-full mb-24" :bodyStyle="{paddingTop: '14px'}">
+		<!-- <a-card :bordered="false" class="header-solid h-full mb-24" :bodyStyle="{paddingTop: '14px'}">
 			<template #title>
 				<h6 class="font-semibold">Projects</h6>			
 				<p>Architects design houses</p>	
@@ -112,7 +123,6 @@
 
 			<a-row type="flex" :gutter="[24,24]" align="stretch">
 
-				<!-- Project Column -->
 				<a-col :span="24" :md="12" :xl="6" v-for="(project, index) in projects" :key="index">
 					<CardProject
 						:id="project.id"
@@ -122,12 +132,8 @@
 						:team="project.team"
 					></CardProject>
 				</a-col>
-				<!-- / Project Column -->
-
-				<!-- Project Column -->
 				<a-col :span="24" :md="12" :xl="6">
 
-					<!-- Project Upload Component -->
 					<a-upload
 						name="avatar"
 						list-type="picture-card"
@@ -146,13 +152,12 @@
 							</div>
 						</div>
 					</a-upload>
-					<!-- / Project Upload Component -->
 
 				</a-col>
-				<!-- / Project Column -->
 
 			</a-row>
-		</a-card>
+		</a-card> -->
+
 		<!-- / Projects Card -->
 
 	</div>
@@ -262,6 +267,7 @@
 				}
 
 				this.user = user;
+				console.log(this.user, '======');
 			}
 		},
 		mounted() {

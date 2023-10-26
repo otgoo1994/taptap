@@ -81,9 +81,9 @@
 
 
     .accordion {
-      background-color: rgb(32, 34, 36);
+      background-color: #FFFFFF;
       margin: 10px 0px 0px 0px;
-      color: #fff;
+      color: #666666;
       cursor: pointer;
       padding: 18px;
       width: 100%;
@@ -94,6 +94,7 @@
       border-radius: 10px;
       font-weight: 600;
       position: relative;
+      box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
       &.active {
         svg {
@@ -111,8 +112,9 @@
 
     .panel {
       padding: 0 18px;
-      color: #fff;
-      background-color: rgb(32, 34, 36);
+      color: #666666;
+      background-color: #f5f5f5;
+      // box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
       width: 100%;
       overflow: hidden;
       margin-top: -10px;

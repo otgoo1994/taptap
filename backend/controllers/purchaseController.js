@@ -231,7 +231,7 @@ const createrQpayBill = async (req, res) => {
     const payload = await exec.getPayload(req);
     const { amount } = req.body;
 
-    const type = amount === 3900 ? 1 : 2;
+    const type = amount === 5900 ? 1 : 2;
     const invoiceId = 'TY' + Date.now();
 
     let string = query.checkQpayRecord('PENDING', type, payload.id);

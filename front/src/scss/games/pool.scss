@@ -137,7 +137,7 @@
             transform: translateY(-50%);
             border: 1px solid black;
             @include vw-convert-desktop('border-radius', 0px 8px 8px 0px);
-            /* transition: 0.5s; */
+            transition: 0.5s;
           }
 
           .clock {

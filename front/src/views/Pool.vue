@@ -18,6 +18,11 @@
           <div @click="startGame" class="start">START</div>
         </div>
 
+        <div class="start-button" :hidden="hidden.gameover">
+          <div class="background" :style="{'background-image': 'url(\''+require('@/assets/images/games/tubes/thumbnail.png')+'\')'}"></div>
+          <div @click="refershLesson" class="start">TRY AGAIN</div>
+        </div>
+
         <div class="titles">
           <div class="body">
             <img class="titles-img" src="@/assets/images/games/tubes/point.png" alt="point">
@@ -144,7 +149,7 @@
 
             <div class="input-container-body">
               <div class="body-container">
-                <div class="input" id="input" @keypress="keypress" contenteditable></div>
+                <div class="input" ref="input" @keypress="keypress" contenteditable></div>
               </div>
             </div>
           </div>
@@ -213,7 +218,8 @@ export default {
       selectedIdx           : [],
       hidden                : {
         start               : false,
-        choose              : false
+        choose              : false,
+        gameover            : true
       },
       rank: 'EASY',
       timer: {
@@ -334,10 +340,13 @@ export default {
         Chart.defaults.font.size = 20;
         this.chart.keyword = new Chart(this.$refs.resultChart, config);
     },
-    checkLive: function() {
+    showGameOver() {
+      this.hidden.gameover = false;
+      clearInterval(this.timer.element);
+    },
+    checkLive() {
       if (this.live < 2) {
-        // methods.finishGame();
-        alert('game over');
+        this.showGameOver();
         return;
       }
 
@@ -365,6 +374,7 @@ export default {
 
       this.timer.seconds -= 1;
       this.changeProgress();
+      
     },
     startGame() {
       this.hidden.start = true;
@@ -378,6 +388,7 @@ export default {
       });
 
       this.timer.element = setInterval(this.handleTimer, 1000);
+      this.$refs.input.focus();
     },
     async generateIndex() {
       while(this.selectedIdx.length < 3) {
@@ -581,7 +592,8 @@ export default {
         }
       } else {
         this.sounds.error.play();
-        this.myScore-=200;
+
+        this.myScore >= 200 ? this.myScore-=200 : this.myScore = 0;
         this.counter.errors = word.length;
         this.counter.missed_word++;
 
@@ -627,15 +639,15 @@ export default {
       await this.generateText();
     },
     refershLesson() {
-        this.resetParams();
-        this.gettext();
+      this.resetParams();
+      this.gettext();
     },
     resetParams() {
         this.resultDialog = false;
         this.counter = { current : 0, realWpm: 0, accuracy: 0, wpm: 0, start: false, time_passed : 1, characters: 0, errors: 0 }
         this.chart.wpm = [];
-        this.$refs.percent.style.width = '100%';
-        this.hidden = { start : false, choose : false };
+        this.$refs.percent.style.width = '85%';
+        this.hidden = { start : false, choose : false, gameover: true };
         this.wordList = [];
         this.currentWords = [];
         this.findWordLength = 0;
@@ -648,7 +660,7 @@ export default {
     },
     async getNextLesson() {
         const data = await this.$_request('POST', this.$appUrl +'/lesson/next-lesson', {level: this.lesson.lvl + 1});
-        if (!data) { this.$router.push('/subjects'); return; }
+        if (data.result == 'fail') { this.$router.push('/subjects'); return; }
 
         const path = this.$_method.getLessonRoute(data.data.type);
 		    this.$router.push({name: path, params: {id: data.data.id}});

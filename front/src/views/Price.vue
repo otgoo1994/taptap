@@ -128,9 +128,9 @@ li {
 <template>
   <div class='wrapper'>
     <div>
-      <div class='package' amount="3900" @click="purchase">
+      <div class='package' amount="5900" @click="purchase">
         <div class='name'>Limited</div>
-        <div class='price'>₮3,900</div>
+        <div class='price'>₮5,900</div>
         <div class='trial'>1 сарын эрх</div>
         <hr>
         <ul>
@@ -148,9 +148,9 @@ li {
           </li>
         </ul>
       </div>
-      <div class='package brilliant' amount="9900" @click="purchase">
+      <div class='package brilliant' amount="12900" @click="purchase">
         <div class='name'>Brilliant</div>
-        <div class='price'>₮9,900</div>
+        <div class='price'>₮12,900</div>
         <div class='trial'>3 сарын эрх</div>
         <hr>
         <ul>

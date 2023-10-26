@@ -15,8 +15,8 @@
 
 			</a-col>
 			<a-col :span="24" :md="12" class="footer-control pr-20" align="right">
-				<!-- Typing.mn -->
-				Гео интегрэйшн ХХК
+				Typing.mn
+				<!-- Гео интегрэйшн ХХК -->
 			</a-col>
 		</a-row>
 	</a-layout-footer>

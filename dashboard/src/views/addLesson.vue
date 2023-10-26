@@ -207,7 +207,7 @@
 				lessons: [],
 				lessonGroup: [],
 				options: {
-					types: [{value: 'intro', label: 'Шинэ үсэг'}, {value: 'boxed', label: 'Давтлага үсэг'}, {value: 'review', label: 'Давтлага өгүүлбэр'}, {value: 'hold', label: '1 гарын дадлага'}],
+					types: [{value: 'intro', label: 'Шинэ үсэг'}, {value: 'boxed', label: 'Давтлага үсэг'}, {value: 'review', label: 'Давтлага өгүүлбэр'}, {value: 'hold', label: '1 гарын дадлага'}, {value: 'pool', label: 'Тоглоом (Усан сан)'}],
 					lang: [{value: 'mon', label: 'Монгол'}, {value: 'eng', label: 'English'}],
 					holdword: [{value: 'ө', label: 'Баруун'}, {value: 'р', label: 'Зүүн'}]
 				},

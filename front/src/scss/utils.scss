@@ -26,7 +26,22 @@ $size--desktop: 1920;
   }
 
   @media screen and (min-width: 1920px) {
-    #{$property}: $pixel;
+    // #{$property}: $pixel;
+    @if length($pixel)==1 {
+      #{$property}: deUnit($pixel) * 100 / deUnit($size--desktop) * 1vw;
+    }
+  
+    @else if length($pixel)==2 {
+      #{$property}: deUnit(nth($pixel, 1)) * 100 / deUnit($size--desktop) * 1vw deUnit(nth($pixel, 2)) * 100 / deUnit($size--desktop) * 1vw;
+    }
+  
+    @else if length($pixel)==3 {
+      #{$property}: deUnit(nth($pixel, 1)) * 100 / deUnit($size--desktop) * 1vw deUnit(nth($pixel, 2)) * 100 / deUnit($size--desktop) * 1vw deUnit(nth($pixel, 3)) * 100 / deUnit($size--desktop) * 1vw;
+    }
+  
+    @else if length($pixel)==4 {
+      #{$property}: deUnit(nth($pixel, 1)) * 100 / deUnit($size--desktop) * 1vw deUnit(nth($pixel, 2)) * 100 / deUnit($size--desktop) * 1vw deUnit(nth($pixel, 3))* 100 / deUnit($size--desktop) * 1vw deUnit(nth($pixel, 4)) * 100 / deUnit($size--desktop) * 1vw;
+    }
   }
 }
 

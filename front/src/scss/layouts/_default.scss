@@ -781,6 +781,7 @@ body {
 		.container {
 			display: flex;
 			flex-direction: row;
+			position: relative;
 
 			&.product {
 				border-top: 1px dashed #d4d4d4;
@@ -788,7 +789,7 @@ body {
 				@include vw-convert-desktop('padding-top', 30px);
 			}
 	
-			.titles {
+			.titles-order {
 				width: 50%;
 				font-weight: 600;
 

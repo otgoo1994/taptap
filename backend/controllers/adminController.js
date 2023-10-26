@@ -169,10 +169,15 @@ const addLesson = async (req, res) => {
     return;
   }
 
+  console.log(info.type);
 
-  info.image = info.type === 'boxed' ? 'practice.png' : (info.type === 'review' ? 'review.png': ( info.type === 'intro' ? 'newword.png' : 
-    info.holdword === 'ө' ? 'righthand.png' : 'lefthand.png'
-  ))
+  if (info.type === 'pool') {
+    info.image = 'pool.png';
+  } else {
+    info.image = info.type === 'boxed' ? 'practice.png' : (info.type === 'review' ? 'review.png': ( info.type === 'intro' ? 'newword.png' : 
+      info.holdword === 'ө' ? 'righthand.png' : 'lefthand.png'
+    ))
+  }
 
   if (info.holdword) {
     info.url = info.holdword === 'ө' ? 'lefthand.png' : 'righthand.png';

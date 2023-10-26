@@ -2,8 +2,8 @@
   <div class="my-order" v-if="current">
     <el-card v-if="current.status == 'PENDING'">
       <div class="container">
-        <div class="titles">Захиалгын мэдээлэл</div>
-        <div class="titles countdown">
+        <div class="titles-order">Захиалгын мэдээлэл</div>
+        <div class="titles-order countdown">
           <div class="monitor">Төлбөр төлөх хугацаа</div>
           <div class="timer" v-if="endDate"><span>0{{this.endDate.days}}</span> өдөр <span>: {{this.endDate.hours}}</span> цаг <span>: {{this.endDate.minutes}}</span> минут</div>
         </div>
@@ -16,10 +16,10 @@
         <qr-code class="qr-cont" :text="current.qpayqr"></qr-code>
       </div>
       <div class="container footer">
-        <div class="titles">
+        <div class="titles-order">
           <el-button>Цуцлах</el-button>
         </div>
-        <div class="titles countdown">
+        <div class="titles-order countdown">
           <el-button @click="isPaid" type="primary">Төлбөр шалгах</el-button>
         </div>
       </div>
@@ -27,8 +27,8 @@
 
     <el-card v-else-if="current.status == 'PAID'">
       <div class="container">
-        <div class="titles">Захиалгын мэдээлэл</div>
-        <div class="titles countdown">
+        <div class="titles-order">Захиалгын мэдээлэл</div>
+        <div class="titles-order countdown">
           <div class="monitor">Төлбөр төлсөн хугацаа</div>
           <div class="timer" v-if="endDate">{{new Date(current.updated_at).toLocaleDateString('en-us', { hour: "numeric", minute: "numeric", weekday:"long", year:"numeric", month:"short", day:"numeric"})}}</div>
         </div>
@@ -37,7 +37,7 @@
         Төлбөр төлөгдсөн.
       </div>
       <div class="container footer">
-        <div class="titles">
+        <div class="titles-order">
           <el-button>Санал хүсэлт</el-button>
         </div>
       </div>
@@ -45,22 +45,22 @@
 
     <el-card>
       <div class="container">
-        <div class="titles">
+        <div class="titles-order">
           <div class="monitor grey">Захиалгын дугаар</div>
           <div class="timer">{{invoiceId}}</div>
         </div>
-        <div class="titles countdown">
+        <div class="titles-order countdown">
           <div class="monitor">Захиалга хийсэн огноо</div>
           <div class="timer">{{new Date(current.created_at).toLocaleDateString('en-us', { hour: "numeric", minute: "numeric", weekday:"long", year:"numeric", month:"short", day:"numeric"})}}</div>
         </div>
       </div>
 
       <div class="container product">
-        <div class="titles product">
+        <div class="titles-order product">
           <div class="monitor grey">Бүтээгдэхүүн</div>
           <div class="timer">Typing.mn үйлчилгээний эрх ( {{current.type === 1 ? '1' : "3"}} сар )</div>
         </div>
-        <div class="titles countdown product">{{current.type === 1 ? '3,900₮' : "9,900₮"}}
+        <div class="titles-order countdown product">{{current.type === 1 ? '3,900₮' : "9,900₮"}}
         </div>
       </div>
     </el-card>

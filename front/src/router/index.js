@@ -151,7 +151,7 @@ let routes = [
 		component: () => import('../views/hold.vue'),
 	},
 	{
-		path: '/pool.game',
+		path: '/pool.game/:id',
 		name: 'pool-game',
 		// layout: "dashboard",
 		meta: {

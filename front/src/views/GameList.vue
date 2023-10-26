@@ -4,7 +4,7 @@
 			<div class="col-span-12 xxl:col-span-12 grid grid-cols-12 gap-6 pt-10">
 				<a-row :gutter="20">
 					<a-col :span="24" :xl="6" :lg="8" :xxl="4" class="mb-24 less-card" style="cursor: pointer;">
-						<a-card :bordered="false" class="widget-1 game" style="background-color: #FFFFFF">
+						<a-card :bordered="false" class="widget-1 game" @click="goGame('pool')" style="background-color: #FFFFFF">
 							<div class="box zoom-in" :style="{'position': 'relative'}">
 								<div class="lesson-box">
 									<img src="@/assets/images/games/tubes/rules.png" :style="{'width': '100%', 'height': 'auto'}">
@@ -31,6 +31,9 @@
 			Event.$emit('navbarname', '');
 		},
 		methods: {
+			goGame(game) {
+				this.$router.push('/' + game + '.game');
+			}
 		}
 	})
 

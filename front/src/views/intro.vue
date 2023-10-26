@@ -155,18 +155,8 @@ export default {
             const data = await this.$_request('POST', this.$appUrl +'/lesson/next-lesson', {level: this.lesson.lvl + 1});
             if (!data) { this.$router.push('/subjects'); return; }
 
-            if(data.data.type == 'boxed') {
-                this.$router.push({name: 'boxed', params: {id: data.data.id}});
-            } 
-            else if(data.data.type == 'intro') {
-                this.$router.push({name: 'intro', params: {id: data.data.id}});
-            } 
-            else if(data.data.type == 'review') {
-                this.$router.push({name: 'review', params: {id: data.data.id}});
-            } 
-            else if(data.data.type == 'hold') {
-                this.$router.push({name: 'hold', params: {id: data.data.id}});
-            }
+            const path = this.$_method.getLessonRoute(data.data.type);
+		    this.$router.push({name: path, params: {id: data.data.id}});
         },
         refershLesson() {
             this.resetParams();

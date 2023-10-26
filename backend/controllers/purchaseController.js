@@ -50,7 +50,7 @@ const method = {
                 register_no: "",
                 name: user.name,
                 email: user.email,
-                phone_number: user.phone,
+                phone_number: user.phone ? user.phone : '90990918',
                 note: user.name
             },
             bill_no: invoiceId,

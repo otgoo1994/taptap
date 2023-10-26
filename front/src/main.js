@@ -11,7 +11,7 @@ import DefaultLayout from './layouts/Default.vue'
 import DashboardLayout from './layouts/Dashboard.vue'
 import DashboardRTLLayout from './layouts/DashboardRTL.vue'
 import VueSocketio from 'vue-socket.io';
-import router from './router'
+import router from './router';
 import { detectRequest, keyboards, createEvent, methods } from './common.js';
 import GAuth from 'vue-google-oauth2';
 // import './plugins/click-away'

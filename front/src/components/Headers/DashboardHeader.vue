@@ -159,7 +159,8 @@
 		computed: {
 			expiredDate() {
 				const day = new Date(this.user.end_at).getTime() - Date.now();
-				return Math.ceil(day / 1000 / 86400);
+				const d = Math.ceil(day / 1000 / 86400)
+				return d > 0 ? d : 0;
 			}
 		},
 		methods: {

@@ -1,5 +1,6 @@
 ﻿import axios from 'axios';
 
+
 const detectRequest = async (method, url, data) => {
   const params = {method, url}
   if (data) { params.data = data; }
@@ -37,6 +38,23 @@ const methods = {
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     
         return { days, hours, minutes }; 
+    },
+    getLessonRoute: function(path) {
+        if(path == 'boxed') {
+            return 'boxed';
+        } 
+        else if(path == 'intro') {
+            return 'intro';
+        } 
+        else if(path == 'review') {
+            return 'review';
+        } 
+        else if(path == 'hold') {
+            return 'hold';
+        }
+        else if(path == 'pool') {
+            return 'pool-game';
+        }
     }
 }
 

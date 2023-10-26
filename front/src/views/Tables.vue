@@ -91,24 +91,8 @@
 						description: 'Өмнөх хичээлээ дуусгана уу'
 					});
 				} else {
-					if(selected.type == 'boxed') {
-						this.$router.push({name: 'boxed', params: {id: selected.id}});
-					} 
-					else if(selected.type == 'intro') {
-						this.$router.push({name: 'intro', params: {id: selected.id}});
-					} 
-					else if(selected.type == 'review') {
-						this.$router.push({name: 'review', params: {id: selected.id}});
-					} 
-					else if(selected.type == 'hold') {
-						this.$router.push({name: 'hold', params: {id: selected.id}});
-					}
-					// else if(selected.type == 'start') {
-					// 	this.$router.push({name: 'top-menu-step-lesson', params: {id: selected.id}});
-					// }
-					// else {
-					// 	console.log(selected.type);
-					// }
+					const path = this.$_method.getLessonRoute(selected.type);
+					this.$router.push({name: path, params: {id: selected.id}});
 				}
 			},
 			selectGroup(id) {

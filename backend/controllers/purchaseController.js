@@ -40,8 +40,6 @@ const method = {
         return await str;
     },
     createBill: async function (token, user, amount, invoiceId) {
-    
-        const datetime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
 
         const data = {
             invoice_code: 'TYPING_MN_INVOICE',
@@ -49,7 +47,7 @@ const method = {
             invoice_receiver_code: 'typing.mn',
             invoice_description: 'typing.mn сайтын үйлчилгээний эрх сунгах',
             sender_branch_code: 'typing.mn',
-            amount: 300,
+            amount,
             callback_url: 'https://api.typing.mn/purchase/qpay-result?payment_id=' + invoiceId
         };
     
@@ -223,6 +221,15 @@ const createrQpayBill = async (req, res) => {
     const payload = await exec.getPayload(req);
     const { amount } = req.body;
 
+    if (amount != 5900 && amount != 12900) {
+        res.json({
+            result: 'Forbidden!',
+            status: 403,
+        });   
+
+        return;     
+    } 
+
     const type = amount === 5900 ? 1 : 2;
     const invoiceId = 'TY' + Date.now();
 
@@ -252,8 +259,8 @@ const createrQpayBill = async (req, res) => {
     }
 
     let bill = await method.createBill(token.access_token, user[0], amount, invoiceId);
-    console.log(bill);
-    const params = {invoice_id: invoiceId, payment_id: bill.invoice_id, qpayqr: bill.qr_image, type, status: 'PENDING', userId: payload.id, amount: 300, created_at: new Date(), end_at: new Date().addDays(2)}
+    
+    const params = {invoice_id: invoiceId, payment_id: bill.invoice_id, qpayqr: bill.qr_image, type, status: 'PENDING', userId: payload.id, amount, created_at: new Date(), end_at: new Date().addDays(2)}
     string = query.insert('orders');
 
     const invoice = await exec.execute(string, params);

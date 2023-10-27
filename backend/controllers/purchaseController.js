@@ -350,7 +350,7 @@ const qpayWebhook = async (req, res) => {
             return;
         }
 
-        string = `UPDATE orders SET status = 'PAID' WHERE payment_id = '${payment_id}'`;
+        string = `UPDATE orders SET status = 'PAID' WHERE invoice_id = '${payment_id}'`;
         const paidBill = await exec.execute(string);
 
         if (!paidBill) {

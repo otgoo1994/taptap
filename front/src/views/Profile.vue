@@ -21,7 +21,6 @@
 				</a-row>
 			</template>
 		</a-card>
-		
 
 		<a-row type="flex" :gutter="24" v-if="tab === 1">
 			<a-col :span="24" :md="8" class="mb-24" v-if="user">
@@ -62,10 +61,9 @@
 						</a-descriptions-item>
 					</a-descriptions>
 				</a-card>
-
 			</a-col>
 			
-			<a-col :span="24" :md="8" class="mb-24" v-if="user">
+			<a-col :span="24" :md="4" class="mb-24" v-if="user">
 				<a-card :bordered="false" class="header-solid h-full card-profile-information" :bodyStyle="{paddingTop: 0, paddingBottom: '16px' }" :headStyle="{paddingRight: 0,}">
 					<template #title>
 						<h6 class="font-semibold m-0">Бусад мэдээлэл</h6>
@@ -87,10 +85,27 @@
 					</a-descriptions>
 				</a-card>
 			</a-col>
-			<a-col :span="24" :md="8" class="mb-24">
-				<CardConversations
-					:data="conversationsData"
-				></CardConversations>
+
+			<a-col :span="24" :md="12" class="mb-24" v-if="user">
+				<a-card :bordered="false" class="header-solid h-full card-profile-information" :bodyStyle="{paddingTop: 0, paddingBottom: '16px' }" :headStyle="{paddingRight: 0,}">
+					<template #title>
+						<h6 class="font-semibold m-0">Эрх сунгалтууд</h6>
+					</template>
+					<hr class="mb-25">
+					<a-descriptions :column="1" class="box-container">
+						<div class="orders">
+							<table>
+								<tr v-for="(items, index) in orders" :key="index">
+									<td><a-tag color="orange">{{items.invoice_id}}</a-tag></td>
+									<td>{{new Date(items.created_at).toLocaleDateString()}}</td>
+									<td>{{new Date(items.updated_at).toLocaleDateString()}}</td>
+									<td><a-tag :color="items.status === 'PAID' ? 'green' : 'red'">{{items.status}}</a-tag></td>
+									<td><strong>{{items.amount.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}}</strong></td>
+								</tr>
+							</table>
+						</div>
+					</a-descriptions>
+				</a-card>
 			</a-col>
 		</a-row>
 
@@ -168,10 +183,17 @@
 					new: '',
 					repeat: ''
 				},
-				edit: false
+				edit: false,
+				orders: null
 			}
 		},
 		methods: {
+			async getOrders() {
+				const data = await this.$_request('POST', this.$appUrl +`/user/get-order-list`);
+				if (data.status === 200) {
+					this.orders = data.order;
+				}
+			},
 			getData() {
 				const user = JSON.parse(localStorage.getItem('user'));
 				if (!user) {
@@ -179,7 +201,6 @@
 				}
 
 				this.user = user;
-				console.log(this.user, '======');
 			},
 			async changePassword() {
 
@@ -211,6 +232,7 @@
 		},
 		mounted() {
 			this.getData();
+			this.getOrders();
 		},
 	})
 
@@ -243,5 +265,14 @@
 			margin-top: 10px;
 			@include vw-convert-mobile('height', 80px);
 		}
+	}
+
+	.box-container {
+		max-height: 300px;
+		overflow-y: auto;
+	}
+
+	.orders {
+
 	}
 </style>

@@ -312,6 +312,19 @@ const changePassword = async (req, res) => {
   });
 }
 
+const getOrderList = async (req, res) => {
+  const payload = await exec.getPayload(req);
+
+  let string = query.getOrderList(payload.id);
+  const order = await exec.execute(string);
+
+  res.json({
+    result: 'success',
+    status: 200,
+    order
+  });
+}
+
 const resetPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -362,5 +375,6 @@ module.exports = {
   sendVerifyAgain,
   confirmVerifyCode,
   resetPassword,
-  changePassword
+  changePassword,
+  getOrderList
 }

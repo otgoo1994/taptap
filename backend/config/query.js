@@ -107,6 +107,13 @@ const query = {
   },
   changePassword: function(password, id) {
     return `UPDATE users SET password = '${sha256(password + process.env.SALT)}' WHERE id = ${id}`;
+  },
+  getOrderList: function (user) {
+    if (!user) {
+      return `SELECT * FROM orders INNER JOIN users on orders.userId = users.id`;
+    } else {
+      return `SELECT invoice_id, type, status, amount, created_at, updated_at from orders WHERE userId = ${user}`;
+    }
   }
 };
 

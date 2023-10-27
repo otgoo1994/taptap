@@ -280,6 +280,8 @@ const createrQpayBill = async (req, res) => {
 const qpayWebhook = async (req, res) => {
     const { payment_id } = req.query;
     
+
+    console.log(payment_id, '=====check=====');
     let day;
     let string = `SELECT id, amount, type, userId, payment_id from orders WHERE invoice_id = '${payment_id}'`;
     const invoice = await exec.execute(string);

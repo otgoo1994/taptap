@@ -304,8 +304,19 @@ const qpayWebhook = async (req, res) => {
         return;
     }
 
-    let isPaid = check.rows.payment_status;
+
+    if (!check.rows.length) {
+        res.json({
+            status: 402,
+            result: 'failed',
+            message: 'Төлөгдөөгүй нэхэмжлэх'
+        });
+        return;
+    }
+
+    let isPaid = check.rows[0].payment_status;
     let amount = check.paid_amount;
+
 
     day = invoice[0].type === 1 ? 30 : 90;
 
@@ -317,7 +328,7 @@ const qpayWebhook = async (req, res) => {
         });
         return;
     }
-
+    
     if (isPaid === 'PAID') {
         if (amount !== invoice[0].amount) {
             res.json({
@@ -328,7 +339,7 @@ const qpayWebhook = async (req, res) => {
             return;
         }
 
-        const user = await method.updateUserExpireDate(invoice.userId, day);
+        const user = await method.updateUserExpireDate(invoice[0].userId, day);
         if (!user) {
             res.status(200).json({
                 result: 'something went wrong',

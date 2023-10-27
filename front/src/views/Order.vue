@@ -60,7 +60,7 @@
           <div class="monitor grey">Бүтээгдэхүүн</div>
           <div class="timer">Typing.mn үйлчилгээний эрх ( {{current.type === 1 ? '1' : "3"}} сар )</div>
         </div>
-        <div class="titles-order countdown product">{{current.type === 1 ? '3,900₮' : "9,900₮"}}
+        <div class="titles-order countdown product">{{current.type === 1 ? '5,900₮' : "12,900₮"}}
         </div>
       </div>
     </el-card>

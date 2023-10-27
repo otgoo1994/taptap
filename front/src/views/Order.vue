@@ -13,7 +13,7 @@
         <span>Төлбөр төлсөний дараагаар таны эрх сунгагдахыг анхаарна уу.<br><span style="color: #000000;"><span>Санамж:</span> <span style="font-weight: 500; color: #000;">"Төлбөр шалгах"</span> товч дээр дарж төлөгдсөн эсэхээ шалгана уу.</span></span>
       </div>
       <div class="container qrcode">
-        <qr-code class="qr-cont" :text="current.qpayqr"></qr-code>
+        <img class="qr-cont" :src="'data:image/png;base64,' + current.qpayqr" alt="">
       </div>
       <div class="container footer">
         <div class="titles-order">

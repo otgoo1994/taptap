@@ -276,6 +276,42 @@ const checkUserEmail = async (req, res) => {
   });
 }
 
+const changePassword = async (req, res) => {
+  const { password } = req.body;
+  const payload = await exec.getPayload(req);
+
+  console.log(payload.id, password.old);
+  let string = query.checkUserInfoWithPassword(payload.id, password.old);
+  const check = await exec.execute(string);
+
+  console.log(check, '====');
+  if (!check.length) {
+    res.json({
+      result: 'Forbidden!',
+      status: 401
+    });
+
+    return;
+  }
+
+  string = query.changePassword(password.new, payload.id);
+  const update = await exec.execute(string);
+  
+  if (!update) {
+    res.json({
+      result: 'failed',
+      status: 403
+    });
+
+    return;
+  }
+
+  res.json({
+    result: 'success',
+    status: 200
+  });
+}
+
 const resetPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -325,5 +361,6 @@ module.exports = {
   register,
   sendVerifyAgain,
   confirmVerifyCode,
-  resetPassword
+  resetPassword,
+  changePassword
 }

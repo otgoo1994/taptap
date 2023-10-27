@@ -101,6 +101,12 @@ const query = {
   },
   getCurrentLesson: function(id) {
     return `SELECT * from lesson WHERE id = ${id}`;
+  },
+  checkUserInfoWithPassword: function(id, password) {
+    return `SELECT id from users WHERE id = ${id} AND password = '${sha256(password + process.env.SALT)}'`;
+  },
+  changePassword: function(password, id) {
+    return `UPDATE users SET password = '${sha256(password + process.env.SALT)}' WHERE id = ${id}`;
   }
 };
 

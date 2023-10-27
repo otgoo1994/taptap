@@ -2,11 +2,13 @@
 	<div class="sign-in" style="padding: 0; height: 70vh; display: flex; width: 100vw; overflow: hidden; justify-content: center; align-items: center; flex-direction: column;">
 		<div class="sign-in-container">
 			<div v-if="!register">
-				<el-input placeholder="Имэйл хаяг" @input="input" ref="email" clearable v-model="email" v-if="!confirmed"></el-input>
-				<el-input placeholder="Нууц үг" show-password v-model="password" v-else></el-input>
-				<div style="text-align: right;">
-					<router-link style="color: #000; " to="reset-password">Нууц үгээ мартсан?</router-link>
-				</div>
+				<form @submit.prevent="login">
+					<el-input placeholder="Имэйл хаяг" @input="input" ref="email" clearable v-model="email" v-if="!confirmed"></el-input>
+					<el-input placeholder="Нууц үг" show-password v-model="password" v-else></el-input>
+					<div style="text-align: right;">
+						<router-link style="color: #000; " to="reset-password">Нууц үгээ мартсан?</router-link>
+					</div>
+				</form>
 
 				<a-button @click="login" type="primary" block class="login-form-button">
 					<a-icon type="step-forward" class="google" theme="filled"/> Үргэлжлүүлэх
@@ -26,10 +28,12 @@
 			</div>
 			<div v-else>
 				<div :style="{'text-align': 'center', 'margin-bottom': '10px'}">Таны <strong>имэйл хаяг</strong> бүртгэлгүй байна. <br>Бүтгэлээ үүсгэнэ үү.</div>
-				<el-input style="margin-top: 10px;" placeholder="Нэр" clearable v-model="name"></el-input>
-				<el-input style="margin-top: 10px;" placeholder="Password" v-model="email" disabled></el-input>
-				<el-input style="margin-top: 10px;" placeholder="Нууц үг" show-password v-model="password"></el-input>
-				<el-input style="margin-top: 10px;" placeholder="Давтан нууц үг" show-password v-model="repassword"></el-input>
+				<form @submit.prevent="userRegister">
+					<el-input style="margin-top: 10px;" placeholder="Нэр" clearable v-model="name"></el-input>
+					<el-input style="margin-top: 10px;" placeholder="Password" v-model="email" disabled></el-input>
+					<el-input style="margin-top: 10px;" placeholder="Нууц үг" show-password v-model="password"></el-input>
+					<el-input style="margin-top: 10px;" placeholder="Давтан нууц үг" show-password v-model="repassword"></el-input>
+				</form>
 				<a-button @click="userRegister" type="primary" block class="login-form-button">
 					<a-icon type="step-forward" class="google" theme="filled"/> Үргэлжлүүлэх
 				</a-button>
@@ -67,7 +71,7 @@ const year = new Date().getFullYear();
 			return {
 				rememberMe: true,
 				name: null,
-				email: 'typingclub.mn@gmail.com',
+				email: '',
 				password: null,
 				repassword: null,
 				year,
@@ -83,6 +87,7 @@ const year = new Date().getFullYear();
 		methods: {
 			async userRegister() {
 
+				console.log('asdfasfasf');
 				if (!this.name || !this.password) {
 					return;
 				}
@@ -101,6 +106,9 @@ const year = new Date().getFullYear();
 					localStorage.setItem('verify-email', this.email);
 					this.$router.push('/verify');
 				}
+			},
+			onEnter() {
+				alert('asdfasdf');
 			},
 			input() {
 				this.$refs.email.$el.classList.remove('error');
@@ -141,6 +149,7 @@ const year = new Date().getFullYear();
 					}
 
 					this.register = true;
+					return;
 				}
 				
 				const data = await this.$_request('POST', this.$appUrl +'/user/login', {email: this.email, password: this.password});

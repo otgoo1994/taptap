@@ -8,10 +8,8 @@ const exec = require("../config/promise");
 // const qpayClientId = "qpay_test";
 // const qpayClientSecret = "sdZv9k9m"
 
-const qpayTemplateId = "ICBC_REMAX_INVOICE";
-const qpayMerchantId = "ICBC_REMAX";
-const qpayClientId = "60C6A5B2-8597-8A5B-7719-8783A6B185C6";
-const qpayClientSecret = "95D354F5-1C09-2BD7-108D-47286EE37A26"
+const qpay_username = "TYPING_MN";
+const qpay_password = "1rdVxOzz";
 
 
 
@@ -21,14 +19,18 @@ const method = {
         token = await token.access_token;
         
         const data = {
-            "merchant_id": qpayMerchantId,
-            "bill_no": invoice
+            object_type: "INVOICE",
+            object_id : invoice,
+            offset: {
+                page_number: 1,
+                page_limit : 100
+            }
         }
     
-        let str = axios.post('https://api.qpay.mn/v1/bill/check', data, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
+        let str = axios.post('https://merchant.qpay.mn/v2/payment/check', data, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
         }).then((res) => {
             return res.data;
         }).catch(error => {
@@ -40,28 +42,18 @@ const method = {
     createBill: async function (token, user, amount, invoiceId) {
     
         const datetime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
+
         const data = {
-            template_id: qpayTemplateId,
-            merchant_id: qpayMerchantId,
-            branch_id: "1",
-            pos_id: "1",
-            receiver: {
-                id: user.id.toString(),
-                register_no: "",
-                name: user.name,
-                email: user.email,
-                phone_number: user.phone ? user.phone : '90990918',
-                note: user.name
-            },
-            bill_no: invoiceId,
-            date: datetime,
-            description: "test",
-            amount: amount,
-            btuk_code: "",
-            vat_flag: "0"
-        }
+            invoice_code: 'TYPING_MN_INVOICE',
+            sender_invoice_no: invoiceId,
+            invoice_receiver_code: 'typing.mn',
+            invoice_description: 'typing.mn сайтын үйлчилгээний эрх сунгах',
+            sender_branch_code: 'typing.mn',
+            amount: 300,
+            callback_url: 'https://api.typing.mn/purchase/qpay-result?payment_id=' + invoiceId
+        };
     
-        let str = axios.post('https://api.qpay.mn/v1/bill/create', data, {
+        let str = axios.post('https://merchant.qpay.mn/v2/invoice', data, {
                 headers: {
                     Authorization: `Bearer ${token}`
                 }
@@ -76,13 +68,13 @@ const method = {
     },    
     getQpayToken: async function() {
         const data = {
-            "client_id": qpayClientId,
-            "client_secret": qpayClientSecret,
-            "grant_type":"client",
-            "refresh_token":""
+            username : qpay_username,
+            password : qpay_password,
         };
 
-        let str = axios.post('https://api.qpay.mn/v1/auth/token', data)
+        let str = axios.post('https://merchant.qpay.mn/v2/auth/token', {}, {
+                auth: data
+            })
             .then((res) => {
                 return res.data;
             }).catch((err) => {
@@ -260,7 +252,8 @@ const createrQpayBill = async (req, res) => {
     }
 
     let bill = await method.createBill(token.access_token, user[0], amount, invoiceId);
-    const params = {invoice_id: invoiceId, payment_id: bill.payment_id, qpayqr: bill.qPay_QRcode, type, status: 'PENDING', userId: payload.id, amount, created_at: new Date(), end_at: new Date().addDays(2)}
+    console.log(bill);
+    const params = {invoice_id: invoiceId, payment_id: bill.invoice_id, qpayqr: bill.qr_image, type, status: 'PENDING', userId: payload.id, amount: 300, created_at: new Date(), end_at: new Date().addDays(2)}
     string = query.insert('orders');
 
     const invoice = await exec.execute(string, params);
@@ -285,10 +278,10 @@ const createrQpayBill = async (req, res) => {
 }
 
 const qpayWebhook = async (req, res) => {
-    const { invoiceId } = req.query;
+    const { payment_id } = req.query;
     
     let day;
-    let string = `SELECT id, amount, type, userId from orders WHERE invoice_id = '${invoiceId}'`;
+    let string = `SELECT id, amount, type, userId from orders WHERE payment_id = '${payment_id}'`;
     const invoice = await exec.execute(string);
     
     if (!invoice.length) {
@@ -300,7 +293,7 @@ const qpayWebhook = async (req, res) => {
         return;
     }
     
-    let check = await method.checkQpayBill(invoiceId);
+    let check = await method.checkQpayBill(payment_id);
     if (!check) {
         res.json({
             status: 403,
@@ -311,12 +304,12 @@ const qpayWebhook = async (req, res) => {
         return;
     }
 
-    let isPaid = check.payment_info.payment_status;
-    let amount = check.goods_detail[0].unit_price;
+    let isPaid = check.rows.payment_status;
+    let amount = check.paid_amount;
 
     day = invoice[0].type === 1 ? 30 : 90;
 
-    if (isPaid === 'NOT_PAID') {
+    if (isPaid !== 'PAID') {
         res.json({
             status: 402,
             result: 'failed',
@@ -337,6 +330,17 @@ const qpayWebhook = async (req, res) => {
 
         const user = await method.updateUserExpireDate(invoice.userId, day);
         if (!user) {
+            res.status(200).json({
+                result: 'something went wrong',
+                status: 403
+            });
+            return;
+        }
+
+        string = `UPDATE orders SET status = 'PAID' WHERE payment_id = '${payment_id}'`;
+        const paidBill = await exec.execute(string);
+
+        if (!paidBill) {
             res.status(200).json({
                 result: 'something went wrong',
                 status: 403

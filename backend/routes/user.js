@@ -27,5 +27,6 @@ router.post("/register",catchErrors(userController.register));
 router.post("/send-verify-code",catchErrors(userController.sendVerifyAgain));
 router.post("/confirm-verify-code", catchErrors(userController.confirmVerifyCode));
 router.post("/reset-password", catchErrors(userController.resetPassword));
+router.post("/change-password", catchErrors(userController.changePassword));
 
 module.exports = router;

@@ -281,7 +281,7 @@ const qpayWebhook = async (req, res) => {
     const { payment_id } = req.query;
     
     let day;
-    let string = `SELECT id, amount, type, userId from orders WHERE payment_id = '${payment_id}'`;
+    let string = `SELECT id, amount, type, userId, payment_id from orders WHERE invoice_id = '${payment_id}'`;
     const invoice = await exec.execute(string);
     
     if (!invoice.length) {
@@ -293,7 +293,7 @@ const qpayWebhook = async (req, res) => {
         return;
     }
     
-    let check = await method.checkQpayBill(payment_id);
+    let check = await method.checkQpayBill(invoice[0].payment_id);
     if (!check) {
         res.json({
             status: 403,

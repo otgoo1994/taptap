@@ -28,17 +28,14 @@
 					<template #title>
 						<h6 class="font-semibold m-0">Хувийн мэдээлэл</h6>
 					</template>
-					<a-button @click="edit = true" type="link" slot="extra" v-if="!edit">
+					<a-button @click="showEdit" type="link" slot="extra" v-if="!edit">
 						<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
 							<path class="fill-muted" d="M13.5858 3.58579C14.3668 2.80474 15.6332 2.80474 16.4142 3.58579C17.1953 4.36683 17.1953 5.63316 16.4142 6.41421L15.6213 7.20711L12.7929 4.37868L13.5858 3.58579Z" fill="#111827"/>
 							<path class="fill-muted" d="M11.3787 5.79289L3 14.1716V17H5.82842L14.2071 8.62132L11.3787 5.79289Z" fill="#111827"/>
 						</svg>
 					</a-button>
-					<a-button type="link" slot="extra" v-if="edit">
-						<a-icon type="step-forward" class="google" theme="filled"/>
-					</a-button>
 					<hr class="mb-25">
-					<a-descriptions :title="user.name" :column="1">
+					<a-descriptions :title="user.name" :column="1" v-if="!edit">
 						<a-descriptions-item label="Нэр">
 							{{user.name}}
 						</a-descriptions-item>
@@ -60,6 +57,13 @@
 							</a>
 						</a-descriptions-item>
 					</a-descriptions>
+					<div v-if="edit">
+						<a-input v-model="subUser.name" placeholder="Нэр" />
+						<a-input style="margin-top: 10px;" v-model="subUser.phone" placeholder="Утасны дугаар" />
+						<a-input style="margin-top: 10px;" v-model="subUser.email" placeholder="Имэйл" disabled />
+						<a-button style="margin-top: 10px; width: 100%;" @click="updateInfo" type="dashed" danger>Хадгалах</a-button>
+						<a-button style="margin-top: 10px; width: 100%;" @click="edit = false" type="link" danger>Болих</a-button>
+					</div>
 				</a-card>
 			</a-col>
 			
@@ -96,7 +100,7 @@
 						<div class="orders">
 							<table>
 								<tr v-for="(items, index) in orders" :key="index">
-									<td><a-tag color="orange">{{items.invoice_id}}</a-tag></td>
+									<td><router-link :to="'/order/' + items.invoice_id"><a-tag style="cursor: pointer;" color="orange">{{items.invoice_id}}</a-tag></router-link></td>
 									<td>{{new Date(items.created_at).toLocaleDateString()}}</td>
 									<td>{{new Date(items.updated_at).toLocaleDateString()}}</td>
 									<td><a-tag :color="items.status === 'PAID' ? 'green' : 'red'">{{items.status}}</a-tag></td>
@@ -125,58 +129,12 @@
 </template>
 
 <script>
-
-	import CardPlatformSettings from "../components/Cards/CardPlatformSettings"
-	import CardProfileInformation from "../components/Cards/CardProfileInformation"
-	import CardConversations from "../components/Cards/CardConversations"
-	import CardProject from "../components/Cards/CardProject"
-
-	// Conversation's list data.
-	const conversationsData = [
-		{
-			id: "1",
-			title: "Sophie B.",
-			code: "Hi! I need more information…",
-			avatar: "images/face-3.jpg",
-		},
-		{
-			id: "2",
-			title: "Anne Marie",
-			code: "Awesome work, can you…",
-			avatar: "images/face-4.jpg",
-		},
-		{
-			id: "3",
-			title: "Ivan",
-			code: "About files I can…",
-			avatar: "images/face-5.jpeg",
-		},
-		{
-			id: "4",
-			title: "Peterson",
-			code: "Have a great afternoon…",
-			avatar: "images/face-6.jpeg",
-		},
-		{
-			id: "5",
-			title: "Nick Daniel",
-			code: "Hi! I need more information…",
-			avatar: "images/face-2.jpg",
-		},
-	] ;
-
 	export default ({
-		components: {
-			CardPlatformSettings,
-			CardProfileInformation,
-			CardConversations,
-			CardProject,
-		},
 		data() {
 			return {
 				profileHeaderBtns: 'overview',
-				conversationsData,
 				user: null,
+				subUser: {},
 				tab: 1,
 				password: {
 					old: '',
@@ -188,10 +146,33 @@
 			}
 		},
 		methods: {
+			async updateInfo() {
+				const data = await this.$_request('POST', this.$appUrl +`/user/update-user-info`, {user: this.subUser});
+
+				if (data.status === 200) {
+					this.$notification['success']({
+						message: 'Амжилттай',
+						description: 'Мэдээлэл шинэчлэгдлээ'
+					});
+
+					this.user = this.subUser;
+					localStorage.setItem('user', JSON.stringify(this.user));
+					this.edit = false;
+					return;
+				}
+
+				this.$notification['error']({
+					message: 'Амжилтгүй'
+				});
+			},
+			showEdit() {
+				this.subUser = Object.assign({}, this.user)
+				this.edit = true;
+			},
 			async getOrders() {
 				const data = await this.$_request('POST', this.$appUrl +`/user/get-order-list`);
 				if (data.status === 200) {
-					this.orders = data.order;
+					this.orders = data.order;	
 				}
 			},
 			getData() {
@@ -201,6 +182,7 @@
 				}
 
 				this.user = user;
+				this.subUser = user;
 			},
 			async changePassword() {
 

@@ -325,6 +325,28 @@ const getOrderList = async (req, res) => {
   });
 }
 
+const updateUserInfo = async (req, res) => {
+  const { user } = req.body;
+  const payload = await exec.getPayload(req);
+
+  let string = query.updateUserInfo(user, payload.id);
+  const update = exec.execute(string);
+  if (!update) {
+    res.json({
+      result: 'failed',
+      status: 403
+    });
+    return;
+  }
+  
+  res.json({
+    result: 'success',
+    status: 200
+  });
+
+
+}
+
 const resetPassword = async (req, res) => {
   const { email } = req.body;
 
@@ -376,5 +398,6 @@ module.exports = {
   confirmVerifyCode,
   resetPassword,
   changePassword,
-  getOrderList
+  getOrderList,
+  updateUserInfo
 }

@@ -60,7 +60,7 @@
           <div class="monitor grey">Бүтээгдэхүүн</div>
           <div class="timer">Typing.mn үйлчилгээний эрх ( {{current.type === 1 ? '1' : "3"}} сар )</div>
         </div>
-        <div class="titles-order countdown product">{{current.type === 1 ? '5,900₮' : "12,900₮"}}
+        <div class="titles-order countdown product">{{current.amount.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}}₮
         </div>
       </div>
     </el-card>
@@ -112,6 +112,7 @@ export default {
     },
     async getOrder() {
       const data = await this.$_request('POST', this.$appUrl +`/purchase/check-order`, {invoiceId: this.invoiceId});
+      console.log(data, '====');
       if (data.status === 200) {
         this.current = data.data;
         this.endDate = this.$_method.dateDistance(this.current.end_at);

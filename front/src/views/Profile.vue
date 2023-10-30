@@ -102,7 +102,7 @@
 								<tr v-for="(items, index) in orders" :key="index">
 									<td><router-link :to="'/order/' + items.invoice_id"><a-tag style="cursor: pointer;" color="orange">{{items.invoice_id}}</a-tag></router-link></td>
 									<td>{{new Date(items.created_at).toLocaleDateString()}}</td>
-									<td>{{new Date(items.updated_at).toLocaleDateString()}}</td>
+									<!-- <td>{{new Date(items.updated_at).toLocaleDateString()}}</td> -->
 									<td><a-tag :color="items.status === 'PAID' ? 'green' : 'red'">{{items.status}}</a-tag></td>
 									<td><strong>{{items.amount.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}}</strong></td>
 								</tr>

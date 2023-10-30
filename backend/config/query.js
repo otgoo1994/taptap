@@ -85,6 +85,9 @@ const query = {
     return `SELECT payment_id, invoice_id, qpayqr FROM orders WHERE status = '${status}' AND type = ${type} AND userId = ${id}`;
   },
   selectOrder: function(ordernumber, id) {
+    if (!id) {
+      return `SELECT qpayqr, payment_id, users.name, type, amount, users.id, status, orders.created_at, orders.end_at, orders.updated_at FROM orders inner join users on orders.userId = users.id WHERE invoice_id = '${ordernumber}'`  
+    }
     return `SELECT qpayqr, payment_id, type, amount, status, created_at, end_at, updated_at FROM orders WHERE invoice_id = '${ordernumber}' AND userId = ${id}`
   },
   confirmVerifyCode: function(email, token) {
@@ -108,12 +111,26 @@ const query = {
   changePassword: function(password, id) {
     return `UPDATE users SET password = '${sha256(password + process.env.SALT)}' WHERE id = ${id}`;
   },
-  getOrderList: function (user) {
+  getOrderList: function (user, date) {
     if (!user) {
-      return `SELECT * FROM orders INNER JOIN users on orders.userId = users.id`;
+      if (!date) {
+        return `SElECT o.id, o.status, o.invoice_id, u.name, u.phone, u.image, o.amount, o.created_at, o.updated_at 
+        FROM orders AS o INNER JOIN users AS u 
+        ON o.userId = u.id 
+        WHERE MONTH(o.created_at) = MONTH(now())
+        AND YEAR(o.created_at) = YEAR(NOW())`;
+      } else {
+        return `SElECT o.id, o.status, o.invoice_id, u.name, u.phone, u.image, o.amount, o.created_at, o.updated_at 
+        FROM orders AS o INNER JOIN users AS u 
+        ON o.userId = u.id 
+        WHERE DATE(o.created_at) between DATE('${date[0]}') and DATE('${date[1]}')`;
+      }
     } else {
       return `SELECT invoice_id, type, status, amount, created_at, updated_at from orders WHERE userId = ${user}`;
     }
+  },
+  getOrders: function() {
+    return `SELE`
   },
   updateUserInfo: function (user, id) {
     return `UPDATE users SET name = '${user.name}', phone = '${user.phone}', updated_at = NOW() WHERE id = ${id}`;

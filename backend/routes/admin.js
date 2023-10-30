@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { catchErrors } = require('../handlers/errorHandler');
 const adminController  = require('../controllers/adminController');
 const lessonController  = require('../controllers/lesson');
+const purchaseController  = require('../controllers/purchaseController');
 const auth = require('../middlewares/admin');
 
 
@@ -16,6 +17,9 @@ router.post("/create-coupons", auth, catchErrors(adminController.createCoupon));
 router.post("/delete-coupon", auth, catchErrors(adminController.deleteCoupon));
 router.post("/get-current-lesson", auth, catchErrors(adminController.getCurrentLesson));
 router.post("/update-lesson", auth, catchErrors(adminController.updateLesson));
+router.post("/get-orders", auth, catchErrors(adminController.getOrders));
+router.post("/check-order", auth, catchErrors(adminController.checkOrder));
+router.post("/update-order", auth, catchErrors(adminController.updateOrder));
 
 // router.post("/add-admin", auth, catchErrors(adminController.register));
 // router.post("/get-admin-info", auth, catchErrors(adminController.LoggedUserInfo));

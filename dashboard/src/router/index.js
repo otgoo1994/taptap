@@ -10,6 +10,26 @@ let routes = [
 		component: () => import('../views/404.vue'),
 	},
 	{
+		path: '/orders',
+		name: 'Orders',
+		layout: "dashboard",
+		meta: {
+			title: 'typing.mn',
+			auth: true
+		}, 
+		component: () => import('../views/Orders.vue'),
+	},
+	{
+		path: '/edit/:id',
+		name: 'edit',
+		layout: "dashboard",
+		meta: {
+			title: 'typing.mn',
+			auth: true
+		}, 
+		component: () => import('../views/OrderEdit.vue'),
+	},
+	{
 		path: '/',
 		name: 'Home',
 		meta: {

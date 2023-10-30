@@ -104,7 +104,52 @@ const register = async (req, res) => {
     //     }
     // });
 }
+const getOrders = async (req, res) => {
+  const { date } = req.body;
+  let string;
+  if (!date) {
+    string = query.getOrderList();
+  } else {
+    string = query.getOrderList(null, date);
+  }
 
+  console.log(string, '===');
+  const orders = await exec.execute(string);
+  
+  return res.status(200).json({
+    result: 'success',
+    data: orders,
+    status: 200
+  });
+}
+
+const checkOrder = async (req, res) => {
+  const { invoiceId } = req.body;
+
+    let string = query.selectOrder(invoiceId);
+    console.log(string, '======');
+    const data = await exec.execute(string);
+
+    if (!data.length) {
+        res.json({
+            result: 'fail',
+            status: 402
+        });
+
+        return;
+    }
+
+    res.json({
+        result: 'success',
+        data: data[0],
+        status: 200
+    });
+}
+
+const updateOrder = async (req, res) => {
+  const { order } = req.body;
+  console.log(order, '====');
+}
 
 const login = async (req, res) => {
     const {email, password} = req.body;
@@ -257,5 +302,8 @@ module.exports = {
   createCoupon,
   deleteCoupon,
   getCurrentLesson,
-  updateLesson
+  updateLesson,
+  getOrders,
+  checkOrder,
+  updateOrder
 };

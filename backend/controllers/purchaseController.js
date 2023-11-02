@@ -96,7 +96,7 @@ const method = {
         const dt = new Date(new Date(data[0].end_at).getTime() > Date.now() ? data[0].end_at : Date.now()); 
 
         let date = new Date(
-            ( dt ).setDate( dt.getDate() + month )
+            ( dt ).setDate( dt.getDate() + parseInt(month) )
         ).toISOString().replace(/T/, ' ').replace(/\..+/, '');
         
 

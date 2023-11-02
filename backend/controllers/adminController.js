@@ -6,6 +6,35 @@ const exec = require("../config/promise");
 const sha256 = require("js-sha256");
 const jwt = require('jwt-then');
 
+
+const method = {
+  updateUserExpireDate: async function(user, month) {
+      let string = query.getUserInfo(user);
+      
+      const data = await exec.execute(string);
+      if (!data.length) {
+          return false;
+      }
+
+      const dt = new Date(new Date(data[0].end_at).getTime() > Date.now() ? data[0].end_at : Date.now()); 
+      console.log(dt, '=====1111'); 
+
+      let date = new Date(
+          ( dt ).setDate( dt.getDate() + parseInt(month) )
+      ).toISOString().replace(/T/, ' ').replace(/\..+/, '');
+      
+
+      string = `UPDATE users SET end_at = '${date}', updated_at = NOW() WHERE id = ${user}`;
+      const upt = await exec.execute(string);
+
+      if (!upt) {
+          return false;
+      }
+
+      return data;
+  }
+}
+
 const createCoupon = async (req, res) => {
   const { count, type } = req.body;
 
@@ -105,12 +134,12 @@ const register = async (req, res) => {
     // });
 }
 const getOrders = async (req, res) => {
-  const { date } = req.body;
+  const { date, search } = req.body;
   let string;
   if (!date) {
-    string = query.getOrderList();
+    string = query.getOrderList(null, null, search);
   } else {
-    string = query.getOrderList(null, date);
+    string = query.getOrderList(null, date, search);
   }
 
   console.log(string, '===');
@@ -123,11 +152,22 @@ const getOrders = async (req, res) => {
   });
 }
 
+const getUsers = async (req, res) => {
+  const { search } = req.body;
+
+  let string = query.getUserList(search);
+  const data = await exec.execute(string);
+  return res.status(200).json({
+    result: 'success',
+    data,
+    status: 200
+  });
+}
+
 const checkOrder = async (req, res) => {
   const { invoiceId } = req.body;
 
     let string = query.selectOrder(invoiceId);
-    console.log(string, '======');
     const data = await exec.execute(string);
 
     if (!data.length) {
@@ -144,6 +184,25 @@ const checkOrder = async (req, res) => {
         data: data[0],
         status: 200
     });
+}
+
+const updateUserExpiredDate = async ( req, res) => {
+  const { info } = req.body;
+  
+  const user = await method.updateUserExpireDate(info.user.id, info.date);
+  if (!user) {
+      res.status(200).json({
+          result: 'something went wrong',
+          status: 403
+      });
+      return;
+  }
+
+  res.status(200).json({
+    result: 'success',
+    status: 200
+  });
+  return;
 }
 
 const updateOrder = async (req, res) => {
@@ -305,5 +364,7 @@ module.exports = {
   updateLesson,
   getOrders,
   checkOrder,
-  updateOrder
+  updateOrder,
+  getUsers,
+  updateUserExpiredDate
 };

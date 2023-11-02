@@ -59,6 +59,16 @@ let routes = [
 		component: () => import('../views/Coupons.vue'),
 	},
 	{
+		path: '/users',
+		name: 'users',
+		layout: "dashboard",
+		meta: {
+			title: 'Хэрэглэгчийн жагсалт',
+			auth: true
+		},
+		component: () => import('../views/Users.vue'),
+	},
+	{
 		path: '/add-lesson',
 		name: 'Хичээл бүртгэх',
 		layout: "dashboard",

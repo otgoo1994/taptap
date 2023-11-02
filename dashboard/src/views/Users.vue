@@ -21,7 +21,7 @@
 			</a-col>
       <a-col :span="24" :lg="12" :xl="6" class="mb-24" >
 				<WidgetCounter
-					title="ХҮЛЭЭГДЭЖ БАЙГАА"
+					title="БАТАЛГААЖСАН"
 					:value="getStatus('PENDING')"
           prefix="+"
 					:icon="icons[1]"
@@ -30,7 +30,7 @@
 			</a-col>
       <a-col :span="24" :lg="12" :xl="6" class="mb-24" >
 				<WidgetCounter
-					title="ЦУЦЛАГДСАН"
+					title="БҮРТГҮҮЛСЭН"
 					:value="getStatus('DECLINED')"
           prefix="+"
 					:icon="icons[2]"
@@ -68,7 +68,7 @@
           <template #title>
             <a-row type="flex" align="middle">
               <a-col :span="24" :md="8">
-                <h6>Эрх сунгалтууд</h6>
+                <h6>Бүртгүүлсэн хэрэглэгчид</h6>
               </a-col>
               <a-col :span="24" :md="16" style="display: flex; align-items: center; justify-content: flex-end">
                 <a-input-search
@@ -77,25 +77,18 @@
                   @search="onSearch"
                   @change="change"
                   allow-clear
-                  placeholder="Захиалгын дугаараа оруулна уу..."
+                  placeholder="Хэрэглэгчийн нэр, имэйл хаяг"
                 />
-                <a-range-picker style="margin-right: 10px;" @change="dateChanged" v-model="daterange" />
+                <!-- <a-range-picker style="margin-right: 10px;" @change="dateChanged" v-model="daterange" /> -->
               </a-col>
             </a-row>
           </template>
           <el-table
-            :data="orders"
+            :data="users"
             style="width: 100%">
             <el-table-column
-              label="INVOICE ID"
+              label="NAME"
               width="200"
-              >
-              <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.invoice_id }}</span>
-              </template>
-            </el-table-column>
-            <el-table-column
-              label="MEMBER"
               >
               <template slot-scope="scope">
                 <a-avatar shape="square" size="small">
@@ -110,53 +103,53 @@
               </template>
             </el-table-column>
             <el-table-column
-              label="STATUS"
+              label="EMAIL"
+              >
+              <template slot-scope="scope">
+                <span style="margin-left: 10px">{{ scope.row.email }}</span>
+              </template>
+            </el-table-column>
+            <el-table-column
+              label="PHONE"
               >
               <template slot-scope="scope">
                 <span style="margin-left: 10px">
-                  <a-tag :color="scope.row.status === 'PAID' ? 'green' : (scope.row.status === 'PENDING' ? 'orange' : 'red' )">{{ scope.row.status }}</a-tag>
+                  <!-- <a-tag :color="scope.row.status === 'PAID' ? 'green' : (scope.row.status === 'PENDING' ? 'orange' : 'red' )">{{ scope.row.status }}</a-tag> -->
+                  {{scope.row.phone ? scope.row.phone : 'Бүртгэлгүй'}}
                 </span>
               </template>
             </el-table-column>
             <el-table-column
-              label="CREATED"
+              label="VALID DATE"
               >
               <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ new Date(scope.row.created_at).toLocaleDateString() }}</span>
+                <a-tag :color="new Date(scope.row.end_at) > new Date() ? 'green' : 'orange'">{{ new Date(scope.row.end_at).toLocaleDateString() }}</a-tag>
               </template>
             </el-table-column>
             <el-table-column
-              label="PAID OR RETURNED"
+              label="STATUS"
               >
               <template slot-scope="scope">
-                <span style="margin-left: 10px">{{ scope.row.status === 'PAID' ? new Date(scope.row.updated_at).toLocaleDateString() : '-'}}</span>
+                <!-- <span style="margin-left: 10px">{{ scope.row.status === 'PAID' ? new Date(scope.row.updated_at).toLocaleDateString() : '-'}}</span> -->
+                <a-tag :color="scope.row.active ? 'green' : 'orange'">{{ scope.row.active ? 'БАТАЛГААЖСАН' : "БҮРТГҮҮЛСЭН" }}</a-tag>
               </template>
             </el-table-column>
             <el-table-column
               label="ACTIONS">
               <template slot-scope="scope">
-
-                <el-tooltip class="item" effect="dark" content="Засварлах" placement="right">
-                  <router-link :to="'/edit/' + scope.row.invoice_id">
-                    <a-button @click="handleEdit(scope.$index, scope.row)" type="dashed" size="small">
-                      <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>
-                    </a-button>
-                  </router-link>
-                </el-tooltip>
-                
-                  <!-- <el-popconfirm
-                    title="Устгахдаа итгэлтэй байна уу?"
-                    style="margin-left: 10px;"
-                    confirm-button-text='Тийм'
-                    cancel-button-text='Үгүй'
-                    @confirm="handleDelete(scope.$index, scope.row)"
-                  >
-                    <el-button
-                    size="mini"
-                    slot="reference"
-                    type="danger"
-                    >Устгах</el-button>
-                  </el-popconfirm> -->
+                <a-dropdown-button>
+                Edit
+                <template #overlay>
+                  <a-menu>
+                    <a-menu-item @click="addToBlackList(scope.row)">
+                      Хар жагсаалт руу нэмэх
+                    </a-menu-item>
+                    <a-menu-item @click="changeEndDate(scope.row)">
+                      Эрх сунгах
+                    </a-menu-item>
+                  </a-menu>
+                </template>
+              </a-dropdown-button>
               </template>
             </el-table-column>
           </el-table>
@@ -164,6 +157,17 @@
 			</a-col>
 		</a-row>
 		<!-- / Table & Timeline -->
+
+    <a-modal v-model="modal.date" title="Basic Modal" @ok="reqChangeDate">
+      <a-select
+        ref="select"
+        style="width: 100%;"
+        v-model="selected.date"
+      >
+        <a-select-option value="30">1 сарын эрх</a-select-option>
+        <a-select-option value="90">3 сарын эрх</a-select-option>
+      </a-select>
+    </a-modal>
 	</div>
 </template>
 
@@ -182,9 +186,16 @@
 		},
 		data() {
 			return {
+        modal: {
+          date: false
+        },
         inp_search: '',
         daterange: null,
-        orders: [],
+        users: [],
+        selected: {
+          user: null,
+          date: '30'
+        },
         icons: [
           `<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M320 96H192L144.6 24.9C137.5 14.2 145.1 0 157.9 0H354.1c12.8 0 20.4 14.2 13.3 24.9L320 96zM192 128H320c3.8 2.5 8.1 5.3 13 8.4C389.7 172.7 512 250.9 512 416c0 53-43 96-96 96H96c-53 0-96-43-96-96C0 250.9 122.3 172.7 179 136.4l0 0 0 0c4.8-3.1 9.2-5.9 13-8.4zm84 88c0-11-9-20-20-20s-20 9-20 20v14c-7.6 1.7-15.2 4.4-22.2 8.5c-13.9 8.3-25.9 22.8-25.8 43.9c.1 20.3 12 33.1 24.7 40.7c11 6.6 24.7 10.8 35.6 14l1.7 .5c12.6 3.8 21.8 6.8 28 10.7c5.1 3.2 5.8 5.4 5.9 8.2c.1 5-1.8 8-5.9 10.5c-5 3.1-12.9 5-21.4 4.7c-11.1-.4-21.5-3.9-35.1-8.5c-2.3-.8-4.7-1.6-7.2-2.4c-10.5-3.5-21.8 2.2-25.3 12.6s2.2 21.8 12.6 25.3c1.9 .6 4 1.3 6.1 2.1l0 0 0 0c8.3 2.9 17.9 6.2 28.2 8.4V424c0 11 9 20 20 20s20-9 20-20V410.2c8-1.7 16-4.5 23.2-9c14.3-8.9 25.1-24.1 24.8-45c-.3-20.3-11.7-33.4-24.6-41.6c-11.5-7.2-25.9-11.6-37.1-15l0 0-.7-.2c-12.8-3.9-21.9-6.7-28.3-10.5c-5.2-3.1-5.3-4.9-5.3-6.7c0-3.7 1.4-6.5 6.2-9.3c5.4-3.2 13.6-5.1 21.5-5c9.6 .1 20.2 2.2 31.2 5.2c10.7 2.8 21.6-3.5 24.5-14.2s-3.5-21.6-14.2-24.5c-6.5-1.7-13.7-3.4-21.1-4.7V216z"/></svg>`,
           `<svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M192 32c0 17.7 14.3 32 32 32c123.7 0 224 100.3 224 224c0 17.7 14.3 32 32 32s32-14.3 32-32C512 128.9 383.1 0 224 0c-17.7 0-32 14.3-32 32zm0 96c0 17.7 14.3 32 32 32c70.7 0 128 57.3 128 128c0 17.7 14.3 32 32 32s32-14.3 32-32c0-106-86-192-192-192c-17.7 0-32 14.3-32 32zM96 144c0-26.5-21.5-48-48-48S0 117.5 0 144V368c0 79.5 64.5 144 144 144s144-64.5 144-144s-64.5-144-144-144H128v96h16c26.5 0 48 21.5 48 48s-21.5 48-48 48s-48-21.5-48-48V144z"/></svg>`,
@@ -212,8 +223,26 @@
         }
         this.getOrders();
       },
-      handleEdit(index, row) {
-        console.log(index, row);
+      async reqChangeDate() {
+        const data = await this.$_request('POST', this.$appUrl + '/admin/update-user-expired-date', { info: this.selected });
+        if (data.status != 200) {
+          return;
+        }
+
+        this.$notification['success']({
+          message: 'Амжилттай',
+          description: 'Амжилттай сунгагдлаа'
+        });
+        
+        this.modal.date = false;
+        this.getUsers();
+      },
+      changeEndDate(row) {
+        this.selected.user = row;
+        this.modal.date = true;
+      },
+      addToBlackList(row) {
+        console.log(row);
       },
       onLoadError(evt) {
         // evt.currentTarget.src = 'https://icons8.com/icon/fJ30aGwJzPH7/customer';
@@ -222,7 +251,7 @@
 
         if (status === 'TOTAL') {
           let sum = 0; 
-          this.orders.forEach(element => {
+          this.users.forEach(element => {
             if (element.status === 'PAID') {
               sum += element.amount;
             }
@@ -231,7 +260,7 @@
           return sum;
         }
         let count = 0;
-        this.orders.forEach(element => {
+        this.users.forEach(element => {
           if (element.status === status) {
             count++;
           }
@@ -239,16 +268,16 @@
 
         return count;
       },
-      async getOrders() {
-        const data = await this.$_request('POST', this.$appUrl + '/admin/get-orders', { date: this.daterange, search: this.inp_search });
+      async getUsers() {
+        const data = await this.$_request('POST', this.$appUrl + '/admin/get-users', { search: this.inp_search });
         if (data.status == 200) {
-          this.orders = data.data;
+          this.users = data.data;
           console.log(this.orders);
         }
       }
     },
     mounted() {
-      this.getOrders();
+      this.getUsers();
     },
 	})
 

@@ -20,6 +20,8 @@ router.post("/update-lesson", auth, catchErrors(adminController.updateLesson));
 router.post("/get-orders", auth, catchErrors(adminController.getOrders));
 router.post("/check-order", auth, catchErrors(adminController.checkOrder));
 router.post("/update-order", auth, catchErrors(adminController.updateOrder));
+router.post("/get-users", auth, catchErrors(adminController.getUsers));
+router.post("/update-user-expired-date", auth, catchErrors(adminController.updateUserExpiredDate));
 
 // router.post("/add-admin", auth, catchErrors(adminController.register));
 // router.post("/get-admin-info", auth, catchErrors(adminController.LoggedUserInfo));

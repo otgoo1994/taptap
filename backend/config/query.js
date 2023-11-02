@@ -111,19 +111,21 @@ const query = {
   changePassword: function(password, id) {
     return `UPDATE users SET password = '${sha256(password + process.env.SALT)}' WHERE id = ${id}`;
   },
-  getOrderList: function (user, date) {
+  getOrderList: function (user, date, search) {
     if (!user) {
       if (!date) {
         return `SElECT o.id, o.status, o.invoice_id, u.name, u.phone, u.image, o.amount, o.created_at, o.updated_at 
         FROM orders AS o INNER JOIN users AS u 
         ON o.userId = u.id 
         WHERE MONTH(o.created_at) = MONTH(now())
-        AND YEAR(o.created_at) = YEAR(NOW())`;
+        AND YEAR(o.created_at) = YEAR(NOW())
+        AND o.invoice_id LIKE '${search}%'`;
       } else {
         return `SElECT o.id, o.status, o.invoice_id, u.name, u.phone, u.image, o.amount, o.created_at, o.updated_at 
         FROM orders AS o INNER JOIN users AS u 
         ON o.userId = u.id 
-        WHERE DATE(o.created_at) between DATE('${date[0]}') and DATE('${date[1]}')`;
+        WHERE DATE(o.created_at) between DATE('${date[0]}') and DATE('${date[1]}')
+        AND o.invoice_id LIKE '${search}%'`;
       }
     } else {
       return `SELECT invoice_id, type, status, amount, created_at, updated_at from orders WHERE userId = ${user}`;
@@ -134,6 +136,12 @@ const query = {
   },
   updateUserInfo: function (user, id) {
     return `UPDATE users SET name = '${user.name}', phone = '${user.phone}', updated_at = NOW() WHERE id = ${id}`;
+  },
+  getUserList: function(name) {
+    return `SELECT id, name, email, phone, image, end_at, 
+    active, point, lesson FROM users 
+    WHERE name LIKE '${name}%' 
+    OR email LIKE '${name}%'`
   }
 };
 

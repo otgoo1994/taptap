@@ -321,6 +321,11 @@ const updateLesson = async (req, res) => {
 const addLesson = async (req, res) => {
   const { info } = req.body;
 
+  if (info.type === 'video') {
+    console.log(req.file, '====');
+    return;
+  }
+
   let string;
   string = query.getCurrentLvl(info.lvl);
   const level = await exec.execute(string);

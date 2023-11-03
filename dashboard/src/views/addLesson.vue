@@ -176,9 +176,25 @@
 							</el-form-item>
 						</a-col>
 						<a-col :span="24" class="mb-24">
-							<el-form-item prop="text">
+							<el-form-item prop="text" v-if="currentLesson.type != 'video'">
 								<el-input type="textarea" placeholder="Текст" v-model="currentLesson.text" clearable> </el-input>
 							</el-form-item>
+
+							<a-upload-dragger
+								v-else
+								name="file"
+								:multiple="false"
+								action="javascript:;"
+								@change="handleChange"
+							>
+								<p class="ant-upload-drag-icon">
+									<a-icon type="inbox" class="google" theme="outlined"/>
+								</p>
+								<p class="ant-upload-text">Бичлэг байршуулахын тулд товших <br>эсвэл байршуулах бичлэгээ чирж авчирна уу</p>
+								<p class="ant-upload-hint">
+									Зөвхөн .mp4 бичлэг оруулахыг зөвшөөрнө
+								</p>
+							</a-upload-dragger>
 						</a-col>
 
 						<div class="table-upload-btn">
@@ -207,10 +223,11 @@
 				lessons: [],
 				lessonGroup: [],
 				options: {
-					types: [{value: 'intro', label: 'Шинэ үсэг'}, {value: 'boxed', label: 'Давтлага үсэг'}, {value: 'review', label: 'Давтлага өгүүлбэр'}, {value: 'hold', label: '1 гарын дадлага'}, {value: 'pool', label: 'Тоглоом (Усан сан)'}],
+					types: [{value: 'video', label: 'Бичлэг'}, {value: 'intro', label: 'Шинэ үсэг'}, {value: 'boxed', label: 'Давтлага үсэг'}, {value: 'review', label: 'Давтлага өгүүлбэр'}, {value: 'hold', label: '1 гарын дадлага'}, {value: 'pool', label: 'Тоглоом (Усан сан)'}],
 					lang: [{value: 'mon', label: 'Монгол'}, {value: 'eng', label: 'English'}],
 					holdword: [{value: 'ө', label: 'Баруун'}, {value: 'р', label: 'Зүүн'}]
 				},
+				fileList: {},
 				currentLesson: {
 					lessonname			: '',
 					type						: '',
@@ -231,11 +248,14 @@
 						lang						: [{required: true, message: 'Хэлээ сонгоно уу'}],
 						holdword				: [{required: this.currentLesson.type === 'hold' ? true : false, message: 'Дадлага хийх гар'}],
 						lvl							: [{required: true, message: 'Түвшин'}],
-						text						: [{required: true, message: 'Дадлага хийх бичвэр'}]
+						text						: [{required: this.currentLesson.type != 'video' ? true : false, message: 'Дадлага хийх бичвэр'}]
 					}
 				}
 		},
 		methods: {
+			handleChange(info) {
+				this.fileList = info.file;
+			},
 			async getMaxLvl() {
 				const data = await this.$_request('GET', this.$appUrl + '/admin/get-max-lvl');
 
@@ -257,12 +277,29 @@
 				this.lessonGroup = data.lessonGroup;
 			},
 			saveLesson() {
+
 				this.$refs.lessonForm.validate( async (valid) => {
 					if (!valid) {
 						return;
 					}
 
-					const data = await this.$_request('POST', this.$appUrl + '/admin/add-lesson', {info: this.currentLesson});
+					let data;
+					if (this.currentLesson.type === 'video') {
+						if (this.fileList.type != 'video/mp4') {
+							this.$notification['error']({
+								message: 'Амжилтгүй',
+								description: 'Зөвхөн .mp4 зөвшөөрнө'
+							});
+							return;
+						}
+
+						const formData = new FormData();
+						formData.append('video', this.fileList);
+						data = await this.$_request('POST', this.$appUrl + '/admin/add-lesson', formData, {info: this.currentLesson});
+
+					} else {
+						data = await this.$_request('POST', this.$appUrl + '/admin/add-lesson', {info: this.currentLesson});
+					}
 
 					if (!data) { return; }
 

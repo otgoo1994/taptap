@@ -173,7 +173,7 @@ const register = async (req, res) => {
 
   const datetime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
   string = query.insert('users'); 
-  let post = {name, password: sha256(password + process.env.SALT), token: '0', refresh_token: '0', created_at: datetime, updated_at: datetime, end_at: datetime, active: 0, lesson: 1, email};
+  let post = {name, password: sha256(password + process.env.SALT), token: '0', refresh_token: '0', created_at: datetime, updated_at: datetime, end_at: datetime, active: 0, lesson: 0, email};
   const record = await exec.execute(string, post);
 
   if (!record) {

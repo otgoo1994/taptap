@@ -55,6 +55,9 @@ const methods = {
         else if(path == 'pool') {
             return 'pool-game';
         }
+        else if(path == 'video') {
+            return 'video'
+        }
     }
 }
 

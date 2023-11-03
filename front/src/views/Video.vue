@@ -2,7 +2,7 @@
   <div>
     <div class="video-container" ref="container">
       <div class="body">
-        <video ref="videoPlayer" :src="$appUrl + '/videos/intro.mp4'"></video>
+        <video v-if="lesson.video" ref="videoPlayer" :src="$appUrl + '/videos/' + lesson.video"></video>
       </div>
       <div class="controller">
         <a href="javascript:;" @click="playVideo">
@@ -25,6 +25,20 @@
           title="Амжилттай үзэж дуусгалаа"
         >
           <template #extra>
+            <p>
+              <span class="star-rating">
+                <label for="rate-1"><a-icon type="star" class="google" theme="filled"/></label>
+                <input type="radio" name="rating" id="rate-1" value="1">
+                <label for="rate-2"><a-icon type="star" class="google" theme="filled"/></label>
+                <input type="radio" name="rating" id="rate-2" value="2" checked>
+                <label for="rate-3"><a-icon type="star" class="google" theme="filled"/></label>
+                <input type="radio" name="rating" id="rate-3" value="3">
+                <label for="rate-4"><a-icon type="star" class="google" theme="filled"/></label>
+                <input type="radio" name="rating" id="rate-4" value="4">
+                <label for="rate-5"><a-icon type="star" class="google" theme="filled"/></label>
+                <input type="radio" name="rating" id="rate-5" value="5">
+              </span>
+            </p>
             <a-button key="console" @click="watchAgain" type="primary">Дахиж үзэх</a-button>
             <a-button key="buy">Дараагийн хичээл</a-button>
           </template>
@@ -38,11 +52,16 @@ export default {
   data() {
     return {
       lesson: {
-        id: null
+        id: null,
+        video: null,
+        lvl: null
       },
       isPlay: false,
       fullscreen: false,
-      dialog: true
+      dialog: false,
+      status: {
+          lessonname: ''
+      },
     }
   },
   computed: {},
@@ -76,8 +95,16 @@ export default {
       this.$refs.container.classList.remove('full');
       this.fullscreen = false;
     },
-    videoEnded() {
-      // console.log('=====11111');
+    async videoEnded() {
+    
+      const data = await this.$_request('POST', this.$appUrl +'/lesson/update-user-lesson', {lessonId: this.lesson.id, wpm: 30, accuracy: 100, score: 200, level: this.lesson.lvl});
+      if (!data) { return; }
+
+      console.log(data.point, '====111===point');
+      if(data.point > 0) {
+          Event.$emit('set-user-point', data.point);
+      }
+
       this.dialog = true;
     },
     reqfullscreen() {
@@ -86,16 +113,61 @@ export default {
         return;
       }
       document.exitFullscreen();
+    },
+    async getLesson() {
+      const data = await this.$_request('POST', this.$appUrl +'/lesson/get-lesson', {id: this.lesson.id});
+      if (!data) { this.$router.push('/subjects'); return; }
+      this.lesson.video = data.data.text;
+
+      if(data.data.type != 'video') {
+          this.$router.push('/subjects');
+      } else {
+          this.lesson.lvl = data.data.lvl;
+          setTimeout(() => {
+            if (this.$refs.videoPlayer) {
+              this.$refs.videoPlayer.addEventListener('ended', this.videoEnded);
+            }
+          }, 1000);
+      }
+
+
     }
+  },
+  beforeRouteLeave (to, from, next) {
+    document.removeEventListener('fullscreenchange', this.fullScreenChanged);
+    this.$refs.videoPlayer.removeEventListener('ended', this.videoEnded);
+    next();
   },
   mounted() {
     this.lesson.id = this.$route.params.id;
     document.addEventListener('fullscreenchange', this.fullScreenChanged);
-    
-    if (this.$refs.videoPlayer) {
-      this.$refs.videoPlayer.currentTime = 60;
-      this.$refs.videoPlayer.addEventListener('ended', this.videoEnded);
-    }
+    this.getLesson();
   },
 }
 </script>
+
+<style lang="scss" scoped>
+
+@keyframes jump {
+  0%   {transform: translate3d(0,0,0) scale3d(1,1,1);}
+  40%  {transform: translate3d(0,30%,0) scale3d(.7,1.5,1);}
+  100% {transform: translate3d(0,100%,0) scale3d(1.5,.7,1);}
+}
+
+.star-rating {
+	white-space: nowrap;
+  label {
+    animation: jump .5s linear alternate infinite;
+    color: #faec1b;
+    text-shadow: 0 0 2px #ffffff, 0 0 10px #ffee58;
+    font-size: 25px;
+  }
+}
+.star-rating [type="radio"] {
+	appearance: none;
+}
+.star-rating i {
+	font-size: 1.2em;
+	transition: 0.3s;
+}
+</style>

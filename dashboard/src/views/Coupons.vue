@@ -120,30 +120,29 @@
 					:data="current"
 					style="width: 100%">
 					<el-table-column
-						label="Купон код"
-						width="200"
+						label="COUPON CODE"
 						>
 						<template slot-scope="scope">
-							<span style="margin-left: 10px">{{ scope.row.coupon }}</span>
+							<span>{{ scope.row.coupon }}</span>
 						</template>
 					</el-table-column>
 					<el-table-column
-						label="Сунгалтын эрх"
+						label="MONTH"
 						>
 						<template slot-scope="scope">
-							<span style="margin-left: 10px">{{ scope.row.month }} хоног</span>
+							<span>{{ scope.row.month }} хоног</span>
 						</template>
 					</el-table-column>
           <el-table-column
-						label="Ашиглагдсан эсэх"
+						label="IS ACTIVE"
 						>
 						<template slot-scope="scope">
-              <el-tag type="warning" v-if="scope.row.used">Ашиглагдсан</el-tag>
-              <el-tag type="success" v-else>Ашиглагдаагүй</el-tag>
+              <el-tag type="warning" v-if="scope.row.used">USED</el-tag>
+              <el-tag type="success" v-else>ACTIVE</el-tag>
 						</template>
 					</el-table-column>
 					<el-table-column
-						label="">
+						label="ACTIONS">
 						<template slot-scope="scope">
 							
 								<el-popconfirm

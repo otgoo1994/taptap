@@ -22,7 +22,7 @@
       <a-col :span="24" :lg="12" :xl="6" class="mb-24" >
 				<WidgetCounter
 					title="БАТАЛГААЖСАН"
-					:value="getStatus('PENDING')"
+					:value="getStatus('CONFIRMED')"
           prefix="+"
 					:icon="icons[1]"
 					status="danger"
@@ -31,7 +31,7 @@
       <a-col :span="24" :lg="12" :xl="6" class="mb-24" >
 				<WidgetCounter
 					title="БҮРТГҮҮЛСЭН"
-					:value="getStatus('DECLINED')"
+					:value="getStatus('REGISTERED')"
           prefix="+"
 					:icon="icons[2]"
 					status="danger"
@@ -41,7 +41,7 @@
 				<WidgetCounter
 					title="НИЙТ"
 					:value="getStatus('TOTAL')"
-          prefix="₮"
+          prefix="+"
 					:icon="icons[0]"
 					status="danger"
 				></WidgetCounter>
@@ -158,7 +158,7 @@
 		</a-row>
 		<!-- / Table & Timeline -->
 
-    <a-modal v-model="modal.date" title="Basic Modal" @ok="reqChangeDate">
+    <a-modal v-model="modal.date" title="Хэрэглэгчийн эрх сунгах">
       <a-select
         ref="select"
         style="width: 100%;"
@@ -167,6 +167,11 @@
         <a-select-option value="30">1 сарын эрх</a-select-option>
         <a-select-option value="90">3 сарын эрх</a-select-option>
       </a-select>
+
+      <template #footer>
+          <a-button key="back" @click="modal.date = false">Буцах</a-button>
+          <a-button key="submit" type="primary" :loading="loading.date" @click="reqChangeDate">Үргэлжлүүлэх</a-button>
+        </template>
     </a-modal>
 	</div>
 </template>
@@ -189,6 +194,9 @@
         modal: {
           date: false
         },
+        loading: {
+          date: false
+        },
         inp_search: '',
         daterange: null,
         users: [],
@@ -208,12 +216,12 @@
     methods: {
       change(event) {
         if (this.inp_search === '') {
-          this.getOrders();
+          this.getUsers();
         }
       },
       onSearch(value) {
         if (value != '') {
-          this.getOrders();
+          this.getUsers();
         }
       },
       dateChanged(date) {
@@ -221,9 +229,10 @@
           this.daterange = null;
           return;
         }
-        this.getOrders();
+        this.getUsers();
       },
       async reqChangeDate() {
+        this.loading.date = true;
         const data = await this.$_request('POST', this.$appUrl + '/admin/update-user-expired-date', { info: this.selected });
         if (data.status != 200) {
           return;
@@ -233,8 +242,9 @@
           message: 'Амжилттай',
           description: 'Амжилттай сунгагдлаа'
         });
-        
+
         this.modal.date = false;
+        this.loading.date = false;
         this.getUsers();
       },
       changeEndDate(row) {
@@ -250,29 +260,49 @@
       getStatus(status) {
 
         if (status === 'TOTAL') {
-          let sum = 0; 
+          return this.users.length;
+        }
+
+        if (status === 'PAID') {
+          let count = 0;
           this.users.forEach(element => {
-            if (element.status === 'PAID') {
-              sum += element.amount;
+            if (new Date(element.end_at) > new Date()) {
+              count++;
             }
           });
 
-          return sum;
+          return count;
         }
-        let count = 0;
-        this.users.forEach(element => {
-          if (element.status === status) {
-            count++;
-          }
-        });
 
-        return count;
+        if (status === 'CONFIRMED') {
+          let count = 0;
+          this.users.forEach(element => {
+            if (new Date(element.end_at) < new Date()) {
+              if (element.active) {
+                count++;
+              }
+            }
+          });
+
+          return count;
+        }
+
+        if (status === 'REGISTERED') {
+          let count = 0;
+          this.users.forEach(element => {
+            if (!element.active) {
+                count++;
+              }
+          });
+
+          return count;
+        }
       },
       async getUsers() {
         const data = await this.$_request('POST', this.$appUrl + '/admin/get-users', { search: this.inp_search });
         if (data.status == 200) {
           this.users = data.data;
-          console.log(this.orders);
+          console.log(this.users);
         }
       }
     },

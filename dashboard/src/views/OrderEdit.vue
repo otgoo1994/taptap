@@ -29,8 +29,13 @@
       <router-link to="/orders"><a-button key="console" type="primary">Буцах</a-button></router-link>
       <a-button @click="changeStatus" key="buy" v-if="current.status === 'PENDING'">Эрх сунгах</a-button>
 
-      <a-modal v-model="open" title="Санамж" @ok="open = false">
+      <a-modal v-model="open" title="Санамж">
         <p>Эрх сэргээхдээ итгэлтэй байна уу?</p>
+
+        <template #footer>
+          <a-button key="back" @click="open = false">Буцах</a-button>
+          <a-button key="submit" type="primary" :loading="loading" @click="reqChangeStat">Үргэлжлүүлэх</a-button>
+        </template>
       </a-modal>
 
     </template>
@@ -43,7 +48,8 @@ export default {
     return {
       invoiceId: null,
       current: null,
-      open: false
+      open: false,
+      loading: false
     }
   },
   computed: {
@@ -65,7 +71,23 @@ export default {
   },
   methods: {
     async reqChangeStat() {
+      this.loading = true;
       const data = await this.$_request('POST', this.$appUrl +`/admin/update-order`, {order: this.current});
+      if (data.status != 200) {
+        this.$notification['error']({
+          message: 'Амжилтгүй',
+        });
+
+        return;
+      }
+
+      this.$notification['success']({
+        message: 'Амжилттай',
+        description: 'Амжилттай сунгагдлаа'
+      });
+      this.open = false;
+      this.loading = false;
+      this.getOrder();
     },
     changeStatus() {
       this.open = true;

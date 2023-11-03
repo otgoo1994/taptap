@@ -32,6 +32,23 @@ const method = {
       }
 
       return data;
+  },
+  addLesson: async function(info) {
+    if (info.type === 'pool') {
+      info.image = 'pool.png';
+    } else {
+      info.image = info.type === 'boxed' ? 'practice.png' : (info.type === 'review' ? 'review.png': ( info.type === 'intro' ? 'newword.png' : 
+        info.holdword === 'ө' ? 'righthand.png' : 'lefthand.png'
+      ))
+    }
+  
+    if (info.holdword) {
+      info.url = info.holdword === 'ө' ? 'lefthand.png' : 'righthand.png';
+    }
+  
+  
+    const string = query.insert('lesson');
+    return await exec.execute(string, info);
   }
 }
 
@@ -207,7 +224,35 @@ const updateUserExpiredDate = async ( req, res) => {
 
 const updateOrder = async (req, res) => {
   const { order } = req.body;
-  console.log(order, '====');
+
+  const date = order.type === 1 ? 30 : 90;
+  const user = await method.updateUserExpireDate(order.id, date);
+  if (!user) {
+      res.status(200).json({
+        result: 'something went wrong',
+        status: 403
+      });
+      return;
+  }
+
+  console.log('======1111');
+
+  const string = `UPDATE orders SET status = 'PAID' WHERE payment_id = '${order.payment_id}'`;
+  const update = await exec.execute(string);
+1
+  if (!update) {
+    res.status(200).json({
+      result: 'something went wrong',
+      status: 403
+    });
+    return;
+  }
+
+  res.status(200).json({
+    result: 'success',
+    status: 200
+  });
+  return;
 }
 
 const login = async (req, res) => {
@@ -241,8 +286,24 @@ const login = async (req, res) => {
 
 const updateLesson = async (req, res) => {
   const { info, id } = req.body;
-  const string = query.updateCurrentLesson(['text', 'type', 'lang', 'lvl', 'holdword', 'url', 'groupId', 'lessonname', 'image'], info);
+  let string;
 
+  string = query.getCurrentLvl(info.lvl);
+  const level = await exec.execute(string);
+
+  if (level.length > 0) {
+    string = query.updateLessonLevels(info.lvl);
+    const level = await exec.execute(string);
+    if (!level) {
+      res.status(200).json({
+        result: 'something went wrong',
+        status: 403
+      }); 
+      return;
+    }
+  }
+
+  string = query.updateCurrentLesson(['text', 'type', 'lang', 'lvl', 'holdword', 'url', 'groupId', 'lessonname', 'image'], info);
   const update = await exec.execute(string);
 
   if (!update) {
@@ -265,32 +326,18 @@ const addLesson = async (req, res) => {
   const level = await exec.execute(string);
 
   if (level.length > 0) {
-    res.status(200).json({
-      result: 'duplicated level',
-      status: 409
-    });
-
-    return;
+    string = query.updateLessonLevels(info.lvl);
+    const level = await exec.execute(string);
+    if (!level) {
+      res.status(200).json({
+        result: 'something went wrong',
+        status: 403
+      }); 
+      return;
+    }
   }
 
-  console.log(info.type);
-
-  if (info.type === 'pool') {
-    info.image = 'pool.png';
-  } else {
-    info.image = info.type === 'boxed' ? 'practice.png' : (info.type === 'review' ? 'review.png': ( info.type === 'intro' ? 'newword.png' : 
-      info.holdword === 'ө' ? 'righthand.png' : 'lefthand.png'
-    ))
-  }
-
-  if (info.holdword) {
-    info.url = info.holdword === 'ө' ? 'lefthand.png' : 'righthand.png';
-  }
-
-
-  string = query.insert('lesson');
-  const add = await exec.execute(string, info);
-
+  const add = await method.addLesson(info);
   if (!add) { 
     res.status(200).json({
       result: 'something went wrong',

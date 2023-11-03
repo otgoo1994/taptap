@@ -142,6 +142,16 @@ const query = {
     active, point, lesson FROM users 
     WHERE name LIKE '${name}%' 
     OR email LIKE '${name}%'`
+  },
+  getMinLevel: function(id) {
+    return `SELECT MIN(lvl) 
+    FROM lesson WHERE groupId = 
+    ( SELECT id FROM lesson_group WHERE groupId = 
+      (SELECT groupId FROM lesson_group WHERE id = ${id}) 
+    + 1)`
+  },
+  updateLessonLevels: function(level) {
+    return `UPDATE lesson SET lvl = lvl + 1 WHERE lvl >= ${level}`;
   }
 };
 

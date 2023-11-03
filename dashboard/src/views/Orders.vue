@@ -31,7 +31,7 @@
       <a-col :span="24" :lg="12" :xl="6" class="mb-24" >
 				<WidgetCounter
 					title="ЦУЦЛАГДСАН"
-					:value="getStatus('DECLINED')"
+					:value="getStatus('CANCELED')"
           prefix="+"
 					:icon="icons[2]"
 					status="danger"

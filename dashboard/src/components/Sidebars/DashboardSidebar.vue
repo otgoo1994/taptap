@@ -13,7 +13,7 @@
 		:class="['ant-layout-sider-' + sidebarColor, 'ant-layout-sider-' + sidebarTheme]"
 		theme="light"
 		:style="{ backgroundColor: 'transparent',}">
-			<div class="brand"><img style="width: 100%; height: auto;" src="@/assets/logo.png" alt=""></div>
+			<div class="brand"><img style="width: 70%; height: auto;" src="@/assets/logo.png" alt=""></div>
 			<hr>
 
 			<!-- Sidebar Navigation Menu -->

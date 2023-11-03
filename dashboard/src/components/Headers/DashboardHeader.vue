@@ -31,7 +31,20 @@
 						<span>Sign In</span>
 					</router-link>
 					<a class="btn-sign-in" href="javascript:;" v-else>
-						<span>Сайн уу? {{this.user.name}}</span>
+						<!-- <span>Сайн уу? {{this.user.name}}</span> -->
+
+						<a-dropdown style="color: #000000;">
+							<a class="ant-dropdown-link" @click.prevent>
+								Сайн уу? {{this.user.name}}
+							</a>
+							<template #overlay>
+								<a-menu>
+									<a-menu-item @click="Logout">
+										<a href="javascript:;">Log out</a>
+									</a-menu-item>
+								</a-menu>
+							</template>
+						</a-dropdown>
 					</a>
 					<!-- / Header Control Buttons -->
 
@@ -118,6 +131,15 @@
 				// To refresh the header if the window size changes.
 				// Reason for the negative value is that it doesn't activate the affix unless
 				// scroller is anywhere but the top of the page.
+			},
+			Logout() {
+				localStorage.removeItem('user');
+				localStorage.removeItem('token');
+				this.$notification['warning']({
+					message: 'Амжилттай',
+					description: 'Системээс гарлаа'
+				});
+				this.$router.push('/sign-in');
 			},
 			onSearch(value){
 			},

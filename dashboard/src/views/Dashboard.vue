@@ -127,7 +127,7 @@
 					:data="currentLesson"
 					style="width: 100%">
 					<el-table-column
-						label="Дадлагын түвшин"
+						label="LEVEL"
 						width="200"
 						>
 						<template slot-scope="scope">
@@ -135,21 +135,21 @@
 						</template>
 					</el-table-column>
 					<el-table-column
-						label="Хичээлийн нэр"
+						label="LESSON"
 						>
 						<template slot-scope="scope">
 							<span style="margin-left: 10px">{{ scope.row.lessonname }}</span>
 						</template>
 					</el-table-column>
 					<el-table-column
-						label="Дадлагын төрөл"
-						>
+						label="TYPE">
 						<template slot-scope="scope">
-							<span style="margin-left: 10px">{{ scope.row.type }}</span>
+							<a-tag color="orange">{{ scope.row.type.toUpperCase() }}</a-tag>
+							<!-- <span style="margin-left: 10px">{{ scope.row.type.toUpperCase() }}</span> -->
 						</template>
 					</el-table-column>
 					<el-table-column
-						label="Operations">
+						label="OPERATIONS">
 						<template slot-scope="scope">
 							<el-button
 								size="mini"

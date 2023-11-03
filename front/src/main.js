@@ -52,15 +52,15 @@ Vue.component("layout-dashboard-rtl", DashboardRTLLayout);
 
 if(token != null) {
     axios.defaults.headers.common.Authorization = 'Bearer ' + token;
-    Vue.use(new VueSocketio({
-        debug: false, 
-        connection: appUrl,
-        options : { query: { token: token } },
-        vuex: {
-          actionPrefix: 'SOCKET_',
-          mutationPrefix: 'SOCKET_'
-        }
-    }));
+    // Vue.use(new VueSocketio({
+    //     debug: false, 
+    //     connection: appUrl,
+    //     options : { query: { token: token } },
+    //     vuex: {
+    //       actionPrefix: 'SOCKET_',
+    //       mutationPrefix: 'SOCKET_'
+    //     }
+    // }));
 }
 
 window.Event = new Vue();
@@ -69,15 +69,15 @@ Event.$on('member', () => {
     const tokenReplace = localStorage.getItem('token');
     if(tokenReplace != null) {
         axios.defaults.headers.common.Authorization = 'Bearer ' + tokenReplace;        
-        Vue.use(new VueSocketio({
-            debug: false, 
-            connection: appUrl,
-            options : { query: { token: tokenReplace } },
-            vuex: {
-              actionPrefix: 'SOCKET_',
-              mutationPrefix: 'SOCKET_'
-            }
-        }));
+        // Vue.use(new VueSocketio({
+        //     debug: false, 
+        //     connection: appUrl,
+        //     options : { query: { token: tokenReplace } },
+        //     vuex: {
+        //       actionPrefix: 'SOCKET_',
+        //       mutationPrefix: 'SOCKET_'
+        //     }
+        // }));
     }
 });
 

@@ -151,6 +151,16 @@ let routes = [
 		component: () => import('../views/hold.vue'),
 	},
 	{
+		path: '/program-5/:id',
+		name: 'video',
+		// layout: "dashboard",
+		meta: {
+			title: 'Typing - Видео заавар',
+			auth: true
+		},
+		component: () => import('../views/Video.vue'),
+	},
+	{
 		path: '/pool.game/:id',
 		name: 'pool-game',
 		// layout: "dashboard",

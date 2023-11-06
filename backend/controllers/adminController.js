@@ -36,6 +36,8 @@ const method = {
   addLesson: async function(info) {
     if (info.type === 'pool') {
       info.image = 'pool.png';
+    } else if(info.type === 'floppy') {
+      info.image = 'floppy.png';
     } else {
       info.image = info.type === 'boxed' ? 'practice.png' : (info.type === 'review' ? 'review.png': ( info.type === 'intro' ? 'newword.png' : 
         info.holdword === 'ө' ? 'righthand.png' : 'lefthand.png'

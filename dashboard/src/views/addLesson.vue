@@ -223,7 +223,7 @@
 				lessons: [],
 				lessonGroup: [],
 				options: {
-					types: [{value: 'video', label: 'Бичлэг'}, {value: 'intro', label: 'Шинэ үсэг'}, {value: 'boxed', label: 'Давтлага үсэг'}, {value: 'review', label: 'Давтлага өгүүлбэр'}, {value: 'hold', label: '1 гарын дадлага'}, {value: 'pool', label: 'Тоглоом (Усан сан)'}],
+					types: [{value: 'video', label: 'Бичлэг'}, {value: 'intro', label: 'Шинэ үсэг'}, {value: 'boxed', label: 'Давтлага үсэг'}, {value: 'review', label: 'Давтлага өгүүлбэр'}, {value: 'hold', label: '1 гарын дадлага'}, {value: 'pool', label: 'Тоглоом (Усан сан)'}, {value: 'floppy', label: 'Тоглоом (Floppy bird)'}],
 					lang: [{value: 'mon', label: 'Монгол'}, {value: 'eng', label: 'English'}],
 					holdword: [{value: 'ө', label: 'Баруун'}, {value: 'р', label: 'Зүүн'}]
 				},

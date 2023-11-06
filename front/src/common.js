@@ -57,6 +57,8 @@ const methods = {
         }
         else if(path == 'video') {
             return 'video'
+        } else if (path == 'floppy') {
+            return 'floppy-bird'
         }
     }
 }

@@ -161,6 +161,17 @@ let routes = [
 		component: () => import('../views/Video.vue'),
 	},
 	{
+		path: '/floppy.game/:id',
+		name: 'floppy-bird',
+		// layout: "dashboard",
+		meta: {
+			title: 'Typing - Floppy bird',
+			auth: true,
+			game: true
+		},
+		component: () => import('../views/Floppy.vue'),
+	},
+	{
 		path: '/pool.game/:id',
 		name: 'pool-game',
 		// layout: "dashboard",

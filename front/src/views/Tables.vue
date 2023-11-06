@@ -13,43 +13,6 @@
 		}
 	}
 }
-
-.begin-title {
-	position: absolute;
-	right: 0;
-	top: 0%;
-	@include vw-convert-desktop('width', 300px);
-	@include vw-convert-desktop('height', 50px);
-	transform: translate(90%, -160%);
-	z-index: 10;
-
-	.body {
-		border-radius: 10px;
-		background-color: #394554;
-		width: 100%;
-		height: 100%;
-		position: relative;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-
-		span {
-			z-index: 10;
-			color: #FFFFFF;
-			font-weight: 500;
-		}
-
-		.rect {
-			height: 50%;
-			aspect-ratio: 1;
-			background-color: #394554;
-			position: absolute;
-			bottom: 0%;
-			left: 0;
-			transform: rotate(45deg) translate(50%, -30%);
-		}
-	}
-}
 </style>
 <template>
 	<div>
@@ -72,12 +35,6 @@
 							<a-card :bordered="false" class="widget-1" style="">
 								<div class="box zoom-in" :style="{'position': 'relative'}" @click="startLess(less.id)">
 
-									<div class="begin-title" v-if="less.id === 1 && currentUserLesson === 0">
-										<div class="body">
-											<span>ЭНД ДАРЖ ХИЧЭЭЛЭЭ ЭХЛЭНЭ ҮҮ!</span>
-											<div class="rect"></div>
-										</div>
-									</div>
 									<div class="lesson-index">{{less.lvl}}</div>
 									<div class="lesson-lock" v-if="less.lvl > (currentUserLesson + 1)"><a-icon type="lock" /></div>
 									<div class="lesson-box">
@@ -123,6 +80,10 @@
 			Event.$emit('navbarname', '');
 		},
 		methods: {
+			getCurrLocation() {
+				const rows = document.querySelector('.less-card');
+				console.log(rows);	
+			},
 			startLess(id) {
 				var selected;
 				this.lessons.forEach(element => {
@@ -202,6 +163,12 @@
 					this.userStar = this.userStar + star;
 					this.userPoint = this.userPoint + element.score;
 				});
+
+				if (this.currentUserLesson === 0) {
+					setTimeout(() => {
+						this.getCurrLocation();
+					}, 1000);
+				}
 			},
 		}
 	})

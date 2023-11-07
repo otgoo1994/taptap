@@ -84,6 +84,75 @@
         transform: scale(1.1);
       }
     }
+
+
+    .lose,  .won{
+      @include vw-convert-desktop(font-size, 50px);
+      color: #FFFFFF;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      font-family: 'Press Start 2P';
+
+      .start {
+        @include vw-convert-desktop(font-size, 20px);
+        background-color: #2E2542;
+        @include vw-convert-desktop(padding, 20px 30px);
+        @include vw-convert-desktop(border-radius, 10px);
+        color: #FFFFFF;
+        cursor: pointer;
+        transition: 0.5s;
+  
+        &:hover {
+          transform: scale(1.1);
+        }
+      }
+
+      .stat {
+        @include vw-convert-desktop(font-size, 30px);
+        font-family: 'Press Start 2P';
+
+        table td{
+          color: #8c8c8c;
+          @include vw-convert-desktop(padding, 10px 40px);
+        }
+
+        .status {
+          display: flex;
+          justify-content: center;
+      
+      
+          .actions-info {
+            position: relative;
+            font-weight: 700;
+            line-height: 180%;
+            @include vw-convert-desktop(height, 60px);
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            @include vw-convert-desktop(margin-left, 50px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+      
+            p {
+              font-size: 2vw;
+              color: #E2B714;
+              margin: 0;
+            }
+      
+            svg {
+              height: 50%;
+              margin-top: 10%;
+              fill: #8c8c8c;
+              cursor: pointer;
+            }
+          }
+        }
+      }
+    }
   }
 
   .text-container {

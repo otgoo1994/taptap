@@ -91,6 +91,11 @@ export default {
     },
     async isPaid() {
       const data = await this.$_request('POST', this.$appUrl +`/purchase/check-qpay-bill`, {invoiceId: this.invoiceId});
+
+      if (Number.isInteger(data)) { 
+          if (data === 402) { this.$router.push('/price'); return; }
+          return;
+      }
       
       if (data.result === 'fail') {
         this.$notification['error']({
@@ -112,7 +117,12 @@ export default {
     },
     async getOrder() {
       const data = await this.$_request('POST', this.$appUrl +`/purchase/check-order`, {invoiceId: this.invoiceId});
-      console.log(data, '====');
+      
+      if (Number.isInteger(data)) { 
+          if (data === 402) { this.$router.push('/price'); return; }
+          return;
+      }
+
       if (data.status === 200) {
         this.current = data.data;
         this.endDate = this.$_method.dateDistance(this.current.end_at);

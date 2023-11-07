@@ -176,9 +176,7 @@ export default {
     selector: null,
     hand: null
   },
-  mounted() {
-    console.log('asdfasdfasdf');
-  },
+  mounted() {},
 }
 </script>
 <style scoped>

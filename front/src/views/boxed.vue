@@ -163,7 +163,10 @@ export default {
         async getNextLesson() {
 
             const data = await this.$_request('POST', this.$appUrl +'/lesson/next-lesson', {level: this.lesson.lvl + 1});
-            if (!data) { this.$router.push('/subjects'); return; }
+            if (Number.isInteger(data)) { 
+                if (data === 402) { this.$router.push('/price'); return; }
+                this.$router.push('/subjects'); return;
+            }
 
             const path = this.$_method.getLessonRoute(data.data.type);
 		    this.$router.push({name: path, params: {id: data.data.id}});
@@ -248,7 +251,10 @@ export default {
         async gettext() {
 
             const data = await this.$_request('POST', this.$appUrl +'/lesson/get-lesson', {id: this.lesson.id});
-            if (!data) { this.$router.push('/subjects'); return; }
+            if (Number.isInteger(data)) { 
+                if (data === 402) { this.$router.push('/price'); return; }
+                this.$router.push('/subjects'); return;
+            }
 
 
             this.counter.realWpm = data.group.wpm;
@@ -368,7 +374,10 @@ export default {
 
 
             const data = await this.$_request('POST', this.$appUrl +'/lesson/update-user-lesson', {lessonId: this.lesson.id, wpm, accuracy, score, level: this.lesson.lvl});
-            if (!data) { return; }
+            if (Number.isInteger(data)) { 
+                if (data === 402) { this.$router.push('/price'); return; }
+                return;
+            }
 
             if(data.point > 0) {
                 Event.$emit('set-user-point', data.point);

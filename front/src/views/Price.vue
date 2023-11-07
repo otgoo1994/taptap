@@ -11,6 +11,41 @@ $accent-color: #33c4b6;
     @include vw-convert-desktop('font-size', 15px);
     font-size: 15px;
     transform: translate(-50%, -50%);
+    @include vw-convert-desktop('width', 800px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    @include mobile {
+      width: 80%;
+      height: 75%;
+      overflow-y: auto;
+    }
+
+    &-body {
+      width: 100%;
+      height: 100%;
+      display: flex;
+
+      @include mobile {
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        @include vw-convert-mobile(padding-top, 20px);
+      }
+    }
+}
+
+.mobile-coupon {
+  display: none;
+
+  @include mobile {
+    width: 80%;
+    display: block;
+    @include vw-convert-mobile(font-size, 30px);
+    @include vw-convert-mobile(margin-top, 20px);
+    @include vw-convert-mobile(padding-bottom, 20px);
+  }
 }
 .package {
   user-select: none;
@@ -32,8 +67,14 @@ $accent-color: #33c4b6;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 
   @include mobile {
-    @include vw-convert-mobile('width', 250px);
-    @include vw-convert-mobile('height', 380px);
+    width: 80% !important;
+    height: auto;
+    @include vw-convert-mobile('padding', 24px);
+    @include vw-convert-mobile('border-radius', 20px);
+
+    &:hover {
+      margin-top: 0px;
+    }
   }
   
   &:hover {
@@ -47,10 +88,20 @@ $accent-color: #33c4b6;
     font-size: 1.5rem;
     @include vw-convert-desktop('margin-top', -5px);
     margin-top: -5px;
+
+    @include mobile {
+      @include vw-convert-mobile('font-size', 40px);
+      @include vw-convert-mobile('margin-top', 20px);
+    }
 }
 .price {
   @include vw-convert-desktop('margin-top', 7px);
-    font-weight: bold;
+  font-weight: bold;
+
+  @include mobile {
+    @include vw-convert-mobile('font-size', 30px);
+    @include vw-convert-mobile('margin-top', 10px);
+  }
 }
 hr {
     background-color: #dedede;
@@ -75,15 +126,30 @@ ul {
     padding: 0;
     text-align: left;
     @include vw-convert-desktop('margin-top', 29px);
+
+    @include mobile {
+      @include vw-convert-mobile('margin-top', 100px);
+    }
 }
 li {
   @include vw-convert-desktop('margin-bottom', 15px);
   @include vw-convert-desktop('font-size', 13px);
-    &:before {
-      // @extend .checkIcon;
-      color: $accent-color;
-      @include vw-convert-desktop('margin-right', 3px);
+  &:before {
+    // @extend .checkIcon;
+    color: $accent-color;
+    @include vw-convert-desktop('margin-right', 3px);
   }
+
+  @include mobile {
+      @include vw-convert-mobile('font-size', 25px);
+      @include vw-convert-mobile('margin-bottom', 15px);
+
+      &:before {
+        // @extend .checkIcon;
+        color: $accent-color;
+        @include vw-convert-mobile('margin-right', 3px);
+      }
+    }
 }
 .checkIcon {
     // font-family: "FontAwesome";
@@ -114,7 +180,7 @@ li {
 }
 
 .coupon {
-  margin-top: 52%;
+  margin-top: 5%;
   @include vw-convert-desktop('font-size', 18px);
   font-family: 'Montserrat', sans-serif;
   font-family: 500;
@@ -123,11 +189,15 @@ li {
     font-weight: 700;
     color: #e2b714;
   }
+
+  @include mobile {
+    display: none;
+  }
 }
 </style>
 <template>
   <div class='wrapper'>
-    <div>
+    <div class="wrapper-body">
       <div class='package' amount="5900" @click="purchase">
         <div class='name'>Limited</div>
         <div class='price'>₮5,900</div>
@@ -180,6 +250,8 @@ li {
           <li><strong>Сонгогдсон тоглоомууд</strong></li>
         </ul>
       </div>
+
+      <div class="mobile-coupon">Танд хөнгөлтийн карт code байгаа бол <router-link to="/use-coupon">энд</router-link> дарна уу.</div>
     </div>
     <div class="coupon">Танд хөнгөлтийн карт code байгаа бол <router-link to="/use-coupon">энд</router-link> дарна уу.</div>
   </div>

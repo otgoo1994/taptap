@@ -89,6 +89,8 @@
 </script>
 
 <style lang="scss">
+
+@import "./scss/utils" ;
 body {
 	font-family: 'Montserrat', sans-serif;
 }
@@ -109,6 +111,10 @@ body {
 	svg {
 		width: 2.5%;
 		height: auto;
+
+		@include mobile {
+			width: 10%;
+		}
 	}
 
 }

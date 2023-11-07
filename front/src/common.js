@@ -8,20 +8,16 @@ const detectRequest = async (method, url, data) => {
   let response = await axios( params ).then( data => {
     Event.$emit('set-loader', false);
     return data;
-  }).catch(() => {
+  }).catch((e) => {
     Event.$emit('set-loader', false);
-    return false;
+    return e.response;
   });
 
-  if (!response) {
-    return false;
+  if (response.status === 200) {
+    return response.data ? response.data : true;
   }
 
-  if (response === 204) {
-    return 204;
-  }
-  
-  return response.data ? response.data : true;
+  return response.status;
 }
 
 const createEvent = async (name, method) => {

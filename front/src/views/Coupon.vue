@@ -51,7 +51,7 @@
       @include vw-convert-desktop('margin-top', 10px);
 
       @include mobile {
-        @include vw-convert-mobile('height', 50px);
+        @include vw-convert-mobile('height', 90px);
         @include vw-convert-mobile('margin-top', 10px);
       }
     }
@@ -108,14 +108,19 @@ export default {
       }
       
       const data = await this.$_request('POST', this.$appUrl +`/purchase/use-coupon`, {coupon: this.coupon.toUpperCase()});
-        if (data.result == 'success') {
-        
-        Event.$emit('changeUserProperty', data.user);
-        this.$notification['success']({
-          message: 'Амжилттай',
-          description: 'Купон код ашиглагдлаа'
-        });
-        return;
+      if (Number.isInteger(data)) { 
+        if (data === 402) { this.$router.push('/price'); return; }
+        this.$router.push('/subjects'); return;
+      }
+
+      if (data.result == 'success') {
+      
+      Event.$emit('changeUserProperty', data.user);
+      this.$notification['success']({
+        message: 'Амжилттай',
+        description: 'Купон код ашиглагдлаа'
+      });
+      return;
       }
   
       this.$notification['error']({

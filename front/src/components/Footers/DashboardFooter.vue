@@ -2,7 +2,7 @@
 	
 	<a-layout-footer>
 		<a-row type="flex">
-			<a-col :span="24" :md="12">
+			<a-col :span="12" :md="12">
 
 				<!-- Footer Copyright Notice -->
 				<p class="copyright">
@@ -14,7 +14,7 @@
 				<!-- / Footer Copyright Notice -->
 
 			</a-col>
-			<a-col :span="24" :md="12" class="footer-control pr-20" align="right">
+			<a-col :span="12" :md="12" class="footer-control pr-20" align="right">
 				Typing.mn
 				<!-- Гео интегрэйшн ХХК -->
 			</a-col>

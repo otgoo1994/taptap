@@ -224,10 +224,10 @@ const year = new Date().getFullYear();
 			},
 			async withFacebookLogin(data) {
 				const response = await this.$_request('POST', this.$appUrl +'/user/facebook-login', {user: data.data});
-				if (!response) {
-					console.log('something went wrong====');
-					return;
-				}
+				if (Number.isInteger(data)) { 
+          if (data === 402) { this.$router.push('/price'); return; }
+          return;
+      	}
 
 				if (response.status === 200) {
 					this.$notification['success']({

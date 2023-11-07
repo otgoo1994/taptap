@@ -68,6 +68,11 @@ const year = new Date().getFullYear();
     methods: {
       async confirmCode() {
         const data = await this.$_request('POST', this.$appUrl +'/user/confirm-verify-code', {email: this.email, token: this.token});
+        if (Number.isInteger(data)) { 
+          if (data === 402) { this.$router.push('/price'); return; }
+          this.$router.push('/subjects'); return;
+        }
+
         if (!data.find) {
           this.$notification['error']({
             message: 'Амжилтгүй',
@@ -98,6 +103,12 @@ const year = new Date().getFullYear();
       },
       async sendAgain() {
         const data = await this.$_request('POST', this.$appUrl +'/user/send-verify-code', {email: this.email});
+
+        if (Number.isInteger(data)) { 
+          if (data === 402) { this.$router.push('/price'); return; }
+          this.$router.push('/subjects'); return;
+        }
+        
         if (data.status === 200) {
           this.disabled = true;
           this.text = this.second + ' сек';

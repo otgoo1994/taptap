@@ -355,7 +355,7 @@ const resetPassword = async (req, res) => {
   if (!user.length) {
     res.json({
       result: 'failed',
-      status: 402
+      status: 204
     });
     return;
   }

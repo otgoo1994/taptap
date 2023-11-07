@@ -71,7 +71,7 @@ const year = new Date().getFullYear();
         }
 
         const data = await this.$_request('POST', this.$appUrl +'/user/reset-password', {email: this.email});
-        if (data.status == 402) {
+        if (data.status == 204) {
           this.$notification['warning']({
 						message: 'Амжилтгүй',
 						description: 'Бүртгэлгүй имэйл хаяг'

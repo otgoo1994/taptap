@@ -23,7 +23,7 @@ module.exports = async (req, res, next) => {
       }
 
 
-      if (level[0].lvl > 60) {
+      if (level[0].lvl > 20) {
         query = `SELECT id from users WHERE id = ${payload.id} AND end_at >= '${dt}'`;
       } else {
         query = `SELECT id from users WHERE id = ${payload.id}`;
@@ -43,7 +43,7 @@ module.exports = async (req, res, next) => {
     
     if (!data.length) {
       res.status(402).json({
-        message: "Payment required"
+        message: "Payment required",
       });
       return
     }

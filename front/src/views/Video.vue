@@ -98,7 +98,10 @@ export default {
     async videoEnded() {
     
       const data = await this.$_request('POST', this.$appUrl +'/lesson/update-user-lesson', {lessonId: this.lesson.id, wpm: 30, accuracy: 100, score: 200, level: this.lesson.lvl});
-      if (!data) { return; }
+      if (Number.isInteger(data)) { 
+        if (data === 402) { this.$router.push('/price'); return; }
+        return;
+      }
 
       console.log(data.point, '====111===point');
       if(data.point > 0) {
@@ -116,7 +119,10 @@ export default {
     },
     async getLesson() {
       const data = await this.$_request('POST', this.$appUrl +'/lesson/get-lesson', {id: this.lesson.id});
-      if (!data) { this.$router.push('/subjects'); return; }
+      if (Number.isInteger(data)) { 
+        if (data === 402) { this.$router.push('/price'); return; }
+        this.$router.push('/subjects'); return;
+      }
       this.lesson.video = data.data.text;
 
       if(data.data.type != 'video') {

@@ -4,6 +4,10 @@
 	position: relative;
 	@include vw-convert-desktop('height', 70px);
 
+	@include mobile {
+		@include vw-convert-mobile('height', 100px);
+	}
+
 	.info-bar {
 		&:nth-child(1) {
 			// background: #f5f5f5;
@@ -147,7 +151,10 @@
 			},
 			async getList() {
 				const data = await this.$_request('POST', this.$appUrl +'/lesson/get-lesson-list');
-				if (!data) { return; }
+				if (Number.isInteger(data)) { 
+          if (data === 402) { this.$router.push('/price'); return; }
+          return;
+      	}
 
 				this.lessons = data.lesson;
 				this.lessonGroup = data.lessonGroup;

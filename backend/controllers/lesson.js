@@ -78,8 +78,7 @@ const selectedLesson = async (req, res) => {
     const payload = await jwt.verify(token, 'HS256');
 
     const { id } = req.body;
-    
-    let lesson = `SELECT text, lvl, type, groupId, holdword, url, lessonname from lesson WHERE id = ${id}`;
+    let lesson = `SELECT l.text, l.lvl, l.type, l.groupId, l.holdword, l.url, l.lessonname, lg.wpm from lesson as l inner join lesson_group as lg on l.groupId = lg.id WHERE l.id=${id}`;
     db.query(lesson, async (err, result) => {
         if(err) {
             throw err;

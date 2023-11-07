@@ -406,8 +406,10 @@ import Chart from 'chart.js/auto';
 				this.chart.wpm = [];
 				this.destroyChart();
 				const data = await this.$_request('POST', this.$appUrl +`/text/get-practice`, {config: this.status});
-				
-				if (!data) { return; }
+				if (Number.isInteger(data)) { 
+					if (data === 402) { this.$router.push('/price'); return; }
+					return;
+				}
 
 				let word = data.data;
 				if (this.status.testtype === 'word') {

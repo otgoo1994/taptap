@@ -11,7 +11,11 @@ let routes = [
 	{
 		path: '/',
 		name: 'Home',
-		redirect: '/test-speed',
+		meta: {
+			title: 'typing.mn',
+			auth: false
+		},
+		component: () => import('../views/Home.vue')
 	},
 	{
 		path: '/profile',

@@ -1,0 +1,58 @@
+﻿.ant-layout-content {
+  padding-top: 0 !important;
+}
+
+.ant-layout-header {
+  z-index: 2 !important;
+}
+
+.home-page {
+  .home {
+    height: 60vh;
+    width: 100%;
+    background-color: grey;
+
+    .slick-slide {
+      height: 60vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      user-select: none;
+    }
+
+    div {
+      height: 100%;
+    }
+
+    .banner {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+
+      img {
+        width: 100%;
+        height: auto;
+      }
+
+      .button {
+        background-color: #394554;
+        color: #FFFFFF;
+        position: absolute;
+        left: 10%;
+        top: 75%;
+        width: 250px;
+        height: 70px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+        box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+      }
+    }
+
+    .ant-carousel .slick-dots li button {
+      background: #000000;
+    }
+  }
+}

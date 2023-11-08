@@ -1,20 +1,22 @@
 ﻿<template>
-	<div class="container">
+	<div class="container game">
+
+		<h5>Урамшуулалтай уралдаан</h5>
 		<div class="grid grid-cols-12 gap-6">
 			<div class="col-span-12 xxl:col-span-12 grid grid-cols-12 gap-6 pt-10">
-				<a-row :gutter="20">
-					<a-col :span="24" :xl="6" :lg="8" :xxl="4" class="mb-24 less-card" style="cursor: pointer;">
-						<a-card :bordered="false" class="widget-1 game" @click="goGame('pool')" style="background-color: #FFFFFF">
-							<div class="box zoom-in" :style="{'position': 'relative'}">
-								<div class="lesson-box">
-									<img src="@/assets/images/games/tubes/rules.png" :style="{'width': '100%', 'height': 'auto'}">
-								</div>
-								<div class="lesson-name">Усан сан</div>
-								<div class="lesson-desc">Усан сан</div>
-							</div>
-						</a-card>
-					</a-col>  
-				</a-row>
+				<div class="game-list">
+					<div v-for="(item, index) in list" :key="'t' + index" :bordered="false" class="widget">
+						<table>
+							<tr>
+								<td>
+									<img class="poster" :src="$appUrl + '/images/race/' + item.image" alt="poster-image">
+								</td>
+								<td>je;;p</td>
+								<td>je;;p</td>
+							</tr>
+						</table>
+					</div>
+				</div>
       </div>
     </div>
 	</div>
@@ -25,6 +27,16 @@
 	export default ({
 		data() {
 			return {
+				list: [
+					{ 
+						image: 'giveway.png',
+						id: 1,
+					},
+					{ 
+						image: 'giveway.png',
+						id: 1,
+					},
+				]
 			}
 		},
 		mounted() {

@@ -119,7 +119,8 @@ export default {
             warningSpans: [],
             lesson : {
                 id: '',
-                lvl: ''
+                lvl: '',
+                isFinish: false
             },
             caps: false,
             holdImage: 'righthand.png',
@@ -157,8 +158,6 @@ export default {
         clearInterval(timer);
         this.resetParams();
         this.gettext();
-        this.setFocus();
-
         next()
     },
     beforeRouteLeave (to, from, next) {
@@ -248,8 +247,10 @@ export default {
             this.chart.keyword = new Chart(this.$refs.resultChart, config);
         },
         refershLesson() {
+            this.lesson.isFinish = false;
             this.resetParams();
             this.gettext();
+            this.setFocus();
         },
         resetParams() {
             this.resultDialog = false;
@@ -314,6 +315,7 @@ export default {
 		    this.$router.push({name: path, params: {id: data.data.id}});
         },
         type() {
+            if (this.lesson.isFinish) { return; }
             correctSound.pause();
             errorSound.pause();
             var t = new RegExp(this.holdWord, 'i');
@@ -407,6 +409,7 @@ export default {
             }
         },
         async finishGame() {
+            this.lesson.isFinish = true;
             clearInterval(timer);
         
             var wpm = parseInt((this.correctSpans.length / 5) / (this.counter.time_passed / 60));

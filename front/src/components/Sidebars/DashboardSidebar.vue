@@ -13,7 +13,7 @@
 		:class="['ant-layout-sider-' + sidebarColor, 'ant-layout-sider-' + sidebarTheme]"
 		theme="light"
 		:style="{ backgroundColor: 'transparent',}">
-			<div class=""><router-link to="/test-speed"><img style="width: 50%; height: auto;" src="@/assets/logo.png" alt=""></router-link></div>
+			<div class=""><router-link to="/"><img style="width: 50%; height: auto;" src="@/assets/logo.png" alt=""></router-link></div>
 			<hr>
 
 			<!-- Sidebar Navigation Menu -->

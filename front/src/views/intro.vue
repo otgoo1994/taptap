@@ -92,7 +92,8 @@ export default {
             },
             lesson : {
                 id: '',
-                lvl: ''
+                lvl: '',
+                isFinish: false
             },
             progress: 0,
             keyboardImage: '',
@@ -145,8 +146,6 @@ export default {
         this.lesson.id = to.params.id;
         clearInterval(timer);
         this.gettext();
-        this.setFocus();
-
         next()
     },
     methods: {
@@ -162,8 +161,10 @@ export default {
 		    this.$router.push({name: path, params: {id: data.data.id}});
         },
         refershLesson() {
+            this.lesson.isFinish = false;
             this.resetParams();
             this.gettext();
+            this.setFocus();
         },
         resetParams() {
             this.resultDialog = false;
@@ -279,6 +280,9 @@ export default {
             this.chart.wpm.push(wpm);
         },
         type() {
+
+            if (this.lesson.isFinish) { return; }
+
             correctSound.pause();
             errorSound.pause();
             if(this.counter.start == false) {
@@ -335,7 +339,7 @@ export default {
             }
         },
         async finishGame() {
-            
+            this.lesson.isFinish = true;
             var accuracy= 0; var wpm = 0;
             
             var typed = this.counter.characters + this.counter.errors;

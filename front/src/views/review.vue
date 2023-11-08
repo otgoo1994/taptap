@@ -103,7 +103,8 @@ export default {
             warningSpans: [],
             lesson : {
                 id: '',
-                lvl: ''
+                lvl: '',
+                isFinish: false
             },
             caps: false,
             lastword: null
@@ -133,7 +134,6 @@ export default {
         clearInterval(timer);
         this.resetParams();
         this.gettext();
-        this.setFocus();
 
         next()
     },
@@ -200,8 +200,10 @@ export default {
             this.chart.keyword = new Chart(this.$refs.resultChart, config);
         },
         refershLesson() {
+            this.lesson.isFinish = false;
             this.resetParams();
             this.gettext();
+            this.setFocus();
         },
         resetParams() {
             this.resultDialog = false;
@@ -265,6 +267,7 @@ export default {
 		    this.$router.push({name: path, params: {id: data.data.id}});
         },
         type() {
+            if (this.lesson.isFinish) { return; }
             correctSound.pause();
             errorSound.pause();
             var input = this.$refs.inputDiv.value.replace('&amp;','&');
@@ -356,6 +359,7 @@ export default {
 
         },
         async finishGame() {
+            this.lesson.isFinish = true;
             clearInterval(timer);
         
             var wpm = parseInt((this.correctSpans.length / 5) / (this.counter.time_passed / 60));

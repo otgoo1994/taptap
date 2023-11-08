@@ -4,7 +4,7 @@
 	<a-layout-header style="position: relative;">
 		<div class="header-col header-brand">
 			<!-- <router-link to="/"><h6 style="color: #fff;">Typing.mn</h6></router-link> -->
-			<div><router-link to="/test-speed"><img style="width: 10%; height: auto;" src="@/assets/logo.png" alt=""></router-link></div>
+			<div><router-link to="/"><img style="width: 10%; height: auto;" src="@/assets/logo.png" alt=""></router-link></div>
 		</div>
 	</a-layout-header>
 	<!-- / Layout Header ( Navbar ) -->

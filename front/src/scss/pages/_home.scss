@@ -257,3 +257,36 @@
     }
   }
 }
+
+
+.game {
+  h5 {
+    color: #394554;
+  }
+  .game-list {
+    @include vw-convert-desktop(padding, 20px 0px);
+    .widget {
+      @include vw-convert-desktop(margin-top, 10px);
+      @include vw-convert-desktop(border-radius, 15px);
+      background-color: #FFFFFF;
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 4px 12px;
+      transition: 0.2s;
+      overflow: hidden;
+      cursor: pointer;
+      
+
+      &:hover {
+        transform: translateY(-5px);
+      }
+    }
+
+    table {
+      width: 100%;
+
+      .poster {
+        @include vw-convert-desktop(height, 60px);
+        width: auto;
+      }
+    }
+  }
+}

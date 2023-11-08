@@ -102,7 +102,8 @@ export default {
             },
             lesson : {
                 id: '',
-                lvl: ''
+                lvl: '',
+                isFinish: false
             },
             progress: 0,
             keyboardImage: '',
@@ -155,8 +156,6 @@ export default {
         clearInterval(timer);
         this.resetParams();
         this.gettext();
-        this.setFocus();
-
         next()
     },
     methods: {
@@ -238,8 +237,10 @@ export default {
             this.chart.keyword = new Chart(this.$refs.resultChart, config);
         },
         refershLesson() {
+            this.lesson.isFinish = false;
             this.resetParams();
             this.gettext();
+            this.setFocus();
         },
         resetParams() {
             this.resultDialog = false;
@@ -288,6 +289,7 @@ export default {
             this.chart.wpm.push(wpm);
         },
         type() {
+            if (this.lesson.isFinish) { return; }
             correctSound.pause();
             errorSound.pause();
             if(this.counter.start == false) {
@@ -346,6 +348,7 @@ export default {
             }
         },
         async finishGame() {
+            this.lesson.isFinish = true;
             clearInterval(timer);
             var score = 0; var accuracy= 0; var wpm = 0;
             

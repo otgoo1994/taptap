@@ -40,7 +40,7 @@
               </span>
             </p>
             <a-button key="console" @click="watchAgain" type="primary">Дахиж үзэх</a-button>
-            <a-button key="buy">Дараагийн хичээл</a-button>
+            <a-button @click="getNextLesson" key="buy">Дараагийн хичээл</a-button>
           </template>
         </a-result>
       </div>
@@ -66,6 +66,17 @@ export default {
   },
   computed: {},
   methods: {
+    async getNextLesson() {
+
+      const data = await this.$_request('POST', this.$appUrl +'/lesson/next-lesson', {level: this.lesson.lvl + 1});
+      if (Number.isInteger(data)) { 
+          if (data === 402) { this.$router.push('/price'); return; }
+          this.$router.push('/subjects'); return;
+      }
+
+      const path = this.$_method.getLessonRoute(data.data.type);
+      this.$router.push({name: path, params: {id: data.data.id}});
+    },
     watchAgain() {
       this.dialog = false;
       this.$refs.videoPlayer.currentTime = 0;

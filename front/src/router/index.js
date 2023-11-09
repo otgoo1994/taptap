@@ -243,8 +243,17 @@ routes = routes.map( ( route ) => addLayoutToRoute( route ) ) ;
 
 const auth = {
 	loggedIn() {
-		var token = localStorage.getItem("token");
+		const token = localStorage.getItem("token");
+		const user = localStorage.getItem("user");
+		
+		const isUser = user ? (user === 'undefined' ? false : true ) : false;
+
 		if (token) {
+
+			if (!isUser) {
+				return false;
+			}
+			
 			return true;
 		} else {
 			return false;

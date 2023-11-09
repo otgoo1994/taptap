@@ -73,6 +73,7 @@
 							</span>
 							<el-dropdown-menu slot="dropdown">
 								<el-dropdown-item command="profile">Хувийн мэдээлэл</el-dropdown-item>
+								<el-dropdown-item command="invite">Найзаа урих</el-dropdown-item>
 								<el-dropdown-item command="signout" divided>Гарах</el-dropdown-item>
 							</el-dropdown-menu>
 						</el-dropdown>
@@ -86,6 +87,17 @@
 			</a-row>
 		</a-layout-header>
 		<!--  /Layout Header -->
+
+		<a-modal v-model="inviteModal" title="Найзаа урих">
+			<a-space direction="vertical" style="width: 100%;">
+				<a-input v-model="inviteEmail" placeholder="Илгээх имэйл хаягаа оруулна уу" allow-clear />
+			</a-space>
+
+			<template #footer>
+        <a-button key="back">Буцах</a-button>
+        <a-button key="submit" @click="sendInvite" type="primary">Илгээх</a-button>
+      </template>
+    </a-modal>
 
 	</component>
 	<!-- / Main Sidebar -->
@@ -144,16 +156,13 @@
 		},
 		data() {
 			return {
-				// Fixed header/sidebar-footer ( Affix component ) top offset.
 				top: 0,
-
-				// Search input loading status.
 				searchLoading: false,
-
-				// The wrapper element to attach dropdowns to.
 				wrapper: document.body,
 				bartitle: 'Typing.mn',
-				user: null
+				user: null,
+				inviteModal: false,
+				inviteEmail: ''
 			}
 		},
 		computed: {
@@ -164,8 +173,11 @@
 			}
 		},
 		methods: {
+			sendInvite() {
+				
+			},
 			handleCommand(command) {
-				command == 'signout' ? this.signout() : this.profile();
+				command == 'signout' ? this.signout() : ( command == 'invite' ?  this.inviteModal = true :  this.profile());
 			},
 			resizeEventHandler(){
 				this.top = this.top ? 0 : -0.01 ;

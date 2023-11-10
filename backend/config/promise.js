@@ -29,7 +29,7 @@ const method = {
     const payload = await jwt.verify(token, 'HS256');
     return payload;
   },
-  sendInvite: async function(email, token, user) {
+  sendInvite: async function(email, token, user, url) {
     if (!email) { return; }
 
     try {
@@ -42,7 +42,7 @@ const method = {
           html: `<table style="width: 100%;" cellspacing="0" cellpadding="0">
           <tr>
             <td colspan="3" style="height: 50px; background-color: #f6f6f6; text-align: center;">
-              <div style="width: 10%; margin: 30px auto;">
+              <div style="width: 6%; margin: 20px auto;">
                 <img style="width: 100%; height: auto;" src="https://api.typing.mn/images/logo.png"/>
               </div>
             </td>
@@ -51,17 +51,26 @@ const method = {
           <td width="25%" style="background-color: #f6f6f6;"></td>
           <td width="50%" style="background-color: #ffffff; border-radius: 30px;">
 
-            <div style="margin-bottom: 10px; padding-left: 50px; margin-top: 50px;">
+            <div align="center" style="margin-bottom: 10px; margin-top: 50px; font-weight: 600;">
               Сайн байна уу?
             </div>
 
-            <div align="center" style="margin-bottom: 20px; font-weight: 700;">
-              <strong>${user.name} </strong> таныг <b>typing.mn</b>-тай нэгдэхийг урьсан байна.
+            <div align="center" style="margin-bottom: 20px;">
+              <a href="javascript:;"><strong>${user.name}</strong></a> таныг <a href="javascript:;"><b>typing.mn</b></a>-тай нэгдэхийг урьсан байна.
             </div>
 
-            <div style="text-align: center; position: relative; background-color: #FE5262; color: #FFFFFF; cursor: pointer; width: 200px; padding: 20px; margin: 0px auto 50px auto; font-weight: 600;">
-              Register now
+            <div align="center" style="margin-bottom: 20px;">
+              Та дараах линкээр болон доорх товч дээр дарж бүртгүүлэх боломжтой<br>
+              <a href="${url}/sign-in?token=${token}&email=${email}" target="_blank">${url}/sign-in</a>
             </div>
+
+            <div style="height: 1px; width: 80%; margin: auto; background-color: #C9C9C9; margin-bottom: 20px;"></div>
+
+            <a href="${url}/sign-in?token=${token}&email=${email}" target="_blank" style="text-decoration: none;">
+              <div style="text-align: center; position: relative; background-color: #FE5262; color: #FFFFFF; cursor: pointer; width: 200px; padding: 20px; margin: 0px auto 50px auto; font-weight: 600;">
+                Register now
+              </div>
+            </a>
           
           </td>
           <td width="25%" style="background-color: #f6f6f6;"></td>

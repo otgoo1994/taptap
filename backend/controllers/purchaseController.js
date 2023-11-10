@@ -355,6 +355,8 @@ const qpayWebhook = async (req, res) => {
             return;
         }
 
+
+
         string = `UPDATE orders SET status = 'PAID', updated_at = NOW() WHERE invoice_id = '${payment_id}'`;
         const paidBill = await exec.execute(string);
 
@@ -364,6 +366,16 @@ const qpayWebhook = async (req, res) => {
                 status: 403
             });
             return;
+        }
+
+
+        string = query.getUserInfo(invoice[0].userId);
+        const userInfo = await exec.execute(string);
+
+        if (userInfo.length) {
+            const cost = parseInt(invoice[0].amount * 0.2);
+            string = `UPDATE users SET cost = cost + ${cost} WHERE id = ${userInfo[0].id}`;
+            await exec.execute(string);
         }
 
         res.json({

@@ -205,6 +205,26 @@ const checkOrder = async (req, res) => {
     });
 }
 
+const updateUserInviteStatus = async (req, res) => {
+  const {info} = req.body;
+
+  const string = `UPDATE users SET isCanInvite = ${info.invite} WHERE id = ${info.user.id}`;
+  const data = await exec.execute(string);
+
+  if (!data) {
+    res.status(200).json({
+      result: 'something went wrong',
+      status: 403
+    });
+    return;
+  }
+  
+  res.status(200).json({
+    result: 'success',
+    status: 200
+  });
+}
+
 const updateUserExpiredDate = async ( req, res) => {
   const { info } = req.body;
   
@@ -407,6 +427,7 @@ const deleteLesson = async (req, res) => {
 
 module.exports = {
   addLesson,
+  updateUserInviteStatus,
   login,
   register,
   getMaxLvl,

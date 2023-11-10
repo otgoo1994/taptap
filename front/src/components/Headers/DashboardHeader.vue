@@ -74,9 +74,11 @@
 							<el-dropdown-menu slot="dropdown">
 								<el-dropdown-item command="profile">Хувийн мэдээлэл</el-dropdown-item>
 								<el-dropdown-item v-if="user.isCanInvite" command="invite">Найзаа урих</el-dropdown-item>
+								<el-dropdown-item v-if="user.isCanInvite" command="invite">Cost: <strong>{{user.cost.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",")}}</strong></el-dropdown-item>
 								<el-dropdown-item command="signout" divided>Гарах</el-dropdown-item>
 							</el-dropdown-menu>
 						</el-dropdown>
+						<!-- toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",") -->
 					</a>
 					<!-- / Header Control Buttons -->
 
@@ -95,7 +97,7 @@
 
 			<template #footer>
         <a-button key="back">Буцах</a-button>
-        <a-button key="submit" @click="sendInvite" type="primary">Илгээх</a-button>
+        <a-button key="submit" @click="sendInvite" type="primary" :loading="loading">Илгээх</a-button>
       </template>
     </a-modal>
 
@@ -162,7 +164,8 @@
 				bartitle: 'Typing.mn',
 				user: null,
 				inviteModal: false,
-				inviteEmail: ''
+				inviteEmail: '',
+				loading: false
 			}
 		},
 		computed: {
@@ -174,13 +177,30 @@
 		},
 		methods: {
 			async sendInvite() {
+				this.loading = true;
 				const data = await this.$_request('POST', this.$appUrl +'/user/send-invite', {email: this.inviteEmail, user: this.user});
+
+				this.loading = false;
+				this.inviteModal = false;
+
 				if (Number.isInteger(data)) { 
 						if (data === 402) { this.$router.push('/price'); return; }
 						return;
 				}
+
+				if (data.status === 409) {
+					this.$notification['error']({
+						message: 'Амжилтгүй',
+						description: 'Аль хэдийн бүртгэлтэй хэрэглэгч'
+					});
+					return;
+				}
+
+				this.$notification['success']({
+					message: 'Амжилттай',
+					description: 'Урилга илгээгдлээ'
+				});
 				
-				console.log(data);
 			},
 			handleCommand(command) {
 				command == 'signout' ? this.signout() : ( command == 'invite' ?  this.inviteModal = true :  this.profile());

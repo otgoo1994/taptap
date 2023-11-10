@@ -77,17 +77,49 @@ const year = new Date().getFullYear();
 				year,
 				checked: false,
 				confirmed: false,
-				register: false
+				register: false,
+				inviter: null
 			}
 		},
 		async mounted() {
 			await this.loadFacebookSDK(document, "script", "facebook-jssdk");
       await this.initFacebook();
+
+			if (this.$route.query.token) {
+				const inviter = this.parseJwt(this.$route.query.token);
+				if (inviter) {
+					this.inviter = inviter;
+				}
+			}
+
+			if (this.$route.query.email) {
+				const valid = await this.validateEmail(this.$route.query.email)
+				if (valid) {
+					this.email = this.$route.query.email;
+				}
+			}
+			
 		},
 		methods: {
+			async validateEmail (email) {
+				return String(email)
+					.toLowerCase()
+					.match(
+						/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+					);
+			},
+			parseJwt(token) {
+				var base64Url = token.split('.')[1];
+				var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+				var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+						return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+				}).join(''));
+
+				const param = JSON.parse(jsonPayload);
+				return param.id;
+			},
 			async userRegister() {
 
-				console.log('asdfasfasf');
 				if (!this.name || !this.password) {
 					return;
 				}
@@ -101,7 +133,7 @@ const year = new Date().getFullYear();
 					return;
 				}
 
-				const data = await this.$_request('POST', this.$appUrl +'/user/register', {email: this.email, name: this.name, password: this.password});
+				const data = await this.$_request('POST', this.$appUrl +'/user/register', {email: this.email, name: this.name, password: this.password, inviter: this.inviter});
 				if (data.status == 200) {
 					localStorage.setItem('verify-email', this.email);
 					this.$router.push('/verify');

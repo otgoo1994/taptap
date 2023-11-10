@@ -169,11 +169,11 @@ const login = async (req, res) => {
 }
 
 const register = async (req, res) => {
-  const { name, email, password } = req.body;
+  const { name, email, password, inviter } = req.body;
 
   const datetime = new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '');
   string = query.insert('users'); 
-  let post = {name, password: sha256(password + process.env.SALT), token: '0', refresh_token: '0', created_at: datetime, updated_at: datetime, end_at: datetime, active: 0, lesson: 0, email};
+  let post = {name, password: sha256(password + process.env.SALT), token: '0', refresh_token: '0', created_at: datetime, updated_at: datetime, end_at: datetime, active: 0, lesson: 0, email, invited: inviter};
   const record = await exec.execute(string, post);
 
   if (!record) {
@@ -392,7 +392,20 @@ const sendInvite = async (req, res) => {
   const { email, user } = req.body;
   const url = req.headers.origin;
   const token = req.headers.authorization.split(" ")[1]
-  const data = await exec.sendInvite(email, token, user);
+
+  const check = await exec.execute(
+    query.getUserList(email)
+  );
+
+  if (check.length) {
+    res.json({
+      result: 'duplicated',
+      status: 409
+    });
+    return;
+  }
+
+  const data = await exec.sendInvite(email, token, user, url);
 
   if (!data) {
     res.json({

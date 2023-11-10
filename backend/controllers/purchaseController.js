@@ -260,7 +260,7 @@ const createrQpayBill = async (req, res) => {
 
     let bill = await method.createBill(token.access_token, user[0], amount, invoiceId);
     
-    const params = {invoice_id: invoiceId, payment_id: bill.invoice_id, qpayqr: bill.qr_image, type, status: 'PENDING', userId: payload.id, amount, created_at: new Date(), end_at: new Date().addDays(2)}
+    const params = {invoice_id: invoiceId, payment_id: bill.invoice_id, qpayqr: bill.qr_image, type, status: 'PENDING', userId: payload.id, amount: 300, created_at: new Date(), end_at: new Date().addDays(2)}
     string = query.insert('orders');
 
     const invoice = await exec.execute(string, params);

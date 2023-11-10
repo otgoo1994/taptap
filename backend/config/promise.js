@@ -43,7 +43,7 @@ const method = {
           <tr>
             <td colspan="3" style="height: 50px; background-color: #f6f6f6; text-align: center;">
               <div style="width: 10%; margin: 30px auto;">
-                <img style="width: 100%; height: auto;" src="https://api.typing.mn/images/huruu.png"/>
+                <img style="width: 100%; height: auto;" src="https://api.typing.mn/images/logo.png"/>
               </div>
             </td>
           </tr>

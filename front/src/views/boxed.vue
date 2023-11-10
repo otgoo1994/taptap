@@ -156,6 +156,7 @@ export default {
         clearInterval(timer);
         this.resetParams();
         this.gettext();
+        this.setFocus();
         next()
     },
     methods: {

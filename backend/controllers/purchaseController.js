@@ -374,7 +374,7 @@ const qpayWebhook = async (req, res) => {
 
         if (userInfo.length) {
             const cost = parseInt(invoice[0].amount * 0.2);
-            string = `UPDATE users SET cost = cost + ${cost} WHERE id = ${userInfo[0].id}`;
+            string = `UPDATE users SET cost = cost + ${cost} WHERE id = ${userInfo[0].invited}`;
             await exec.execute(string);
         }
 

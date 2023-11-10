@@ -8,7 +8,7 @@ Date.prototype.addHours = function(h){
 
 const query = {
   checkFbLogin: function(id) {
-    return `SELECT id, name, phone, email, image, active, end_at, point, avg_wpm, record_wpm, lesson, avg_percent, rank  from users WHERE facebook = '${id}'`;
+    return `SELECT id, name, phone, email, image, active, end_at, point, avg_wpm, record_wpm, lesson, avg_percent, rank, isCanInvite  from users WHERE facebook = '${id}'`;
   },
   checkBlackList: function(id) {
     return `SELECT id from blacklist WHERE userId = ${id}`;
@@ -76,7 +76,7 @@ const query = {
     return `UPDATE coupons SET used = 1, enable = 0 WHERE coupon = '${coupon}'`
   },
   getUserInfo: function(id) {
-    return `SELECT id, name, phone, image, email, active, end_at, point, avg_wpm, record_wpm, lesson, avg_percent, rank from users WHERE id = ${id}`
+    return `SELECT id, name, phone, image, email, active, end_at, point, avg_wpm, record_wpm, lesson, avg_percent, rank, isCanInvite from users WHERE id = ${id}`
   },
   isPaidQpay: function(invoiceId) {
     return `SELECT orders.status, users.end_at, orders.updated_at from orders inner join users on orders.userId = users.id WHERE orders.invoice_id = '${invoiceId}' AND orders.status = 'PAID'`;
@@ -97,7 +97,7 @@ const query = {
     return `UPDATE users SET active = 1 WHERE email = '${email}'`;
   },
   userLogin: function(email, password) {
-    return `SELECT id, name, phone, email, image, active, end_at, point, avg_wpm, record_wpm, lesson, avg_percent, rank FROM users WHERE email = '${email}' AND password = '${sha256(password + process.env.SALT)}'`;
+    return `SELECT id, name, phone, email, image, active, end_at, point, avg_wpm, record_wpm, lesson, avg_percent, rank, isCanInvite FROM users WHERE email = '${email}' AND password = '${sha256(password + process.env.SALT)}'`;
   },
   resetPassword: function(email, password) {
     return `UPDATE users SET password ='${sha256(password + process.env.SALT)}' WHERE email = '${email}'`;

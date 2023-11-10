@@ -388,7 +388,28 @@ const resetPassword = async (req, res) => {
   });
 }
 
+const sendInvite = async (req, res) => {
+  const { email, user } = req.body;
+  const url = req.headers.origin;
+  const token = req.headers.authorization.split(" ")[1]
+  const data = await exec.sendInvite(email, token, user);
+
+  if (!data) {
+    res.json({
+      result: 'failed',
+      status: 403
+    });
+    return;
+  }
+
+  res.json({
+    result: 'success',
+    status: 200
+  });
+}
+
 module.exports = {
+  sendInvite,
   LoggedUserInfo,
   facebookLogin,
   login,

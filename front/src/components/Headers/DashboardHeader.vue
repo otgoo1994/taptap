@@ -73,7 +73,7 @@
 							</span>
 							<el-dropdown-menu slot="dropdown">
 								<el-dropdown-item command="profile">Хувийн мэдээлэл</el-dropdown-item>
-								<el-dropdown-item command="invite">Найзаа урих</el-dropdown-item>
+								<el-dropdown-item v-if="user.isCanInvite" command="invite">Найзаа урих</el-dropdown-item>
 								<el-dropdown-item command="signout" divided>Гарах</el-dropdown-item>
 							</el-dropdown-menu>
 						</el-dropdown>
@@ -173,8 +173,14 @@
 			}
 		},
 		methods: {
-			sendInvite() {
+			async sendInvite() {
+				const data = await this.$_request('POST', this.$appUrl +'/user/send-invite', {email: this.inviteEmail, user: this.user});
+				if (Number.isInteger(data)) { 
+						if (data === 402) { this.$router.push('/price'); return; }
+						return;
+				}
 				
+				console.log(data);
 			},
 			handleCommand(command) {
 				command == 'signout' ? this.signout() : ( command == 'invite' ?  this.inviteModal = true :  this.profile());
@@ -216,6 +222,7 @@
 
 				const data = await this.$_request('POST', this.$appUrl +`/user/get-user-info`);
 				if (!data) { return; }
+				console.log(data);
 				this.user = data.user;
 				localStorage.user = JSON.stringify(data.user);
 			}

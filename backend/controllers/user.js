@@ -421,6 +421,20 @@ const sendInvite = async (req, res) => {
   });
 }
 
+const getUserNotify = async (req, res) => {
+
+  const payload = await exec.getPayload(req);
+
+  const string = query.getUserNotify(payload.id);
+  const data = await exec.execute(string);
+
+  res.json({
+    result: 'success',
+    status: 200,
+    t_list: data
+  });
+}
+
 module.exports = {
   sendInvite,
   LoggedUserInfo,
@@ -433,5 +447,6 @@ module.exports = {
   resetPassword,
   changePassword,
   getOrderList,
-  updateUserInfo
+  updateUserInfo,
+  getUserNotify
 }

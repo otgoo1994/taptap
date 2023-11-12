@@ -63,6 +63,11 @@ if(token != null) {
     // }));
 }
 
+Date.prototype.addHours = function(h) {
+  this.setTime(this.getTime() + (h*60*60*1000));
+  return this;
+}
+
 window.Event = new Vue();
 
 Event.$on('member', () => {

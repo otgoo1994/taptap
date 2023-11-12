@@ -152,6 +152,9 @@ const query = {
   },
   updateLessonLevels: function(level) {
     return `UPDATE lesson SET lvl = lvl + 1 WHERE lvl >= ${level}`;
+  },
+  getUserNotify: function(id) {
+    return `SELECT * from t_user_notify WHERE userId = ${id} ORDER BY created_at DESC LIMIT 10`;
   }
 };
 

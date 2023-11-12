@@ -15,5 +15,6 @@ router.post("/change-password", auth, catchErrors(userController.changePassword)
 router.post("/get-order-list", auth, catchErrors(userController.getOrderList));
 router.post("/update-user-info", auth, catchErrors(userController.updateUserInfo));
 router.post("/send-invite", auth, catchErrors(userController.sendInvite));
+router.post("/get-user-notify", auth, catchErrors(userController.getUserNotify));
 
 module.exports = router;

@@ -138,7 +138,6 @@ export default {
         correctSound = new Audio(require(`@/assets/sound/pass.mp3`));
         errorSound = new Audio(require(`@/assets/sound/error.mp3`));
         this.gettext();
-        this.setFocus();
     },
     computed: {
         getHighWpm() {
@@ -156,7 +155,6 @@ export default {
         clearInterval(timer);
         this.resetParams();
         this.gettext();
-        this.setFocus();
         next()
     },
     methods: {
@@ -241,7 +239,6 @@ export default {
             this.lesson.isFinish = false;
             this.resetParams();
             this.gettext();
-            this.setFocus();
         },
         resetParams() {
             this.resultDialog = false;
@@ -270,6 +267,9 @@ export default {
                 this.text.original = data.data.text;
                 this.splitText();
             }
+
+            this.setFocus();
+            this.lesson.isFinish = false;
         },
         splitText() {
             let txt = this.text.original;

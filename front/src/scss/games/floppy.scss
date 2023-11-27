@@ -41,6 +41,14 @@
     top: 20%;
     @include vw-convert-desktop(width, 100px);
     height: auto;
+
+    &.down {
+      transform: rotate(15deg);
+    }
+
+    &.up {
+      transform: rotate(-15deg);
+    }
   }
 
   .start-cont {

@@ -13,6 +13,7 @@ import DashboardRTLLayout from './layouts/DashboardRTL.vue'
 import VueSocketio from 'vue-socket.io';
 import router from './router';
 import { detectRequest, keyboards, createEvent, methods } from './common.js';
+import Fruit from './plugins/class/Fruit'
 import GAuth from 'vue-google-oauth2';
 // import './plugins/click-away'
 import VueQRCodeComponent from 'vue-qrcode-component'
@@ -38,6 +39,8 @@ Vue.prototype.$_request = detectRequest;
 Vue.prototype.$_keyboards = keyboards;
 Vue.prototype.$_event = createEvent;
 Vue.prototype.$_method = methods;
+Vue.prototype.$_fruit = Fruit;
+
 Vue.use(ElementUI);
 Vue.component('qr-code', VueQRCodeComponent)
 Vue.use(Antd);
@@ -69,7 +72,7 @@ Date.prototype.addHours = function(h) {
 }
 
 window.Event = new Vue();
-
+console.warning = {};
 Event.$on('member', () => {
     const tokenReplace = localStorage.getItem('token');
     if(tokenReplace != null) {

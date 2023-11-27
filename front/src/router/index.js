@@ -187,6 +187,17 @@ let routes = [
 		component: () => import('../views/Pool.vue'),
 	},
 	{
+		path: '/fruit-ninja.game/:id',
+		name: 'fruit-ninja',
+		// layout: "dashboard",
+		meta: {
+			title: 'Typing - Pool',
+			auth: true,
+			game: true
+		},
+		component: () => import('../views/Ninja.vue'),
+	},
+	{
 		path: '/price',
 		name: 'price',
 		layout: "dashboard",

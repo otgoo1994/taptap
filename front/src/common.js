@@ -81,9 +81,12 @@ const methods = {
             return 'video'
         } else if (path == 'floppy') {
             return 'floppy-bird'
+        } else if (path == 'ninja') {
+            return 'fruit-ninja'
         }
     }
 }
+
 
 
 const keyboards = {

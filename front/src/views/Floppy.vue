@@ -11,7 +11,7 @@
       </div>
       <img src="@/assets/images/games/floppy/bg.jpg" alt="bg-image" ref="background" class="background-img">
       <img src="@/assets/images/games/floppy/bird.png" ref="bird" alt="bird-iamge" class="bird-img">
-      <img src="@/assets/images/games/floppy/live5.png" ref="live" alt="live" class="live-img">
+      <img src="@/assets/images/games/floppy/live3.png" ref="live" alt="live" class="live-img">
       <div class="start-button" :hidden="lesson.startBtn">
         <div @click="startGame" class="start">START</div>
       </div>
@@ -51,7 +51,20 @@
         </div>
         <div v-else class="lose">
           YOU LOSE!
-          <div @click="restartGame" class="start">try again</div>
+          <div class="stat">
+            <table>
+              <tr>
+                <td>{{chart.currWpm}}WPM</td>
+                <td>{{chart.accuracy}}% ACC</td>
+                <td>{{chart.score}}PT</td>
+              </tr>
+              <tr>
+                <td colspan="3" align="center">
+                  <div @click="restartGame" class="start">try again</div>
+                </td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
 
@@ -78,7 +91,7 @@ export default {
       bird: {
         alive: require('@/assets/images/games/floppy/bird.png'),
         die: require('@/assets/images/games/floppy/birdDie.png'),
-        live: 5,
+        live: 3,
         originalY: 0
       },
       scrolled: 0,
@@ -165,7 +178,7 @@ export default {
     },
     async finishGame(result) {
       clearInterval(this.timer.handler);
-      console.log(this.counter, '====');
+
       this.paused = true;
       if (result) {
         var score = 0; var accuracy= 0; var wpm = 0, diff_acc = 0;
@@ -179,7 +192,7 @@ export default {
           this.lesson.won = true;
           if(accuracy > 80) {
             var diff = accuracy - 80;
-            diff_acc = parseInt((diff * 40) / 20);
+            diff_acc = parseInt((diff * 80) / 20);
               
           } else {
               diff_acc = 0;
@@ -187,15 +200,15 @@ export default {
         }
       }
 
+      var wpmPoint = 60;
+      var livePoint = this.bird.live * 20;
+      score = wpmPoint + diff_acc + livePoint;
+
+      this.chart.currWpm = wpm;
+      this.chart.accuracy = accuracy;
+      this.chart.score = score;
+
       if (this.lesson.won) {
-        var wpmPoint = 60;
-        var livePoint = this.bird.live * 20;
-        score = wpmPoint + diff_acc + livePoint;
-
-        this.chart.currWpm = wpm;
-        this.chart.accuracy = accuracy;
-        this.chart.score = score;
-
         const data = await this.$_request('POST', this.$appUrl +'/lesson/update-user-lesson', {lessonId: this.lesson.id, wpm, accuracy, score, level: this.lesson.lvl});
         if (Number.isInteger(data)) { 
           if (data === 402) { this.$router.push('/price'); return; }
@@ -247,6 +260,8 @@ export default {
         if (!err) {
           return;
         }
+
+        this.birdY += this.jumpStep;
 
         this.sounds.error.play();
         this.counter.errors++;
@@ -318,11 +333,10 @@ export default {
               this.$refs.bird.style.top = counter+'px'
             } else {
               clearInterval(timer);
-              this.$refs.bird.style.opacity = '0';
-
               if (this.bird.live > 1) {
+                this.$refs.bird.style.opacity = '0';
                 this.bird.live--;
-                this.$refs.bird.src = this.bird.alive;;
+                this.$refs.bird.src = this.bird.alive;
                 this.$refs.live.src = require('@/assets/images/games/floppy/live'+this.bird.live+'.png');
                 this.reBornBird();
               } else {
@@ -364,9 +378,8 @@ export default {
     resetParams() {
         this.counter = { current : 0, realWpm: 0, accuracy: 0, wpm: 0, start: false, time_passed : 1, characters: 0, errors: 0, missed_word: 0 };
         this.chart = { data: null, keyword: null, wpm: [], score: 0, accuracy: 0, characters: 0, currWpm: 0 };
-        this.birdY = this.bird.originalY;
         this.scrolled = 0;
-        this.bird.live = 5;
+        this.bird.live = 3;
         this.seconds.start = 3;
         this.text.current = 0;
         this.text.step = 0;
@@ -375,7 +388,11 @@ export default {
         this.lesson.startBtn = false;
         this.lesson.finish = false;
         this.lesson.won = false;
-        this.$refs.live.src = require('@/assets/images/games/floppy/live5.png');
+        this.$refs.bird.style.opacity = '1';
+        this.birdY = this.bird.originalY;
+        this.$refs.bird.style.top = this.bird.originalY + 'px';
+        this.$refs.bird.src = this.bird.alive;
+        this.$refs.live.src = require('@/assets/images/games/floppy/live3.png');
     },
     restartGame() {
       this.resetParams();

@@ -38,6 +38,8 @@ const method = {
       info.image = 'pool.png';
     } else if(info.type === 'floppy') {
       info.image = 'floppy.png';
+    } else if (info.type === 'ninja') {
+      info.image = 'ninja.png';
     } else {
       info.image = info.type === 'boxed' ? 'practice.png' : (info.type === 'review' ? 'review.png': ( info.type === 'intro' ? 'newword.png' : 
         info.holdword === 'ө' ? 'righthand.png' : 'lefthand.png'

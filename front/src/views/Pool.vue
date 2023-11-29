@@ -611,7 +611,7 @@ export default {
       // methods.clearInput();
     },
     keypress(evt) {
-      if (evt.keyCode != 13) {
+      if (evt.keyCode != 32) {
         return;
       }
       evt.preventDefault();
@@ -684,6 +684,10 @@ export default {
     this.element.word = document.querySelectorAll('.tube-box-body .word');
     this.lesson.id = this.$route.params.id;
     this.gettext();
+  },
+  beforeRouteLeave (to, from, next) {
+    clearInterval(this.timer.element);
+    next();
   }
 }
 </script>

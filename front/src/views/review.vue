@@ -11,7 +11,7 @@
                 </div>
                 <div align="center" class="intro-text mt-5 no-text">
                     <input @input="this.type" :style="{'position': 'absolute', 'opacity': '0'}" ref="inputDiv" id="inputDiv" autocomplete="off"/>
-                    <div class="parent-box" align="left">
+                    <div class="parent-box" align="left" ref="scroller">
                         <span v-for="(item, index) in text.splitted" :key="index" class="parent-span" :ref="'parent-span-' + index" v-bind:class="{'active-span': counter.count == index}">
                             <span v-for="(word, i) in item" :key="i" class="child-span" :ref="'child-span-' + index + i" v-bind:class="{'active-child-span': text.current == i && counter.count == index, 'error-span': errorSpans.includes(index + '-' + i), 'correct-span': correctSpans.includes(index + '-' + i), 'warning-span': warningSpans.includes(index + '-' + i) && correctSpans.includes(index + '-' + i)}">{{word}}</span>
                         </span>
@@ -266,11 +266,26 @@ export default {
             const path = this.$_method.getLessonRoute(data.data.type);
 		    this.$router.push({name: path, params: {id: data.data.id}});
         },
+        checkScroll(index) {
+            const el = document.querySelectorAll('.child-span');
+            if (!el[index]) { return; }
+
+            const scroll = el[index].offsetTop;
+            const mid = this.$refs.scroller.clientHeight / 2;
+
+            if (scroll > mid) {
+                this.$refs.scroller.scrollTop = scroll - mid;
+            } else {
+                this.$refs.scroller.scrollTop = 0;
+            }
+        },
         type() {
             if (this.lesson.isFinish) { return; }
             correctSound.pause();
             errorSound.pause();
             var input = this.$refs.inputDiv.value.replace('&amp;','&');
+
+            this.checkScroll(input.length);
             
             if(this.counter.start == false) {
                 this.startGame();
@@ -300,6 +315,7 @@ export default {
             }
             
             ss.forEach((element, index) => {
+                
                 this.counter.count = index;
                 this.text.current = element.length;
                 for (let i = 0; i < element.length; i++) {
@@ -485,14 +501,7 @@ export default {
     }
 }
 </script>
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Exo+2&display=swap');
-.parent-box {
-    width: 45%;
-    position: relative;
-}
-
+<style lang="scss" scoped>
 .st0 {
     fill: #c9c9c9;
 }

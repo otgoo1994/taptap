@@ -441,6 +441,12 @@ export default {
     requestAnimationFrame(this.bgPosition);
     requestAnimationFrame(this.jumpBird);
     document.addEventListener('keypress', this.keyPress);
+  },
+  beforeRouteLeave (to, from, next) {
+    clearInterval(this.timer.start);
+    clearInterval(this.timer.handler);
+    document.removeEventListener('keypress', this.keyPress);
+    next();
   }
 }
 </script>

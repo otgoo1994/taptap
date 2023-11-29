@@ -977,3 +977,16 @@ body {
 	align-items: center;
 	background: #FFFFFF;
 }
+
+.parent-box {
+	width: 45%;
+  position: relative;
+	overflow: hidden;
+	scroll-behavior: smooth;
+	@include vw-convert-desktop(max-height, 210px);
+	.child-span {
+		font-family: 'Montserrat', sans-serif;
+		color: #757575;
+		font-weight: 400;
+	}
+}

@@ -49,6 +49,68 @@
         </div>
       </div>
 
+
+      <div class="result-dialog" :hidden="!game.finish" :style="{'background-image': 'url('+require('@/assets/images/games/fruit/bg.jpg')+')'}">
+        <div v-if="lesson.won" class="won">
+          YOU WON!
+          <div class="stat">
+            <table>
+              <tr>
+                <td>{{chart.currWpm}}WPM</td>
+                <td>{{chart.accuracy}}% ACC</td>
+                <td>{{chart.score}}PT</td>
+              </tr>
+              <tr>
+                <td colspan="3" align="center">
+                  <div class="status">
+                    <div class="actions-info">
+                        <el-tooltip class="item" effect="dark" content="Дахин оролдох" placement="top-end">
+                            <svg xmlns="http://www.w3.org/2000/svg" @click="restartGame" viewBox="0 0 512 512">
+                            <path d="M105.1 202.6c7.7-21.8 20.2-42.3 37.8-59.8c62.5-62.5 163.8-62.5 226.3 0L386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H463.5c0 0 0 0 0 0h.4c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0C73.2 122 55.6 150.7 44.8 181.4c-5.9 16.7 2.9 34.9 19.5 40.8s34.9-2.9 40.8-19.5zM39 289.3c-5 1.5-9.8 4.2-13.7 8.2c-4 4-6.7 8.8-8.1 14c-.3 1.2-.6 2.5-.8 3.8c-.3 1.7-.4 3.4-.4 5.1V448c0 17.7 14.3 32 32 32s32-14.3 32-32V396.9l17.6 17.5 0 0c87.5 87.4 229.3 87.4 316.7 0c24.4-24.4 42.1-53.1 52.9-83.7c5.9-16.7-2.9-34.9-19.5-40.8s-34.9 2.9-40.8 19.5c-7.7 21.8-20.2 42.3-37.8 59.8c-62.5 62.5-163.8 62.5-226.3 0l-.1-.1L125.6 352H176c17.7 0 32-14.3 32-32s-14.3-32-32-32H48.4c-1.6 0-3.2 .1-4.8 .3s-3.1 .5-4.6 1z"/></svg>
+                        </el-tooltip>
+                    </div>
+
+                    <div class="actions-info">
+                        <el-tooltip class="item" effect="dark" content="Дараагийн хичээл" placement="top-end">
+                            <svg xmlns="http://www.w3.org/2000/svg" @click="getNextLesson" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>
+                        </el-tooltip>
+                        
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+        <div v-else class="lose">
+          YOU LOSE!
+          <div class="stat">
+            <table>
+              <tr>
+                <td>{{chart.currWpm}}WPM</td>
+                <td>{{chart.accuracy}}% ACC</td>
+                <td>{{chart.score}}PT</td>
+              </tr>
+              <tr>
+                <td colspan="3" align="center">
+                  <!-- <div class="start">try again</div> -->
+                  <div @click="restartGame">
+                    <p class="txt">TRY AGAIN</p>
+                    <img src="@/assets/images/games/fruit/statBg.jpg" alt="">
+                  </div>
+                  <router-link to="/subjects">
+                    <div>
+                      <p class="txt">Exit</p>
+                      <img src="@/assets/images/games/fruit/statBg.jpg" alt="">
+                    </div>
+                  </router-link>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -62,7 +124,8 @@ export default {
       lesson: {
         id: null,
         lvl: null,
-        wpm: 0
+        wpm: 0,
+        won: false
       },
       text: {
         full: '',
@@ -100,6 +163,12 @@ export default {
           errors: 0,
           combo: 3000
       },
+      chart: {
+        currWpm: 0,
+        score: 0,
+        accuracy: 0
+      },
+      canvas: false
     }
   },
   computed: {
@@ -112,8 +181,38 @@ export default {
     }
   },
   methods: {
+    async getNextLesson() {
+        const data = await this.$_request('POST', this.$appUrl +'/lesson/next-lesson', {level: this.lesson.lvl + 1});
+        if (Number.isInteger(data)) { 
+          if (data === 402) { this.$router.push('/price'); return; }
+          return;
+        }
+
+        if (data.result == 'fail') { this.$router.push('/subjects'); return; }
+
+        const path = this.$_method.getLessonRoute(data.data.type);
+		    this.$router.push({name: path, params: {id: data.data.id}});
+    },
     async split() {
       this.text.list = this.text.full.split('');
+    },
+    resetParams() {
+        this.text.current.forEach(element => {
+          element.reset();
+        });
+
+        this.counter = { current : 0, realWpm: 0, accuracy: 0, wpm: 0, start: 3, time_passed : 1, characters: 0, errors: 0, combo: 0 };
+        this.chart = { score: 0, accuracy: 0, currWpm: 0 };
+        this.timer = { combo: null, start: null, game: null };
+        this.game = { start: false, startCounting: false, finish: false, score: 0, live: 5, combo: 0, seconds: 60 };
+        this.lesson.won = false;
+        this.modals.combo = 0;
+    },
+    restartGame() {
+      // this.resetParams();
+      // this.startCounter();
+
+      location.reload();
     },
     liveCounter(drop = false) {
       this.sound.die.pause();
@@ -144,11 +243,31 @@ export default {
     },
     finishGame() {
       this.game.finish= true;
-      alert('finish')
+      var wpm = parseInt((this.counter.characters / 5) / (this.counter.time_passed / 60));
+      var typed = this.counter.characters + this.counter.errors;
+      var accuracy = parseInt(typed / ( typed + this.counter.errors )  * 100 );
+      this.lesson.won = true;
+      const livePoint = this.game.live * 30;
+      var wpmPoint = wpm * 50 / this.lesson.wpm;
+      if (wpmPoint > 50) {
+        wpmPoint = 50;
+      }
+
+
+      this.chart.accuracy = accuracy;
+      this.chart.currWpm = wpm;
+      this.chart.score = wpmPoint + livePoint;
+
+      clearInterval(this.timer.combo);
+      clearInterval(this.timer.game);
     },
     gameOver() {
       this.game.start = false;
       this.game.finish = true;
+      this.lesson.won = false;
+
+      clearInterval(this.timer.combo);
+      clearInterval(this.timer.game);
     },
     async gettext() {
       const data = await this.$_request('POST', this.$appUrl +'/lesson/get-lesson', {id: this.lesson.id});
@@ -169,6 +288,7 @@ export default {
     gameTimeCounter() {
       if (this.game.seconds > 0) {
         this.game.seconds--;
+        this.counter.time_passed++;
       } else {
         clearInterval(this.timer.game);
         this.gameOver();
@@ -250,8 +370,11 @@ export default {
 
         let bg;
         p5.setup = _ => {
-          const canvas = p5.createCanvas(window.innerWidth, window.innerHeight);
-          canvas.parent("vue-canvas");
+          if (!root.cavvas) {
+            root.cavvas = p5.createCanvas(window.innerWidth, window.innerHeight);
+            root.cavvas.parent("vue-canvas");
+          }
+
           bg = p5.loadImage(require('@/assets/images/games/fruit/bg.jpg'));
           const colors =[[189, 66, 59], [137, 176, 29], [209, 146, 30], [204, 103, 15]];
           p5.frameRate(60);
@@ -278,9 +401,10 @@ export default {
       new P5(script);
     },
     startGame() {
-      // this.game.start = true;
       this.game.start = true;
-      this.makeAnimateWords();
+      if (!this.canvas) {
+        this.makeAnimateWords();
+      }
 
       this.timer.game = setInterval(this.gameTimeCounter, 1000);
     }
@@ -297,7 +421,8 @@ export default {
     document.addEventListener('keypress', this.keyPress);
   },
   beforeRouteLeave (to, from, next) {
-    clearInterval(this.comboTimerCounter);
+    clearInterval(this.timer.combo);
+    clearInterval(this.timer.game);
     document.removeEventListener('keypress', this.keyPress);
     next();
   }

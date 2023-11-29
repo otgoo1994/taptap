@@ -16,6 +16,8 @@ class Fruit {
   constructor(x, y, size, c, speed, construct, word, index, callback, live) {
 
     params.construct = construct;
+    this.originX = x;
+    this.originY = y;
     this.x = x;
     this.y = y + size;
     params.origin = y + size;
@@ -56,6 +58,19 @@ Fruit.prototype.updateIndex = function() {
     params.callback();
   }
 }
+// Fruit.prototype.reset = function() {
+//   this.x = this.originX;
+//   this.y = this.originY;
+//   this.end = false;
+//   this.find = false;
+//   this.current = false;
+//   params.length = 0;
+//   params.counter = 0;
+//   this.clearC = clearColor(this.c);   
+//   this.xV = randomXV(this.x);
+//   const ynumber = random(-5, -7);    
+//   this.yV = ynumber;
+// }
 
 Fruit.prototype.update = function() {
 

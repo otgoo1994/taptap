@@ -5,9 +5,11 @@
                 <div align="center" class="intro-text mt-5 no-text">
                     <input @input="this.type" :disabled="inputDisabled" :style="{'position': 'absolute', 'opacity': '0'}" ref="inputDiv" id="inputDiv" autocomplete="off"/>
                     <div class="parent-box" align="left">
-                        <span v-for="(item, index) in text.splitted" :key="index" class="parent-span" :ref="'parent-span-' + index" v-bind:class="{'active-span': counter.count == index}">
-                            <span v-for="(word, i) in item" :key="i" class="child-span" :ref="'child-span-' + index + i" v-bind:class="{'active-child-span': text.current == i && counter.count == index, 'error-span': errorSpans.includes(index + '-' + i), 'correct-span': correctSpans.includes(index + '-' + i), 'warning-span': warningSpans.includes(index + '-' + i) && correctSpans.includes(index + '-' + i)}">{{word}}</span>
-                        </span>
+                        <div class="parent-box-container" ref="scroller">
+                            <span v-for="(item, index) in text.splitted" :key="index" class="parent-span" :ref="'parent-span-' + index" v-bind:class="{'active-span': counter.count == index}">
+                                <span v-for="(word, i) in item" :key="i" class="child-span" :ref="'child-span-' + index + i" v-bind:class="{'active-child-span': text.current == i && counter.count == index, 'error-span': errorSpans.includes(index + '-' + i), 'correct-span': correctSpans.includes(index + '-' + i), 'warning-span': warningSpans.includes(index + '-' + i) && correctSpans.includes(index + '-' + i)}">{{word}}</span>
+                            </span>
+                        </div>
 
                         <div class="progress">
                             <el-progress :percentage="progress" :show-text="false" :color="'#e2b714'" :stroke-width="3"></el-progress>
@@ -15,8 +17,12 @@
                     </div>
                 </div>
                 <div class="mt-5" style="display: flex; justify-content: center; padding-left: 14%;">
-                    <div style="width: 100%; padding-top: 60px;" align="center">
+                    <div style="width: 100%; margin-top: 60px; position: relative;" align="center">
                         <keyboard :selector="selectedKey" :hand="keyboardImage"/>
+                        <div class="current-stat">
+                            <div><p>Speed</p><p class="num">{{current.wpm}}<span>WPM</span></p></div>
+                            <div><p>Accuracy</p><p class="num" v-if="current.characters">{{current.accuracy}}%</p><p class="num" v-else>100%</p></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -92,6 +98,11 @@ export default {
                 keyword: null,
                 wpm: [],
                 score: 0,
+                accuracy: 0,
+                characters: 0
+            },
+            current: {
+                wpm: 0,
                 accuracy: 0,
                 characters: 0
             },
@@ -303,6 +314,10 @@ export default {
             this.counter.time_passed++;
             var wpm = parseInt((this.correctSpans.length / 4) / (this.counter.time_passed / 60));
             this.chart.wpm.push(wpm);
+
+            this.current.wpm = Math.round((this.current.characters / 4) / (this.counter.time_passed / 60));
+            var acc = Math.round((this.current.characters - (this.errorSpans.length + (this.warningSpans.length/2))) * 100 / this.current.characters);
+            this.current.accuracy = acc > 0 ? acc : 0;
         },
         async getNextLesson() {
 
@@ -315,6 +330,19 @@ export default {
             const path = this.$_method.getLessonRoute(data.data.type);
 		    this.$router.push({name: path, params: {id: data.data.id}});
         },
+        checkScroll(index) {
+            const el = document.querySelectorAll('.child-span');
+            if (!el[index]) { return; }
+
+            const scroll = el[index].offsetTop;
+            const mid = this.$refs.scroller.clientHeight / 2;
+
+            if (scroll > mid) {
+                this.$refs.scroller.scrollTop = scroll - mid;
+            } else {
+                this.$refs.scroller.scrollTop = 0;
+            }
+        },
         type() {
             if (this.lesson.isFinish) { return; }
             correctSound.pause();
@@ -322,6 +350,9 @@ export default {
             var t = new RegExp(this.holdWord, 'i');
             this.$refs.inputDiv.value = this.$refs.inputDiv.value.replace(/&amp;/g,'&').replace(t, '');
             var input = this.$refs.inputDiv.value;
+
+            this.current.characters = input.length;
+            this.checkScroll(input.length);
             // console.log(input.length);
             if(input.length > 0) {
                 if(this.counter.start == false) {

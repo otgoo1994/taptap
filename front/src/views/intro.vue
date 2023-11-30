@@ -26,7 +26,7 @@
                                     <span :ref="'child-span-' + index" :style="{'opacity': '0'}">a</span>
                                 </div>
                                 <div :ref="'span-error-word-' + index" class="span-error-text"></div>
-                                <div :ref="'boxed-' + index" class="-lesson-intro-x current-span" v-if="index == counter.current">&nbsp;</div>
+                                <div :ref="'boxed-' + index" class="-lesson-intro-x current-span active" v-if="index == counter.current">&nbsp;</div>
                             </div>
                         </div>
                     </div>
@@ -37,9 +37,9 @@
                         <keyboard :selector="selectedKey" :hand="keyboardImage"/>
                     </div>
                 </div>
-                <div class="progress" style="margin-top: 20px; width: 30%;" align="left">
+                <!-- <div class="progress" style="margin-top: 20px; width: 30%;" align="left">
                     <el-progress :percentage="progress" :show-text="false" :color="'#5787E4'" :stroke-width="7"></el-progress>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="result-dialog" :hidden="!resultDialog">

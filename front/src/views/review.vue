@@ -11,19 +11,25 @@
                 </div>
                 <div align="center" class="intro-text mt-5 no-text">
                     <input @input="this.type" :style="{'position': 'absolute', 'opacity': '0'}" ref="inputDiv" id="inputDiv" autocomplete="off"/>
-                    <div class="parent-box" align="left" ref="scroller">
-                        <span v-for="(item, index) in text.splitted" :key="index" class="parent-span" :ref="'parent-span-' + index" v-bind:class="{'active-span': counter.count == index}">
-                            <span v-for="(word, i) in item" :key="i" class="child-span" :ref="'child-span-' + index + i" v-bind:class="{'active-child-span': text.current == i && counter.count == index, 'error-span': errorSpans.includes(index + '-' + i), 'correct-span': correctSpans.includes(index + '-' + i), 'warning-span': warningSpans.includes(index + '-' + i) && correctSpans.includes(index + '-' + i)}">{{word}}</span>
-                        </span>
+                    <div class="parent-box" align="left">
+                        <div class="parent-box-container" ref="scroller">
+                            <span v-for="(item, index) in text.splitted" :key="index" class="parent-span" :ref="'parent-span-' + index" v-bind:class="{'active-span': counter.count == index}">
+                                <span v-for="(word, i) in item" :key="i" class="child-span" :ref="'child-span-' + index + i" v-bind:class="{'active-child-span': text.current == i && counter.count == index, 'error-span': errorSpans.includes(index + '-' + i), 'correct-span': correctSpans.includes(index + '-' + i), 'warning-span': warningSpans.includes(index + '-' + i) && correctSpans.includes(index + '-' + i)}">{{word}}</span>
+                            </span>
+                        </div>
 
                         <div class="progress">
                             <el-progress :percentage="progress" :show-text="false" :color="'#e2b714'" :stroke-width="3"></el-progress>
                         </div>
                     </div>
                 </div>
-                <div class="mt-5" style="display: flex; justify-content: center; padding-left: 14%;">
-                    <div style="width: 100%; padding-top: 60px;" align="center">
-                        <keyboard :selector="selectedKey" :hand="keyboardImage"/>
+                <div class="mt-5" style="display: flex; justify-content: center; padding-left: 9%;">
+                    <div style="width: 100%; margin-top: 60px; position: relative;" align="center">
+                        <keyboard :selector="selectedKey" :hand="keyboardImage" />
+                        <div class="current-stat">
+                            <div><p>Speed</p><p class="num">{{current.wpm}}<span>WPM</span></p></div>
+                            <div><p>Accuracy</p><p class="num" v-if="current.characters">{{current.accuracy}}%</p><p class="num" v-else>100%</p></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -50,7 +56,6 @@
                         <el-tooltip class="item" effect="dark" content="Дараагийн хичээл" placement="top-end">
                             <svg xmlns="http://www.w3.org/2000/svg" @click="getNextLesson" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>
                         </el-tooltip>
-                        
                     </div>
                 </div>
             </div>
@@ -76,6 +81,11 @@ export default {
                 keyword: null,
                 wpm: [],
                 score: 0,
+                accuracy: 0,
+                characters: 0
+            },
+            current: {
+                wpm: 0,
                 accuracy: 0,
                 characters: 0
             },
@@ -254,6 +264,10 @@ export default {
             this.counter.time_passed++;
             var wpm = parseInt((this.correctSpans.length / 4) / (this.counter.time_passed / 60));
             this.chart.wpm.push(wpm);
+
+            this.current.wpm = Math.round((this.current.characters / 4) / (this.counter.time_passed / 60));
+            var acc = Math.round((this.current.characters - (this.errorSpans.length + (this.warningSpans.length/2))) * 100 / this.current.characters);
+            this.current.accuracy = acc > 0 ? acc : 0;
         },
         async getNextLesson() {
 
@@ -284,7 +298,7 @@ export default {
             correctSound.pause();
             errorSound.pause();
             var input = this.$refs.inputDiv.value.replace('&amp;','&');
-
+            this.current.characters = input.length;
             this.checkScroll(input.length);
             
             if(this.counter.start == false) {

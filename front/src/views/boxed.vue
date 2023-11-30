@@ -34,7 +34,7 @@
                                 </div>
                                 <div :ref="'span-error-word-' + index" class="span-error-text"></div>
                                 <!-- <div :ref="'boxed-' + index" class="intro-x" v-bind:class="{'current-span': index == counter.current}">&nbsp;</div> -->
-                                <div :ref="'boxed-' + index" class="-lesson-intro-x current-span" v-if="index == counter.current">&nbsp;</div>
+                                <div :ref="'boxed-' + index" class="-lesson-intro-x current-span" v-bind:class="{'active' : index == counter.current, 'remove' : index < counter.current}">&nbsp;</div>
                             </span>
                         </div>
                     </div>
@@ -44,9 +44,9 @@
                         <keyboard :selector="selectedKey" :hand="keyboardImage"/>
                     </div>
                 </div>
-                <div class="progress" style="margin-top: 20px; width: 30%;" align="left">
+                <!-- <div class="progress" style="margin-top: 20px; width: 30%;" align="left">
                     <el-progress :percentage="progress" :show-text="false" :color="'#5787E4'" :stroke-width="7"></el-progress>
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="result-dialog" :hidden="!resultDialog">

@@ -50,16 +50,16 @@
           <path ref="Е" v-bind:class="{'selected-key': selector == 'Е'}" class="st0" d="M553.4,53.7c0,1.7-1.4,3-3,3h-36.5c-1.7,0-3-1.3-3-3V18.3c0-1.7,1.4-3,3-3h36.5c1.6,0,3,1.3,3,3V53.7z"></path>
           <path ref="Щ" v-bind:class="{'selected-key': selector == 'Щ'}" class="st0" d="M598.4,53.7c0,1.7-1.4,3-3,3h-36.5c-1.7,0-3-1.3-3-3V18.3c0-1.6,1.3-3,3-3h36.5c1.6,0,3,1.4,3,3V53.7z"></path>
           <path v-bind:class="{'selected-key': selector == 'backspace'}" ref="backspace" class="st0" d="M668.8,53.7c0,1.7-1.3,3-3,3h-61.9c-1.7,0-3-1.3-3-3V18.3c0-1.6,1.3-3,3-3h61.9c1.7,0,3,1.4,3,3V53.7z"></path>
-          <path v-bind:class="{'selected-key': selector == 'tab'}" ref="tab" class="st0" d="M81.7,97.6c0,1.6-1.3,3-3,3H18.9c-1.6,0-3-1.4-3-3V62.3c0-1.6,1.3-3,3-3h59.8c1.7,0,3,1.4,3,3V97.6z"></path>
-          <path v-bind:class="{'selected-key': !caps }" ref="capslock" class="st0" d="M92.4,141.5c0,1.6-1.3,3-3,3H18.9c-1.6,0-3-1.4-3-3v-35.4c0-1.7,1.3-3,3-3h70.4c1.7,0,3,1.3,3,3V141.5z"></path>
-          <path v-bind:class="{'selected-key': selector == 'enter'}" ref="enter" class="st0" d="M668.8,141.5c0,1.6-1.3,3-3,3h-72.9c-1.7,0-3-1.4-3-3v-35.4c0-1.7,1.3-3,3-3h72.9c1.7,0,3,1.3,3,3V141.5z"></path>
-          <path v-bind:class="{'selected-key': selector == 'shift-left'}" ref="shift-left" class="st0" d="M115.8,185.4c0,1.7-1.3,3-3,3H18.9c-1.6,0-3-1.3-3-3v-35.3c0-1.6,1.3-3,3-3h93.8c1.7,0,3,1.4,3,3V185.4z"></path>
+          <path v-bind:class="{'selected-key': tab}" ref="tab" class="st0" d="M81.7,97.6c0,1.6-1.3,3-3,3H18.9c-1.6,0-3-1.4-3-3V62.3c0-1.6,1.3-3,3-3h59.8c1.7,0,3,1.4,3,3V97.6z"></path>
+          <path v-bind:style="{'fill': capslock ? '#61b6ff' : '#FFFFFF', stroke: capslock ?'grey' : '#777'}" class="st0" d="M92.4,141.5c0,1.6-1.3,3-3,3H18.9c-1.6,0-3-1.4-3-3v-35.4c0-1.7,1.3-3,3-3h70.4c1.7,0,3,1.3,3,3V141.5z"></path>
+          <path v-bind:class="{'selected-key': enter}" ref="enter" class="st0" d="M668.8,141.5c0,1.6-1.3,3-3,3h-72.9c-1.7,0-3-1.4-3-3v-35.4c0-1.7,1.3-3,3-3h72.9c1.7,0,3,1.3,3,3V141.5z"></path>
+          <path v-bind:style="{'fill': shiftLeft ? '#61b6ff' : '#FFFFFF', stroke: shiftLeft ?'grey' : '#777'}" ref="shift-left" class="st0" d="M115.8,185.4c0,1.7-1.3,3-3,3H18.9c-1.6,0-3-1.3-3-3v-35.3c0-1.6,1.3-3,3-3h93.8c1.7,0,3,1.4,3,3V185.4z"></path>
           <path v-bind:class="{'selected-key': selector == 'control'}" ref="control" class="st0 hide-on-bone" d="M105,236c0,1.6-1.3,3-3,3H18.9c-1.6,0-3-1.4-3-3v-42c0-1.7,1.3-3,3-3H102c1.7,0,3,1.3,3,3V236z"></path>
           <path v-bind:class="{'selected-key': selector == 'option-left'}" ref="option-left" class="st0 hide-on-bone" d="M182.4,236c0,1.7-1.4,3-3,3h-68.8c-1.7,0-3-1.3-3-3v-42c0-1.7,1.3-3,3-3h68.8c1.6,0,3,1.3,3,3V236z"></path>
           <path v-bind:class="{'selected-key': selector == 'option-right'}" ref="option-right" class="st0 hide-on-bone" d="M531.8,191c1.7,0,3,1.4,3,3v42c0,1.7-1.3,3-3,3h-62.9c-1.6,0-3-1.3-3-3v-42c0-1.6,1.4-3,3-3H531.8z"></path>
           <path v-bind:class="{'selected-key': selector == 'backslash'}" class="st0 hide-on-bone" d="M668.8,236.1c0,1.7-1.3,3-3,3H540.3c-1.6,0-3-1.3-3-3v-42c0-1.6,1.4-3,3-3h125.5c1.7,0,3,1.4,3,3V236.1z"></path>
           <path v-bind:class="{'selected-key': selector == 'space'}" ref="space" class="st0" d="M460.4,191c1.6,0,3,1.4,3,3v42c0,1.7-1.4,3-3,3H187.5c-1.6,0-3-1.3-3-3v-42c0-1.6,1.4-3,3-3H460.4z"></path>
-          <path v-bind:class="{'selected-key': selector == 'shift-right'}" ref="shift-right" class="st0" d="M668.8,185.4c0,1.7-1.3,3-3,3h-94.5c-1.6,0-3-1.3-3-3v-35.3c0-1.6,1.4-3,3-3h94.5c1.7,0,3,1.4,3,3V185.4z"></path>
+          <path v-bind:style="{'fill': shiftRight ? '#61b6ff' : '#FFFFFF', stroke: shiftRight ?'grey' : '#777'}" ref="shift-right" class="st0" d="M668.8,185.4c0,1.7-1.3,3-3,3h-94.5c-1.6,0-3-1.3-3-3v-35.3c0-1.6,1.4-3,3-3h94.5c1.7,0,3,1.4,3,3V185.4z"></path>
       </g>
       <g id="letters">
         <text v-bind:class="{'selected-text': selector == '='}" transform="matrix(1 0 0 1 33.4903 33.804)" class="st2" dx="0" dy="0">=</text>
@@ -156,15 +156,15 @@
         <text v-bind:class="{'selected-text': selector == 'Ъ'}" transform="matrix(1 0 0 1 598.3443 84.7849)" class="st1 st2" dx="0" dy="0" :hidden="caps">Ъ</text>
         <text v-bind:class="{'selected-text': selector == '\\'}" transform="matrix(1 0 0 1 644.3574 96.8807)" class="st1 st2" dx="0" dy="0">\</text>
         <text v-bind:class="{'selected-text': selector == '|'}" transform="matrix(1 0 0 1 644.4941 74.8769)" class="st1 st2" dx="0" dy="0">|</text>
-        <text id="text-shift-left" transform="matrix(1 0 0 1 23.3467 173.0408)" class="st1 s st2" font-size="smaller">shift</text>
-        <text id="text-shift-right" transform="matrix(1 0 0 1 631.826 173.0408)" class="st1 s st2" font-size="smaller">shift</text>
-        <text id="text-enter" transform="matrix(1 0 0 1 626.3144 127.7128)" class="st1 s st2 focus-row" font-size="smaller">enter</text>
+        <text v-bind:class="{'selected-text': shiftLeft }" id="text-shift-left" transform="matrix(1 0 0 1 23.3467 173.0408)" class="st1 s st2" font-size="smaller">shift</text>
+        <text v-bind:class="{'selected-text': shiftRight }" id="text-shift-right" transform="matrix(1 0 0 1 631.826 173.0408)" class="st1 s st2" font-size="smaller">shift</text>
+        <text v-bind:class="{'selected-text': enter }" id="text-enter" transform="matrix(1 0 0 1 626.3144 127.7128)" class="st1 s st2 focus-row" font-size="smaller">enter</text>
         <text v-bind:class="{'selected-text': selector == 'space'}" id="text-space" transform="matrix(1 0 0 1 299.7899 222.4646)" class="st1 s st2" font-size="smaller">space</text>
         <text transform="matrix(1 0 0 1 22.4903 220.804)" class="st2" dx="0" dy="0" font-size="smaller">ctrl</text>
         <text transform="matrix(1 0 0 1 122.4903 220.804)" class="st2" dx="0" dy="0" font-size="smaller">option</text>
         <text transform="matrix(1 0 0 1 475.4903 220.804)" class="st2" dx="0" dy="0" font-size="smaller">option</text>
-        <text transform="matrix(1 0 0 1 22.4903 85.804)" class="st2" dx="0" dy="0" font-size="smaller">tab</text>
-        <text v-bind:class="{'selected-text': !caps }" transform="matrix(1 0 0 1 22.4903 128.804)" class="st2" dx="0" dy="0" font-size="smaller">caps lock</text>
+        <text v-bind:class="{'selected-text': tab }" transform="matrix(1 0 0 1 22.4903 85.804)" class="st2" dx="0" dy="0" font-size="smaller">tab</text>
+        <text v-bind:class="{'selected-text': capslock }" transform="matrix(1 0 0 1 22.4903 128.804)" class="st2" dx="0" dy="0" font-size="smaller">caps lock</text>
         <text transform="matrix(1 0 0 1 605.4903 40.804)" class="st2" dx="0" dy="0" font-size="smaller">backspace</text>
       </g>
   </svg>
@@ -172,17 +172,93 @@
   </div>
 </template>
 <script>
+import { message } from 'ant-design-vue';
 export default {
   data() {
     return {
-      caps: true
+      capsWord: true,
+      capslock: false,
+      shiftLeftkey: false,
+      shiftRightkey: false,
+      enterkey: false,
+      tabkey: false
     }
+  },
+  computed: {
+    caps() { return this.capsWord; },
+    shiftLeft() { return this.shiftLeftkey; },
+    shiftRight() { return this.shiftRightkey; },
+    enter() { return this.enterkey; },
+    tab() { return this.tabkey; }
   },
   props: {
     selector: null,
     hand: null
+  },    
+  methods: {
+    keyup(evt) {
+        if (evt.key === 'Shift') {
+            if (evt.code === 'ShiftLeft') {
+                this.shiftLeftkey = false;
+            } else {
+                this.shiftRightkey = false;
+            }
+        }
+
+        if (evt.key === 'Enter') {
+            this.enterkey = false;
+        }
+
+        if (evt.key === 'Tab') {
+            evt.preventDefault();
+            this.tabkey = false;
+        }
+
+        // if (!this.shiftLeftkey && !this.shiftRightkey) {
+        //     this.capsWord = !evt.getModifierState('CapsLock')
+        // }
+
+        this.capsWord = !evt.getModifierState('CapsLock')
+        this.capslock = evt.getModifierState('CapsLock')
+
+        if (this.capslock) {
+            message.warning({ content: 'Caps Lock is ON', key: 'updatable' });
+        }
+    },
+    keydown(evt) {
+        if (evt.key === 'Tab') {
+            evt.preventDefault();
+            this.tabkey = true;
+        }
+
+        if (evt.key === 'Shift') {
+            if (evt.code === 'ShiftLeft') {
+                this.shiftLeftkey = true;  
+            } else {
+                this.shiftRightkey = true;
+            }
+
+            if (evt.getModifierState('CapsLock')) {
+                this.capsWord = true;
+            } else {
+                this.capsWord = false;
+            }
+        }
+
+        if (evt.key === 'Enter') {
+            this.enterkey = true;
+        }
+    },
   },
-  mounted() {},
+  watch: {
+    hand: function() {
+        console.log(this.capslock);
+    }
+  },
+  mounted(e) {
+    window.addEventListener('keyup', this.keyup);
+    window.addEventListener('keydown', this.keydown);
+  },
 }
 </script>
 <style scoped>
@@ -223,10 +299,12 @@ export default {
 } 
 .st0 {
     fill: #FFFFFF;
-    stroke: #d1d1d1;
+    stroke: #777;
+    stroke-width: .5;
+    stroke-miterlimit: 10;
 }
 .st2 {
-    color: #FFFFFF;
+    color: #000000;
 }
 .span-error {
     border: 1px solid #ff8097;

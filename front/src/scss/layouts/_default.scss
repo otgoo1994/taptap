@@ -655,6 +655,7 @@ body {
 			box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
 			color: #6f6f74;
 			background: #fff;
+			// overflow-x: hidden;
 		}
 		.span-correct {
 			border: 1px solid #10c373;
@@ -683,7 +684,16 @@ body {
 			position: absolute;
 			background: #e2b714;
 			@include vw-convert-desktop('bottom', -10px);
-			transition: all 1s ease-in;
+			transition: all 0.5s;
+			width: 0;
+
+			&.active {
+				width: 100%;
+			}
+
+			&.remove {
+				right: 0;
+			}
 		}
 		.correct-span {
 			background: green;
@@ -980,13 +990,51 @@ body {
 
 .parent-box {
 	width: 45%;
-  position: relative;
-	overflow: hidden;
-	scroll-behavior: smooth;
-	@include vw-convert-desktop(max-height, 210px);
-	.child-span {
-		font-family: 'Montserrat', sans-serif;
-		color: #757575;
-		font-weight: 400;
+	position: relative;
+
+	.parent-box-container {
+		width: 100%;
+		overflow: hidden;
+		@include vw-convert-desktop(max-height, 210px);
+		scroll-behavior: smooth;
+		position: relative;
+
+		.child-span {
+			font-family: 'Montserrat', sans-serif;
+			color: #757575;
+			font-weight: 400;
+		}
+	
+		.progress {
+			position: absolute;
+			left: 0;
+			bottom: 0;
+			width: 100%;
+		}
+	}
+}
+
+.current-stat {
+	position: absolute;
+	top: 5%;
+	left: 68%;
+	div {
+			@include vw-convert-desktop(margin-bottom, 10px);
+
+			.num {
+					font-weight: 600;
+			}
+	}
+	p {
+			margin: 0;
+			text-align: left;
+			position: relative;
+			@include vw-convert-desktop(font-size, 20px);
+
+			span {
+				@include vw-convert-desktop(font-size, 10px);
+				margin-left: 0px;
+				position: absolute;
+			}
 	}
 }

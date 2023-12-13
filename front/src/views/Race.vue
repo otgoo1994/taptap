@@ -99,7 +99,7 @@ export default {
             counter: {
                 count: 0,
                 start: false,
-                time_passed : 55,
+                time_passed : 0,
                 characters: 0,
                 accuracy: 0,
                 wpm: 0

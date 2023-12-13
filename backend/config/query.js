@@ -155,6 +155,25 @@ const query = {
   },
   getUserNotify: function(id) {
     return `SELECT * from t_user_notify WHERE userId = ${id} ORDER BY created_at DESC LIMIT 10`;
+  },
+  getSelectedRace: function(id = null, isAdmin = false) {
+    if (!id) {
+      if (isAdmin) {
+        return `SELECT * from t_race`;  
+      }
+      return `SELECT id, race_id, created_at, end_at, title, pin, max_wpm from t_race WHERE is_active = true`;  
+    }
+
+    if (isAdmin) {
+      return `SELECT * from t_race WHERE race_id = '${id}'`;  
+    }
+    return `SELECT * from t_race WHERE race_id = '${id}' AND is_active = true`;
+  },
+  deleteRace: function(id) {
+    return `DELETE from t_race WHERE race_id = '${id}'`;
+  },
+  updateRace: function(state, id) {
+    return `UPDATE t_race SET is_active = '${state}' WHERE race_id = '${id}'`;
   }
 };
 

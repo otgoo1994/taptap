@@ -41,7 +41,7 @@
                 </div>
                 <div class="mt-5" style="display: flex; justify-content: center; padding-left: 14%;">
                     <div style="width: 100%; padding-top: 60px;" align="center">
-                        <keyboard :selector="selectedKey" :hand="keyboardImage"/>
+                        <keyboard :selector="selectedKey" :hand="keyboardImage" :isShow="true"/>
                     </div>
                 </div>
                 <!-- <div class="progress" style="margin-top: 20px; width: 30%;" align="left">
@@ -277,6 +277,9 @@ export default {
             this.mon_finger();
         },
         setFocus() {
+            if (!this.$refs.inputDiv) {
+                return;
+            }
             this.$refs.inputDiv.focus();
         },
         startGame() {

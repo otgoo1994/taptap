@@ -427,8 +427,97 @@ const deleteLesson = async (req, res) => {
   })
 }
 
+
+
+const getRaceTextList = async (req, res) => {
+  let string = query.getSelectedRace(null, true);
+  const data = await exec.execute(string);
+  
+
+  res.status(200).json({
+    result: 'success',
+    status: 200,
+    data
+  });
+
+  return; 
+}
+
+const addRaceText = async (req, res) => {
+  const { info } = req.body;
+  
+  
+  const params = {
+    race_id: Date.now(),
+    race_text: info.text,
+    max_wpm: 0,
+    created_at: new Date(),
+    end_at: new Date(),
+    pin: '2023',
+    title: info.lessonname,
+    is_active: 1
+  };
+
+  const string = query.insert('t_race');
+  const add = await exec.execute(string, params);
+
+  if (!add) { 
+    res.status(200).json({
+      result: 'something went wrong',
+      status: 403
+    });
+    return; 
+  }
+
+  res.status(200).json({
+    result: 'success',
+    status: 200
+  });
+
+}
+
+const deleteRace = async (req, res) => {
+  const { id } = req.body;
+  const string = query.deleteRace(id);
+  const race = await exec.execute(string);
+
+  
+  
+  if (!race) {
+    res.status(403).json({
+      result: 'something went wrong',
+      status: 403
+    });
+    return; 
+  }
+
+  res.status(200).json({
+    status: 200
+  });
+}
+
+const updateRace = async (req, res) => {
+  const { state, race_id } = req.body;
+  const string = query.updateRace(state, race_id);
+  const race = await exec.execute(string);
+
+  if (!race) {
+    res.status(403).json({
+      result: 'something went wrong',
+      status: 403
+    });
+    return; 
+  }
+
+  res.status(200).json({
+    status: 200
+  });
+}
+
+
 module.exports = {
   addLesson,
+  updateRace,
   updateUserInviteStatus,
   login,
   register,
@@ -443,5 +532,8 @@ module.exports = {
   checkOrder,
   updateOrder,
   getUsers,
-  updateUserExpiredDate
+  updateUserExpiredDate,
+  getRaceTextList,
+  addRaceText,
+  deleteRace
 };

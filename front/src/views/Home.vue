@@ -81,7 +81,7 @@
           </div>
         </div>
 
-        <router-link to="/subjects">
+        <router-link to="/test-speed">
           <div class="button">Хичээл эхлүүлэх</div>
         </router-link>
 
@@ -121,12 +121,12 @@ export default {
       top: true,
       banner: [
         {
-          link: '/subjects',
+          link: '/test-speed',
           banner: 'homebanner.png',
           mobile: 'mhomebanner.png'
         },
         {
-          link: '/subjects',
+          link: '/test-speed',
           banner: 'homebanner2.png',
           mobile: 'mhomebanner2.png'
         }

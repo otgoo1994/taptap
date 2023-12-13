@@ -1,5 +1,6 @@
 const db = require("../config/db")
-
+const query = require("../config/query");
+const exec = require("../config/promise");
   
 const sha256 = require("js-sha256");
 const jwt = require('jwt-then');
@@ -152,10 +153,73 @@ const getSelectecText = async (req, res) => {
 
 }
 
+const getRaceText = async (req, res) => {
+  const { raceId } = req.body;
+  let string = query.getSelectedRace(raceId);
+  const data = await exec.execute(string);
+
+  if (!data.length) {
+    res.status(500).json({
+      result: 'something went wrong',
+      status: 500,
+    });
+    return;
+  }
+
+  res.status(200).json({
+    result: 'success',
+    status: 200,
+    data: data[0]
+  });
+  return;
+}
+
+const getRaceTextList = async (req, res) => {
+  let string = query.getSelectedRace();
+  const data = await exec.execute(string);
+  
+
+  res.status(200).json({
+    result: 'success',
+    status: 200,
+    data
+  });
+
+  return; 
+}
+
+const regRaceUser = async (req, res) => {
+  const { name, wpm, accuracy, raceId } = req.body;
+  console.log(accuracy, raceId);
+  const string = query.insert('t_race_user');
+  const info = {
+    race_id: raceId, 
+    name, 
+    wpm, 
+    accuracy
+  };
+  const add = await exec.execute(string, info);
+  if (!add) { 
+    res.status(200).json({
+      result: 'something went wrong',
+      status: 403
+    });
+    return; 
+  }
+
+  res.status(200).json({
+    result: 'success',
+    status: 200
+  });
+}
+
 module.exports = {
   getSelectecText,
   upgradeWpm,
   getAllRankText,
   getRankText,
-  getBeginText
+  getBeginText,
+  getRaceText,
+  getRaceTextList,
+  regRaceUser
 };

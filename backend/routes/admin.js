@@ -23,5 +23,9 @@ router.post("/update-order", auth, catchErrors(adminController.updateOrder));
 router.post("/get-users", auth, catchErrors(adminController.getUsers));
 router.post("/update-user-expired-date", auth, catchErrors(adminController.updateUserExpiredDate));
 router.post("/update-user-invite-stat", auth, catchErrors(adminController.updateUserInviteStatus));
+router.post('/get-race-text-list', auth, catchErrors(adminController.getRaceTextList));
+router.post('/add-race-text', auth, catchErrors(adminController.addRaceText));
+router.post('/delete-race-text', auth, catchErrors(adminController.deleteRace));
+router.post('/update-race', auth, catchErrors(adminController.updateRace));
 
 module.exports = router;

@@ -18,7 +18,7 @@
                 </div>
                 <div class="mt-5" style="display: flex; justify-content: center; padding-left: 14%;">
                     <div style="width: 100%; margin-top: 60px; position: relative;" align="center">
-                        <keyboard :selector="selectedKey" :hand="keyboardImage"/>
+                        <keyboard :selector="selectedKey" :hand="keyboardImage" :isShow="true"/>
                         <div class="current-stat">
                             <div><p>Speed</p><p class="num">{{current.wpm}}<span>WPM</span></p></div>
                             <div><p>Accuracy</p><p class="num" v-if="current.characters">{{current.accuracy}}%</p><p class="num" v-else>100%</p></div>
@@ -303,6 +303,9 @@ export default {
             this.mon_finger();
         },
         setFocus() {
+            if (!this.$refs.inputDiv) {
+                return;
+            }
             this.$refs.inputDiv.focus();
         },
         startGame() {

@@ -168,7 +168,7 @@
         <text transform="matrix(1 0 0 1 605.4903 40.804)" class="st2" dx="0" dy="0" font-size="smaller">backspace</text>
       </g>
   </svg>
-  <img :src="hand" :style="{'width': '70%', 'height': 'auto', 'max-width': '100%', 'margin-left': '-54%', 'margin-top': '-10%'}">
+  <img v-if="isShow" :src="hand" :style="{'width': '70%', 'height': 'auto', 'max-width': '100%', 'margin-left': '-54%', 'margin-top': '-10%'}">
   </div>
 </template>
 <script>
@@ -193,7 +193,8 @@ export default {
   },
   props: {
     selector: null,
-    hand: null
+    hand: null,
+    isShow: null
   },    
   methods: {
     keyup(evt) {
@@ -222,7 +223,8 @@ export default {
         this.capslock = evt.getModifierState('CapsLock')
 
         if (this.capslock) {
-            message.warning({ content: 'Caps Lock is ON', key: 'updatable' });
+            if( !this.shiftLeftkey && !this.shiftRightkey) 
+                message.warning({ content: 'Caps Lock is ON', key: 'updatable' });
         }
     },
     keydown(evt) {
@@ -249,11 +251,7 @@ export default {
             this.enterkey = true;
         }
     },
-  },
-  watch: {
-    hand: function() {
-        console.log(this.capslock);
-    }
+    
   },
   mounted(e) {
     window.addEventListener('keyup', this.keyup);

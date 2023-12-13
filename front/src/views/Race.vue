@@ -3,7 +3,7 @@
         <div class="intro-x">
             <div :style="{'padding-top': '50px', position: 'relative'}" align="center" @click="setFocus">
                 <div class="close-btn">
-                    <router-link to="/subjects">
+                    <router-link to="/games">
                         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
                             <path fill="#394554" d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z"></path>
                         </svg>
@@ -23,12 +23,13 @@
                         </div>
                     </div>
                 </div>
-                <div class="mt-5" style="display: flex; justify-content: center; padding-left: 9%;">
+                <div class="mt-5" style="display: flex; justify-content: center; padding-left: 0%;">
                     <div style="width: 100%; margin-top: 60px; position: relative;" align="center">
-                        <keyboard :selector="selectedKey" :hand="keyboardImage" :isShow="true"/>
+                        <keyboard :selector="selectedKey" :hand="keyboardImage" :isShow="false"/>
                         <div class="current-stat">
                             <div><p>Speed</p><p class="num">{{current.wpm}}<span>WPM</span></p></div>
                             <div><p>Accuracy</p><p class="num" v-if="current.characters">{{current.accuracy}}%</p><p class="num" v-else>100%</p></div>
+                            <div><p>Left time</p><p class="num">{{60 - counter.time_passed > 9 ? 60 - counter.time_passed : '0' + (60 - counter.time_passed)}} сек</p></div>
                         </div>
                     </div>
                 </div>
@@ -36,27 +37,22 @@
         </div>
         <div class="result-dialog" :hidden="!resultDialog">
             <div>
-                <div class="text right"><span class="title">SCORE </span><br><span class="number">{{chart.score}}</span></div>
-                <div class="text right"><span class="title">ACC </span><br><span class="number">{{chart.accuracy}}%</span></div>
+                <!-- <div class="text right"><span class="title">SCORE </span><br><span class="number">{{chart.score}}</span></div>
+                <div class="text right"><span class="title">ACC </span><br><span class="number">{{chart.accuracy}}%</span></div> -->
+                <div class="close-btn">
+                    <router-link to="/games">
+                        <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="50" height="50" viewBox="0 0 50 50">
+                            <path fill="#394554" d="M 9.15625 6.3125 L 6.3125 9.15625 L 22.15625 25 L 6.21875 40.96875 L 9.03125 43.78125 L 25 27.84375 L 40.9375 43.78125 L 43.78125 40.9375 L 27.84375 25 L 43.6875 9.15625 L 40.84375 6.3125 L 25 22.15625 Z"></path>
+                        </svg>
+                    </router-link>
+                </div>
             </div>
             <div class="chart-container">
                 <canvas ref="resultChart"></canvas>
                 <div class="status">
-                    <div class="text"><span class="title">CHARACTERS </span><br><span class="number">{{this.counter.characters}}</span></div>
-                    <div class="text"><span class="title">WPM </span><br><span class="number">{{Math.round((this.counter.characters / 4) / (this.counter.time_passed / 60))}}</span></div>
+                    <div class="text"><span class="title">CHARACTERS </span><br><span class="number">{{current.characters}}</span></div>
+                    <div class="text"><span class="title">WPM </span><br><span class="number">{{current.wpm}}</span></div>
                     <div class="text"><span class="title">HIGH WPM </span><br><span class="number">{{getHighWpm}}</span></div>
-                    <div class="actions-info">
-                        <el-tooltip class="item" effect="dark" content="Дахин оролдох" placement="top-end">
-                            <svg xmlns="http://www.w3.org/2000/svg" @click="refershLesson" viewBox="0 0 512 512">
-                            <path d="M105.1 202.6c7.7-21.8 20.2-42.3 37.8-59.8c62.5-62.5 163.8-62.5 226.3 0L386.3 160H336c-17.7 0-32 14.3-32 32s14.3 32 32 32H463.5c0 0 0 0 0 0h.4c17.7 0 32-14.3 32-32V64c0-17.7-14.3-32-32-32s-32 14.3-32 32v51.2L414.4 97.6c-87.5-87.5-229.3-87.5-316.8 0C73.2 122 55.6 150.7 44.8 181.4c-5.9 16.7 2.9 34.9 19.5 40.8s34.9-2.9 40.8-19.5zM39 289.3c-5 1.5-9.8 4.2-13.7 8.2c-4 4-6.7 8.8-8.1 14c-.3 1.2-.6 2.5-.8 3.8c-.3 1.7-.4 3.4-.4 5.1V448c0 17.7 14.3 32 32 32s32-14.3 32-32V396.9l17.6 17.5 0 0c87.5 87.4 229.3 87.4 316.7 0c24.4-24.4 42.1-53.1 52.9-83.7c5.9-16.7-2.9-34.9-19.5-40.8s-34.9 2.9-40.8 19.5c-7.7 21.8-20.2 42.3-37.8 59.8c-62.5 62.5-163.8 62.5-226.3 0l-.1-.1L125.6 352H176c17.7 0 32-14.3 32-32s-14.3-32-32-32H48.4c-1.6 0-3.2 .1-4.8 .3s-3.1 .5-4.6 1z"/></svg>
-                        </el-tooltip>
-                    </div>
-
-                    <div class="actions-info">
-                        <el-tooltip class="item" effect="dark" content="Дараагийн хичээл" placement="top-end">
-                            <svg xmlns="http://www.w3.org/2000/svg" @click="getNextLesson" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>
-                        </el-tooltip>
-                    </div>
                 </div>
             </div>
         </div>
@@ -103,7 +99,7 @@ export default {
             counter: {
                 count: 0,
                 start: false,
-                time_passed : 1,
+                time_passed : 55,
                 characters: 0,
                 accuracy: 0,
                 wpm: 0
@@ -117,26 +113,24 @@ export default {
                 isFinish: false
             },
             caps: false,
-            lastword: null
+            lastword: null,
+            username: ''
         }
     }, 
-    mounted() {
-        this.lesson.id = this.$route.params.id;
-        clearInterval(timer);
-        correctSound = new Audio(require(`@/assets/sound/pass.mp3`));
-        errorSound = new Audio(require(`@/assets/sound/error.mp3`));
-        this.gettext();
-    },
     computed: {
         getHighWpm() {
             let max = 0;
             this.chart.wpm.forEach(element => {
                 max < element ? max = element : null;
             });
-
             const wpm = Math.round((this.counter.characters / 4) / (this.counter.time_passed / 60));
             return max > wpm ? max : wpm;
         }
+    },
+    async beforeRouteLeave (to, from, next) {
+        window.removeEventListener('keyup', this.keyUpAllKeys);
+        window.removeEventListener('keydown', this.keydownAllKeys);
+        next();
     },
     async beforeRouteUpdate(to, from, next) {
         this.lesson.id = to.params.id;
@@ -225,24 +219,13 @@ export default {
         },
         async gettext() {
 
-            const data = await this.$_request('POST', this.$appUrl +'/lesson/get-lesson', {id: this.lesson.id});
+            const data = await this.$_request('POST', this.$appUrl +'/text/get-race-text', {raceId: this.lesson.id});
             if (Number.isInteger(data)) { 
                 if (data === 402) { this.$router.push('/price'); return; }
                 this.$router.push('/subjects'); return;
             }
-
-            this.counter.realWpm = data.group.wpm;
-            this.status.lessonname = data.data.lessonname;
-            Event.$emit('navbarname', 'Хичээл ' + data.data.lvl + ': ' +data.data.lessonname);
-            this.status.groupname = data.group.groupName;
-            if(data.data.type != 'review') {
-                this.$router.push('/subjects');
-            } else {
-                this.lesson.lvl = data.data.lvl;
-                this.text.original = data.data.text;
-                this.text.errorLimit = parseInt(data.data.text.length / 2);
-                this.splitText();
-            }
+            this.text.original = data.data.race_text;
+            this.splitText();
 
             this.setFocus();
             this.lesson.isFinish = false;
@@ -250,7 +233,6 @@ export default {
         splitText() {
             let txt = this.text.original;
             this.text.splitted = txt.match(/.{1,10}/g);
-            this.mon_finger();
         },
         setFocus() {
             if (!this.$refs.inputDiv) {
@@ -271,6 +253,10 @@ export default {
             this.current.wpm = Math.round((this.current.characters / 4) / (this.counter.time_passed / 60));
             var acc = Math.round((this.current.characters - (this.errorSpans.length + (this.warningSpans.length/2))) * 100 / this.current.characters);
             this.current.accuracy = acc > 0 ? acc : 0;
+
+            if (this.counter.time_passed >= 60) {
+                return this.finishGame();
+            }
         },
         async getNextLesson() {
 
@@ -355,41 +341,13 @@ export default {
                 
             });
 
-            if(this.text.errorLimit < this.errorSpans.length) {
-                this.$confirm('Уучлаарай. Та хэтэрхий их алдаатай бичиж байна.', 'Санамж', {
-                    confirmButtonText: 'Дахиж оролдох',
-                    cancelButtonText: 'Болих',
-                    type: 'warning',
-                    center: true
-                }).then(() => {
-                    this.counter.characters = 0;
-                    this.counter.count = 0;
-                    this.text.current = 0;
-                    this.$refs.inputDiv.value = '';
-                    clearInterval(timer);
-                    this.counter.time_passed = 1;
-                    this.counter.accuracy = 0;
-                    this.counter.wpm = 0;
-                    this.counter.start = false;
-                    this.errorSpans = [];
-                    this.warningSpans = [];
-                    this.correctSpans = [];
-                    this.getText();
-                }).catch(() => {
-                    this.$router.push('/lesson');
-                });
-            }
-
             this.counter.wpm = parseInt((this.correctSpans.length / 5) / (this.counter.time_passed / 60));
             this.counter.accuracy = parseInt((input.length - this.errorSpans.length) * 100 / input.length);
             
             if(input.length == this.text.original.length) {
                 this.counter.characters = input.length;
                 return this.finishGame();
-            } else {
-                this.mon_finger();
             }
-
         },
         async finishGame() {
             this.lesson.isFinish = true;
@@ -397,124 +355,32 @@ export default {
         
             var wpm = parseInt((this.correctSpans.length / 5) / (this.counter.time_passed / 60));
             var accuracy = parseInt((this.counter.characters - this.errorSpans.length) * 100 / this.counter.characters);
-            var diff_acc;
-            if(accuracy > 80) {
-                var diff = accuracy - 80;
-                diff_acc = parseInt((diff * 100) / 20);
-                
-            } else {
-                diff_acc = 0;
+
+            const data = await this.$_request('POST', this.$appUrl +'/text/register-race-user', {raceId: this.lesson.id, wpm: this.current.wpm, accuracy: this.current.accuracy, name: this.username});
+            if (Number.isInteger(data)) { 
+                if (data === 402) { this.$router.push('/price'); return; }
+                this.$router.push('/subjects'); return;
             }
-            
 
-            var bottomPoint = this.counter.realWpm - 18;
-            var wpmPoint = 0;
-            if(wpm > bottomPoint) {
-                var diff_wpm = wpm - bottomPoint;
-                wpmPoint = parseInt((diff_wpm * 100) / 18);
-                if(wpmPoint > 100) {
-                    wpmPoint = 100;
-                }
-            }
-            
-            if(wpmPoint == 0) {
-                var dep = this;
-                this.$error({
-					title: 'Амжилтгүй',
-					// JSX support
-					content: (
-						<div style="margin-top: 30px;">
-							<div class="text-gray-600 mt-2"> Уучлаарай та хэтэрхий удаан бичиж байна.</div>
-						</div>
-					),
-					onOk() { 
-						dep.counter.characters = 0;
-                        dep.counter.count = 0;
-                        dep.text.current = 0;
-                        dep.$refs.inputDiv.value = '';
-                        clearInterval(timer);
-                        dep.counter.time_passed = 1;
-                        dep.counter.accuracy = 0;
-                        dep.counter.wpm = 0;
-                        dep.counter.start = false;
-                        dep.errorSpans = [];
-                        dep.warningSpans = [];
-                        dep.correctSpans = [];
-                        dep.getText();
-					},
-				});
-            } else if(diff_acc == 0) {
-                var dep = this;
-                this.$error({
-					title: 'Амжилтгүй',
-					// JSX support
-					content: (
-						<div style="margin-top: 30px;">
-							<div class="text-gray-600 mt-2"> Уучлаарай та хэтэрхий их алдаатай бичиж байна.</div>
-						</div>
-					),
-					onOk() { 
-						dep.counter.characters = 0;
-                        dep.counter.count = 0;
-                        dep.text.current = 0;
-                        dep.$refs.inputDiv.value = '';
-                        clearInterval(timer);
-                        dep.counter.time_passed = 1;
-                        dep.counter.accuracy = 0;
-                        dep.counter.wpm = 0;
-                        dep.counter.start = false;
-                        dep.errorSpans = [];
-                        dep.warningSpans = [];
-                        dep.correctSpans = [];
-                        dep.getText();
-					},
-				});
-            } else {
-                var score = wpmPoint + diff_acc;
-
-                this.chart.accuracy = accuracy;
-                this.chart.score = score;
-                const data = await this.$_request('POST', this.$appUrl +'/lesson/update-user-lesson', {lessonId: this.lesson.id, wpm, accuracy, score, level: this.lesson.lvl});
-                if (Number.isInteger(data)) { 
-                    if (data === 402) { this.$router.push('/price'); return; }
-                    return;
-                }
-
-                if(data.point > 0) {
-                    Event.$emit('set-user-point', data.point);
-                }
-
-                this.showResultDialog();
-            }
+            this.showResultDialog();
         },
-        async mon_finger() {
-            
-            var ind = this.$refs.inputDiv.value.replace('&amp;','&');
-            var current = this.text.original[ind.length]
-            var elems = document.querySelectorAll(".selected-key");
-
-            if (!this.lastword) {
-                this.lastword = current;
-            } else {
-
-                if (this.lastword == current) {
-                    return;
-                } 
-
-                [].forEach.call(elems, function(el) {
-                    el.classList.remove("selected-key");
-                });
-                this.lastword = current;
-            }
-
-            const data = await this.$_keyboards.mon(current);
-
-            data.key ? this.selectedKey = data.key : null;
-            data.image ? this.keyboardImage = data.image : null;
-            data.caps ? this.caps = data.caps : null;
-            data.text ? this.fingerText = data.text : null;
-             
+        keydownAllKeys(event) {
+            this.selectedKey = event.key.toUpperCase();
+        },
+        keyUpAllKeys() {
+            this.selectedKey = null;
         }
+    },
+    mounted() {
+        this.lesson.id = this.$route.params.id;
+        this.username = this.$route.params.name;
+        clearInterval(timer);
+        correctSound = new Audio(require(`@/assets/sound/pass.mp3`));
+        errorSound = new Audio(require(`@/assets/sound/error.mp3`));
+        this.gettext();
+
+        window.addEventListener('keyup', this.keyUpAllKeys);
+        window.addEventListener('keydown', this.keydownAllKeys);
     }
 }
 </script>
@@ -549,5 +415,11 @@ export default {
 .warning-span {
     background: #FFE9B2;
     color: #0E634D;
+}
+
+.current-stat {
+	position: absolute;
+	top: 5%;
+	left: 75%;
 }
 </style>

@@ -20,6 +20,16 @@ let routes = [
 		component: () => import('../views/Orders.vue'),
 	},
 	{
+		path: '/races',
+		name: 'Races',
+		layout: "dashboard",
+		meta: {
+			title: 'typing.mn',
+			auth: true
+		}, 
+		component: () => import('../views/Races.vue'),
+	},
+	{
 		path: '/edit/:id',
 		name: 'edit',
 		layout: "dashboard",
@@ -77,6 +87,16 @@ let routes = [
 			auth: true
 		},
 		component: () => import('../views/addLesson.vue'),
+	},
+	{
+		path: '/add-race',
+		name: 'Уралдаан бүртгэх',
+		layout: "dashboard",
+		meta: {
+			title: 'typing.mn',
+			auth: true
+		},
+		component: () => import('../views/AddRace.vue'),
 	},
 	{
 		path: '/edit-lesson/:id',

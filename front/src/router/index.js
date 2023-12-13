@@ -64,13 +64,23 @@ let routes = [
 	},
 	{
 		path: '/games',
-		name: 'Зугаа',
+		name: 'Уралдаан',
 		layout: "dashboard",
 		meta: {
 			title: 'typing.mn',
-			auth: true
+			auth: false
 		},
 		component: () => import('../views/GameList.vue'),
+	},
+	{
+		path: '/game/:id/:name',
+		name: 'Уралдаан',
+		// layout: "dashboard",
+		meta: {
+			title: 'typing.mn',
+			auth: false
+		},
+		component: () => import('../views/Race.vue'),
 	},
 	{
 		path: '/billing',

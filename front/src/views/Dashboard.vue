@@ -241,6 +241,11 @@
 						<img src="@/assets/images/undo.png" alt="" style="width: 100%; height: auto;">
 					</a-button>
 				</div>
+				<!-- <div class="mt-5" style="display: flex; justify-content: center; padding-left: 14%;">
+							<div style="width: 100%; padding-top: 60px;" align="center">
+									<keyboard :selector="selectedKey" :hand="false" :isShow="false"/>
+							</div>
+					</div> -->
 			</a-col>
 		</a-row>
 		
@@ -293,10 +298,14 @@
 <script>
 let timer = null;
 import Chart from 'chart.js/auto';
+import keyboard from '../components/keyboard/Keyboard.vue';
 	export default ({
-		components: {},
+		components: {
+			keyboard
+		},
 		data() {
 			return {
+				selectedKey: null,
 				chart: {
 					data: null,
 					keyword: null,

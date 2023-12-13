@@ -10,7 +10,7 @@
                     </router-link>
                 </div>
                 <div align="center" class="intro-text mt-5 no-text">
-                    <input @input="this.type" :style="{'position': 'absolute', 'opacity': '0'}" ref="inputDiv" id="inputDiv" autocomplete="off"/>
+                    <input @keydown="this.keydown" @input="this.type" :style="{'position': 'absolute', 'opacity': '0'}" ref="inputDiv" id="inputDiv" autocomplete="off"/>
                     <div class="parent-box" align="left">
                         <div class="parent-box-container" ref="scroller">
                             <span v-for="(item, index) in text.splitted" :key="index" class="parent-span" :ref="'parent-span-' + index" v-bind:class="{'active-span': counter.count == index}">
@@ -52,7 +52,7 @@
                 <div class="status">
                     <div class="text"><span class="title">CHARACTERS </span><br><span class="number">{{current.characters}}</span></div>
                     <div class="text"><span class="title">WPM </span><br><span class="number">{{current.wpm}}</span></div>
-                    <div class="text"><span class="title">HIGH WPM </span><br><span class="number">{{getHighWpm}}</span></div>
+                    <div class="text"><span class="title">ERRORS </span><br><span class="number">{{errorSpans.length}}</span></div>
                 </div>
             </div>
         </div>
@@ -129,7 +129,6 @@ export default {
     },
     async beforeRouteLeave (to, from, next) {
         window.removeEventListener('keyup', this.keyUpAllKeys);
-        window.removeEventListener('keydown', this.keydownAllKeys);
         next();
     },
     async beforeRouteUpdate(to, from, next) {
@@ -282,7 +281,9 @@ export default {
                 this.$refs.scroller.scrollTop = 0;
             }
         },
-        type() {
+        type(evt) {
+            evt.preventDefault();
+            
             if (this.lesson.isFinish) { return; }
             correctSound.pause();
             errorSound.pause();
@@ -325,10 +326,10 @@ export default {
 
                     if (input[input.length - 1] == this.text.original[input.length - 1]) {
                         correctSound.currentTime = 0;
-                        correctSound.play();
+                        // correctSound.play();
                     } else {
                         errorSound.currentTime = 0;
-                        errorSound.play();
+                        // errorSound.play();
                     }
                     
                     if (this.text.splitted[index][i] == element[i]) {
@@ -364,12 +365,11 @@ export default {
 
             this.showResultDialog();
         },
-        keydownAllKeys(event) {
-            this.selectedKey = event.key.toUpperCase();
+        keydown(e) {
+            if (e.keyCode === 8 || e.keyCode === 25 || e.keyCode === 17 || (e.ctrlKey && e.keyCode === 65)) {
+                e.preventDefault();
+            }
         },
-        keyUpAllKeys() {
-            this.selectedKey = null;
-        }
     },
     mounted() {
         this.lesson.id = this.$route.params.id;
@@ -378,9 +378,6 @@ export default {
         correctSound = new Audio(require(`@/assets/sound/pass.mp3`));
         errorSound = new Audio(require(`@/assets/sound/error.mp3`));
         this.gettext();
-
-        window.addEventListener('keyup', this.keyUpAllKeys);
-        window.addEventListener('keydown', this.keydownAllKeys);
     }
 }
 </script>

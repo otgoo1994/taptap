@@ -11,6 +11,9 @@ const exec = require("../config/promise");
 const qpay_username = "TYPING_MN";
 const qpay_password = "1rdVxOzz";
 
+// const qpay_username = "VEGAN_MARKET";
+// const qpay_password = "BXuayzYg";
+
 
 
 const method = {    

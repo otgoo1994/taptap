@@ -20,8 +20,9 @@ import VueQRCodeComponent from 'vue-qrcode-component'
 
 import './scss/app.scss';
 
-const appUrl = window.location.hostname == 'localhost' ? 'http://localhost:8001' : 'https://api.typing.mn';
+// const appUrl = window.location.hostname == 'localhost' ? 'http://localhost:8001' : 'https://api.typing.mn';
 const token = localStorage.getItem('token');
+const appUrl = 'http://localhost:8001';
 
 
 const gauthOption = {

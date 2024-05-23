@@ -396,7 +396,7 @@ export default {
             }
             
             const data = await this.$_keyboards.mon(current);
-
+            console.log(data, '===');
             data.key ? this.selectedKey = data.key : null;
             data.image ? this.keyboardImage = data.image : null;
             data.caps ? this.caps = data.caps : null;

@@ -91,12 +91,12 @@ const methods = {
 
 const keyboards = {
   mon: async function(current) {
-    let key = null, text = null, caps = null, image = null;
+    let key = null, text = null, caps = null, image = null, shift;
     if( current == ' ' ) {
         image = require(`@/assets/images/lesson/space.svg`);
         key = 'space';
         
-        return {key, caps, text, image}
+        return {key, caps, text, image, shift}
     }
     
     var impossibleSymbols = ['№', '-', '₮', '_', ',','%', ':','.', '"','?', '=', '+'];
@@ -199,7 +199,7 @@ const keyboards = {
 
         for (let i = 0; i < left_shift_4.length; i++) {
             if (left_shift_4[i] == current) {
-                key = 'shift-right';
+                // key = 'shift-right';
                 caps = false;
                 text = 'Баруун гарын чигчий хуруугаар Shift, зүүн гарын чигий хуруугаар';
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
@@ -224,7 +224,7 @@ const keyboards = {
 
         for (let i = 0; i < left_shift_3.length; i++) {
             if (left_shift_3[i] == current) {
-                key = 'shift-right';
+                // key = 'shift-right';
                 caps = false;
                 text = 'Баруун гарын чигчий хуруугаар Shift, зүүн гарын ядам хуруугаар'
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
@@ -242,7 +242,7 @@ const keyboards = {
         for (let i = 0; i < left_shift_2.length; i++) {
             if (left_shift_2[i] == current) {
                 caps = false;
-                key = 'shift-right';
+                // key = 'shift-right';
                 text = 'Баруун гарын чигчий хуруугаар Shift, зүүн гарын дунд хуруугаар'
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
             }
@@ -259,7 +259,7 @@ const keyboards = {
         for (let i = 0; i < left_shift_1.length; i++) {
             if (left_shift_1[i] == current) {
                 caps = false;
-                key = 'shift-right';
+                // key = 'shift-right';
                 text = 'Баруун гарын чигчий хуруугаар Shift, зүүн гарын долоовор хуруугаар'
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
             }
@@ -276,7 +276,7 @@ const keyboards = {
         for (let i = 0; i < right_shift_1.length; i++) {
             if (right_shift_1[i] == current) {
                 caps = false;
-                key = 'shift-left';
+                // key = 'shift-left';
                 text = 'Зүүн гарын чигчий хуруугаар Shift, Баруун гарын долоовор хуруугаар';
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
             }
@@ -294,7 +294,7 @@ const keyboards = {
             if (right_shift_2[i] == current) {
                 caps = false;
                 text = 'Зүүн гарын чигчий хуруугаар Shift, Баруун гарын дунд хуруугаар'
-                key = 'shift-left';
+                // key = 'shift-left';
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
             }
         }
@@ -311,7 +311,7 @@ const keyboards = {
             if (right_shift_3[i] == current) {
                 caps = false;
                 text = 'Зүүн гарын чигчий хуруугаар Shift, Баруун гарын ядам хуруугаар'
-                key = 'shift-left';
+                // key = 'shift-left';
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
             }
         }
@@ -328,7 +328,7 @@ const keyboards = {
             if (right_shift_4[i] == current) {
                 caps = false;
                 text = 'Зүүн гарын чигчий хуруугаар Shift, Баруун гарын чигчий хуруугаар'
-                key = 'shift-left';
+                // key = 'shift-left';
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
             }
         }
@@ -337,6 +337,10 @@ const keyboards = {
 
     return {key, caps, text, image}
   }
+}
+
+if (!window.keyboard) {
+    window.keyboard = keyboards.mon;
 }
 
 export {

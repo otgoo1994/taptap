@@ -91,11 +91,7 @@ const methods = {
 
 const keyboards = {
   mon: async function(current) {
-<<<<<<< HEAD
-    let key = null, text = null, caps = null, image = null, shift;
-=======
     let key = [null, null], text = null, caps = null, image = null;
->>>>>>> 6e0ea1b8a062a621fb8a1af3aaf9929e95b958fe
     if( current == ' ' ) {
         image = require(`@/assets/images/lesson/space.svg`);
         key[1] = 'space';
@@ -203,11 +199,7 @@ const keyboards = {
 
         for (let i = 0; i < left_shift_4.length; i++) {
             if (left_shift_4[i] == current) {
-<<<<<<< HEAD
-                // key = 'shift-right';
-=======
                 key[1] = 'shift-right';
->>>>>>> 6e0ea1b8a062a621fb8a1af3aaf9929e95b958fe
                 caps = false;
                 text = 'Баруун гарын чигчий хуруугаар Shift, зүүн гарын чигий хуруугаар';
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
@@ -232,11 +224,7 @@ const keyboards = {
 
         for (let i = 0; i < left_shift_3.length; i++) {
             if (left_shift_3[i] == current) {
-<<<<<<< HEAD
-                // key = 'shift-right';
-=======
                 key[1] = 'shift-right';
->>>>>>> 6e0ea1b8a062a621fb8a1af3aaf9929e95b958fe
                 caps = false;
                 text = 'Баруун гарын чигчий хуруугаар Shift, зүүн гарын ядам хуруугаар'
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
@@ -254,11 +242,7 @@ const keyboards = {
         for (let i = 0; i < left_shift_2.length; i++) {
             if (left_shift_2[i] == current) {
                 caps = false;
-<<<<<<< HEAD
-                // key = 'shift-right';
-=======
                 key[1] = 'shift-right';
->>>>>>> 6e0ea1b8a062a621fb8a1af3aaf9929e95b958fe
                 text = 'Баруун гарын чигчий хуруугаар Shift, зүүн гарын дунд хуруугаар'
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
             }
@@ -275,11 +259,7 @@ const keyboards = {
         for (let i = 0; i < left_shift_1.length; i++) {
             if (left_shift_1[i] == current) {
                 caps = false;
-<<<<<<< HEAD
-                // key = 'shift-right';
-=======
                 key[1] = 'shift-right';
->>>>>>> 6e0ea1b8a062a621fb8a1af3aaf9929e95b958fe
                 text = 'Баруун гарын чигчий хуруугаар Shift, зүүн гарын долоовор хуруугаар'
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
             }
@@ -296,11 +276,7 @@ const keyboards = {
         for (let i = 0; i < right_shift_1.length; i++) {
             if (right_shift_1[i] == current) {
                 caps = false;
-<<<<<<< HEAD
-                // key = 'shift-left';
-=======
                 key[1] = 'shift-left';
->>>>>>> 6e0ea1b8a062a621fb8a1af3aaf9929e95b958fe
                 text = 'Зүүн гарын чигчий хуруугаар Shift, Баруун гарын долоовор хуруугаар';
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
             }
@@ -318,11 +294,7 @@ const keyboards = {
             if (right_shift_2[i] == current) {
                 caps = false;
                 text = 'Зүүн гарын чигчий хуруугаар Shift, Баруун гарын дунд хуруугаар'
-<<<<<<< HEAD
-                // key = 'shift-left';
-=======
                 key[1] = 'shift-left';
->>>>>>> 6e0ea1b8a062a621fb8a1af3aaf9929e95b958fe
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
             }
         }
@@ -339,11 +311,7 @@ const keyboards = {
             if (right_shift_3[i] == current) {
                 caps = false;
                 text = 'Зүүн гарын чигчий хуруугаар Shift, Баруун гарын ядам хуруугаар'
-<<<<<<< HEAD
-                // key = 'shift-left';
-=======
                 key[1] = 'shift-left';
->>>>>>> 6e0ea1b8a062a621fb8a1af3aaf9929e95b958fe
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
             }
         }
@@ -360,11 +328,7 @@ const keyboards = {
             if (right_shift_4[i] == current) {
                 caps = false;
                 text = 'Зүүн гарын чигчий хуруугаар Shift, Баруун гарын чигчий хуруугаар'
-<<<<<<< HEAD
-                // key = 'shift-left';
-=======
                 key[1] = 'shift-left';
->>>>>>> 6e0ea1b8a062a621fb8a1af3aaf9929e95b958fe
                 image = require(`@/assets/images/lesson/uppercase/${current}.svg`);
             }
         }

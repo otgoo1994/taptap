@@ -103,6 +103,26 @@ $accent-color: #33c4b6;
     @include vw-convert-mobile('margin-top', 10px);
   }
 }
+
+.discount {
+  @include vw-convert-desktop('margin-top', -5px);
+  font-weight: bold;
+
+  &.discounted {
+    @include vw-convert-desktop('font-size', 10px);
+    color: red;
+
+    @include mobile {
+      @include vw-convert-mobile('font-size', 15px);
+    }
+  }
+
+  @include mobile {
+    @include vw-convert-mobile('margin-top', -5px);
+  }
+}
+
+
 hr {
     background-color: #dedede;
     border: none;
@@ -198,30 +218,11 @@ li {
 <template>
   <div class='wrapper'>
     <div class="wrapper-body">
-      <div class='package' amount="5900" @click="purchase">
-        <div class='name'>Limited</div>
-        <div class='price'>₮5,900</div>
-        <div class='trial'>1 сарын эрх</div>
-        <hr>
-        <ul>
-          <li>
-            <strong>Бүх</strong> хичээл
-          </li>
-          <li>
-            <strong>Онлайн батламж</strong> 
-          </li>
-          <li>
-            <strong>Бүх тоглоомууд</strong> 
-          </li>
-          <li>
-            <strong>Урамшуулалд хамрагдах</strong> 
-          </li>
-        </ul>
-      </div>
-      <div class='package brilliant' amount="12900" @click="purchase">
-        <div class='name'>Brilliant</div>
-        <div class='price'>₮12,900</div>
-        <div class='trial'>3 сарын эрх</div>
+      <div v-for="(item, index) in prices" :key="index" class='package' v-bind:class="{'brilliant' : item.months == 3 }" :months="item.months" @click="purchase">
+        <div class='name'> {{item.months === 3 ? 'Brilliant' : 'Limited'}} </div>
+        <div class='price'>₮{{item.price.toLocaleString()}}</div>
+        <div v-if="item.discount" class='discount' v-bind:class="{'discounted' : item.discount }">₮{{Math.round(item.price / 100 * item.discount).toLocaleString()}}</div>
+        <div class='trial'>{{item.months}} сарын эрх</div>
         <hr>
         <ul>
           <li>
@@ -261,9 +262,12 @@ export default {
   // F7F7F7
   mounted() {
     Event.$emit('navbarname', 'Үйлчилгээний эрх сунгах');
+    this.getPrices();
   },
   data() {
-    return { }
+    return { 
+      prices: []
+    }
   },
   methods: {
     async purchase(evt) {
@@ -280,8 +284,8 @@ export default {
         return;
       }
 
-      const amount = parseInt(evt.currentTarget.getAttribute('amount'));
-      const data = await this.$_request('POST', this.$appUrl +`/purchase/qpay-create-bill`, {amount});
+      const month = parseInt(evt.currentTarget.getAttribute('months'));
+      const data = await this.$_request('POST', this.$appUrl +`/purchase/qpay-create-bill`, {month});
       if (!data.status || data.status !== 200) {
         this.$notification['error']({
           message: 'Амжилтгүй'
@@ -290,6 +294,10 @@ export default {
       }
 
       this.$router.push({ path: '/order/' + data.payment.invoice_id});
+    },
+    async getPrices() {
+      const data = await this.$_request('GET', this.$appUrl +`/purchase/get-all-prices`);
+      this.prices = data.price;
     }
   },
 }

@@ -174,6 +174,12 @@ const query = {
   },
   updateRace: function(state, id) {
     return `UPDATE t_race SET is_active = '${state}' WHERE race_id = '${id}'`;
+  },
+  getCurrentPrice: function(month = null) {
+    if (!month) {
+      return `SELECT id, price, months, (SELECT percent FROM discounts d WHERE created_at < NOW() AND end_at > NOW()) as discount FROM prices p`;
+    }
+    return `SELECT id, price, months, (SELECT percent FROM discounts d WHERE created_at < NOW() AND end_at > NOW()) as discount FROM prices p WHERE months = ${month}`;
   }
 };
 

@@ -93,9 +93,6 @@ const method = {
             return false;
         }
 
-
-        
-
         const dt = new Date(new Date(data[0].end_at).getTime() > Date.now() ? data[0].end_at : Date.now()); 
 
         let date = new Date(
@@ -222,21 +219,31 @@ const isPaidQpayBill = async (req, res) => {
 
 const createrQpayBill = async (req, res) => {
     const payload = await exec.getPayload(req);
-    const { amount } = req.body;
+    const { month } = req.body;
 
-    if (amount != 5900 && amount != 12900) {
+    let string = query.getCurrentPrice(month);
+    const price = await exec.execute(string);
+
+    if (!price.length) {
         res.json({
             result: 'Forbidden!',
             status: 403,
         });   
 
-        return;     
-    } 
+        return; 
+    }
 
-    const type = amount === 5900 ? 1 : 2;
+    const type = price[0].id;
+    let amount;
+    if (!price[0].discount) {
+        amount = price[0].price;
+    } else {
+        amount = Math.round(price[0].price / 100 * price[0].discount);
+    }
+
     const invoiceId = 'TY' + Date.now();
 
-    let string = query.checkQpayRecord('PENDING', type, payload.id);
+    string = query.checkQpayRecord('PENDING', type, payload.id);
     const data = await exec.execute(string);
 
     if (data.length) {
@@ -391,11 +398,25 @@ const qpayWebhook = async (req, res) => {
 
 }
 
+const getAllPrice = async (req, res) => {
+    const string = query.getCurrentPrice();
+    const price = await exec.execute(string);
+    
+    res.json({
+        status: 200,
+        result: 'success',
+        price
+    });
+    return;
+    
+}
+
 
 module.exports = {
     useCoupon,
     createrQpayBill,
     isPaidQpayBill,
     checkOrder,
-    qpayWebhook
+    qpayWebhook,
+    getAllPrice
 };

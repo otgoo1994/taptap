@@ -9,6 +9,7 @@ router.post("/qpay-create-bill", auth, catchErrors(purchaseController.createrQpa
 router.post("/check-order", auth, catchErrors(purchaseController.checkOrder));
 router.post("/check-qpay-bill", auth, catchErrors(purchaseController.isPaidQpayBill));
 router.get("/qpay-result", webhook, catchErrors(purchaseController.qpayWebhook));
+router.get("/get-all-prices", catchErrors(purchaseController.getAllPrice));
 // router.post("/confirm-coupon", auth, catchErrors(purchaseController.confirmCoupon));
 
 

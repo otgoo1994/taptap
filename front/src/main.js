@@ -22,6 +22,7 @@ import './scss/app.scss';
 
 const appUrl = window.location.hostname == 'localhost' ? 'http://localhost:8001' : 'https://api.typing.mn';
 const token = localStorage.getItem('token');
+// const appUrl = 'http://localhost:8001';
 
 
 const gauthOption = {
@@ -55,15 +56,6 @@ Vue.component("layout-dashboard-rtl", DashboardRTLLayout);
 
 if(token != null) {
     axios.defaults.headers.common.Authorization = 'Bearer ' + token;
-    // Vue.use(new VueSocketio({
-    //     debug: false, 
-    //     connection: appUrl,
-    //     options : { query: { token: token } },
-    //     vuex: {
-    //       actionPrefix: 'SOCKET_',
-    //       mutationPrefix: 'SOCKET_'
-    //     }
-    // }));
 }
 
 Date.prototype.addHours = function(h) {

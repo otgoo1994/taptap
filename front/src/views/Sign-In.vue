@@ -3,9 +3,9 @@
 		<div class="sign-in-container">
 			<div v-if="!register">
 				<form @submit.prevent="login">
-					<el-input placeholder="Имэйл хаяг" @input="input" ref="email" clearable v-model="email" v-if="!confirmed"></el-input>
+					<el-input :placeholder="isNewMember ? 'Бүртгүүлэх имэйл хаяг' : 'Нэвтрэх имэйл хаяг'" @input="input" ref="email" clearable v-model="email" v-if="!confirmed"></el-input>
 					<el-input placeholder="Нууц үг" show-password v-model="password" v-else></el-input>
-					<div style="text-align: right;">
+					<div style="text-align: right;" v-if="!isNewMember">
 						<router-link style="color: #000; " to="reset-password">Нууц үгээ мартсан?</router-link>
 					</div>
 				</form>
@@ -16,13 +16,17 @@
 
 				<div v-if="!confirmed" class="or-divider">ЭСВЭЛ</div>
 
-				<a-button v-if="!confirmed" @click="logInWithFacebook" type="primary" block class="login-form-button" style="background: #212121; border: #212121;">
+				<!-- <a-button v-if="!confirmed" @click="logInWithFacebook" type="primary" block class="login-form-button" style="background: #212121; border: #212121;">
 					<a-icon type="facebook" theme="filled" /> Facebook-ээр нэвтрэх
-				</a-button>
+				</a-button> -->
+
+				<p v-if="!isNewMember" :style="{'margin-top': '20px'}">Бүртгэлгүй байна уу? <a href="javascript:;" @click="isNewMember = true"> Шинээр бүртгүүлэх</a></p>
+				<p v-else :style="{'margin-top': '20px'}">Хэрвээ та бүртгэлтэй бол <a href="javascript:;" @click="isNewMember = false"> Нэвтрэх</a></p>
 
 				<div v-if="!confirmed" class="description">
 					<div>
-						<el-checkbox v-model="checked">Би <router-link to="/terms" style="color: #e2b714;">үйлчилгээний нөхцөлийг</router-link> зөвшөөр байна</el-checkbox>
+						<!-- <el-checkbox v-model="checked"></el-checkbox> -->
+						Та нэвтэрч орсоноор <b>typing.mn</b> вэбсайтын <router-link to="/terms" style="color: #e2b714;">үйлчилгээний нөхцөлийг</router-link> зөвшөөрсөнд тооцно.
 					</div>
 				</div>
 			</div>
@@ -75,10 +79,11 @@ const year = new Date().getFullYear();
 				password: null,
 				repassword: null,
 				year,
-				checked: false,
+				checked: true,
 				confirmed: false,
 				register: false,
-				inviter: null
+				inviter: null,
+				isNewMember: false
 			}
 		},
 		async mounted() {
